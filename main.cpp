@@ -26,6 +26,55 @@ void compute_w(float **w, int &num_vertex){
 	}
 }
 
+//Primal-dual algorithm
+void updateX(float *u, float *tau, float *grady, float *y, float *f, float *f_y, int num_vertex){
+	float u_new;
+	for (size_t i = 0; i < num_vertex; i++){
+		u_new = u[i] + tau[i] * (grady[i] - f[i]);
+		f_y[i] = 2*u_new - u[i];	
+		if (u_new < 0)
+			u_new = 0;
+		else if (u_new > 1)
+			u_new = 1;
+	    else if (u_new > 0 && u_new < 0.5)
+			u_new = 0;
+		else if (u_new >= 0.5 && u_new < 1)
+			u_new = 1;
+		u[i] = u_new;
+	}
+}
+
+void updateY(float *y, float *sigma, float *grad_f_y, int num_edge){
+	float y_new;
+	for (size_t i = 0; i < num_edge; i++){
+		y_new = y[i] + sigma[i] * grad_f_y[i];
+		if (y_new < - 1) 
+			y_new = -1;
+		else if (y_new > 1)
+			y_new = 1;
+		else if (y_new > -1 && y_new < 0.5)
+			y_new = -1;
+		else if (y_new < 1 && y_new >= 0.5)
+			y_new = 1;
+		y[i] = y_new;
+	}
+}
+
+void compute_dt(float *tau, float *sigma, float **w, float alpha, float phi, int num_vertex, int num_edge){
+	float lower = min(num_vertex, num_edge);
+	float upper = max(num_vertex, num_edge);
+	for (size_t i = 0; i < lower; i++){
+		// Tau
+		float sum = 0;
+		for (size_t j = 0; j < num_vertex; j++){
+			sum += pow(abs(w[i][j]), alpha);
+		}
+		tau[i] = 1 / (phi * sum);
+		// Sigma
+
+	}
+}
+
 
 int main(int argc, char **argv){
 
@@ -57,6 +106,13 @@ int main(int argc, char **argv){
 	compute_f(f, u, w, num_vertex);
 	// Compute omega
 	compute_w(w, num_vertex);
+
+	for (int i=0; i < 4; i++){
+		for (int j=0; j < 4; j++){
+			cout << "w[" << i << "]" << "[" << j << "]" << " = " << w[i][j] << endl;
+		}
+	}
+
 	return 0;
 
 	delete []u;
