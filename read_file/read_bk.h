@@ -1,7 +1,5 @@
 #include <iostream>
 #include <fstream>
-#include <vector>
-#include <string>
 
 #ifndef _READ_BK_H
 #define _READ_BK_H
