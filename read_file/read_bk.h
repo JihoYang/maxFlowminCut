@@ -18,7 +18,6 @@ struct vert
 
 // Consider undirected graph!
 // For Gradient
-template <class P>
 struct edge
 {
     // start is supposed to be smaller than end
@@ -36,7 +35,7 @@ class read_bk
         
         // Structures for vertices and edges
         vert *V;
-        edge<T> *E;
+        edge *E;
         // Vector of weights per node, size = nNodes
         T *f;
         // Array of weights, size = nEdges

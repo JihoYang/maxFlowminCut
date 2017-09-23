@@ -20,7 +20,7 @@ void read_bk<T>::init_graph(int numberNodes, int numberEdges)
 	nEdges = numberEdges;
 	// Allocate memory for vertex and edge structures
 	V = new vert[nNodes];
-	E = new edge<T>[nEdges];
+	E = new edge[nEdges];
     // Allocate memory for f(initial node setup), 
 	// w(weights on the edges)
 	f = new T[nNodes];

@@ -16,7 +16,7 @@ int main(int argc, char **argv)
     float *f = g->f;
     float *w = g->w;
     vert* mVert = g->V;
-    edge<float>* mEdge = g->E;
+    edge* mEdge = g->E;
 
     cout << "\n-- main --\n "<<endl;
     int local_size;
