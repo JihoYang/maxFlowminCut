@@ -17,6 +17,7 @@
 #include <time.h>
 #include "read_bk.h"
 #include "primal_dual.h"
+#include "mathOperations.h"
 #include "postProcessing.h"
 
 using namespace std;
