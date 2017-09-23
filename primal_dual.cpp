@@ -1,6 +1,7 @@
 #include <iostream>
 #include <math.h>
 #include <vector>
+#include <algorithm>
 #include "primal_dual.h"
 #include "mathOperations.h"
 #include "read_bk.h"
@@ -118,6 +119,7 @@ void compute_gap(T *w, edge *mEdge, T *x, T *f, T *div_y, T &gap, int num_vertex
 	delete []grad_x;
 	delete []max_vec;
 	delete []gap_vec;
+
 }
 
 template void compute_dt<float>(float*, float*, float*, float, float, vert*, int, int);
