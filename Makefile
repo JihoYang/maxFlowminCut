@@ -1,5 +1,5 @@
 #Include files
-SOURCES=main.cpp primal_dual.cpp read_bk.cpp
+SOURCES=main.cpp primal_dual.cpp read_bk.cpp postProcessing.cpp
 
 #Compiler
 #--------

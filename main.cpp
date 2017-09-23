@@ -1,7 +1,9 @@
 #include <iostream>
 #include <vector>
+#include <time.h>
 #include "read_bk.h"
 #include "primal_dual.h"
+#include "postProcessing.h"
 
 using namespace std;
 
@@ -12,6 +14,7 @@ int main(int argc, char **argv)
 		printf("Usage: %s <filename>\n", argv[0]);
 		return 1;
     }
+	clock_t tStart = clock();
 	// Parameters
 	float alpha = 1.5;
 	float rho = 100000;
@@ -19,6 +22,7 @@ int main(int argc, char **argv)
 	float eps = 0.01;
 	int	  it  = 0;
 	int iter_max = 100;
+	const char *method = "PD_CPU";
 	// Import bk file    
     read_bk<float> *g = new read_bk<float>(argv[1]); 
     int numNodes  = g->nNodes;
@@ -53,6 +57,11 @@ int main(int argc, char **argv)
 		cout << "Gap = " << gap << endl << endl;
 		it = it + 1;
 	}
+	clock_t tEnd = clock();
+	cout << "------------------- End of program -------------------"  << endl << endl;
+	cout << "Execution Time = " << (double)1000*(tEnd - tStart)/CLOCKS_PER_SEC << " ms" << endl << endl;
+	//Export results
+	export_result <float> (method, x, numNodes);
 	// Free memory    
     delete g;
 	delete []x;
