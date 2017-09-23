@@ -10,16 +10,23 @@ using namespace std;
 // Compute time steps
 template <class T>
 void compute_dt(T *tau, T *sigma, T *w_u, T alpha, T phi, vert *mVert, int num_vertex, int num_edge){
+	// Infinity value
+	T eps = 1E-16;
     // Size of neighbouring vertices j for vertex i
     int size_nbhd;
     // Compute tau
     for (size_t i = 0; i < num_vertex; i++){
         T sum = (T)0;
         size_nbhd = mVert[i].nbhdVert.size();
-        for (size_t j = 0; j < size_nbhd; j++){
-            sum += pow(abs(w_u[mVert[i].nbhdVert[j]]), alpha);
-        }
-        tau[i] = 1 / (phi * sum);
+		if (size_nbhd == 0){ 
+			tau[i] = 0;
+		}
+		else if (size_nbhd != 0) {
+			for (size_t j = 0; j < size_nbhd; j++){
+				sum += pow(abs(w_u[mVert[i].nbhdVert[j]]), alpha);
+			}
+			tau[i] = 1 / (phi * sum);
+		}
     }
     // Compute sigma
     for (size_t i = 0; i < num_edge; i++){
@@ -30,7 +37,7 @@ void compute_dt(T *tau, T *sigma, T *w_u, T alpha, T phi, vert *mVert, int num_v
 // Compare 0 and div_y - f
 template <class T>
 void get_max (T *div_y, T *f, T *max_vec, int num_vertex){
-    // Get max value
+	// Get max value
     for (size_t i = 0; i < num_vertex; i++){
         max_vec[i] = max((T)0, div_y[i] - f[i]);
     }
@@ -106,7 +113,7 @@ void compute_gap(T *w, edge *mEdge, T *x, T *f, T *div_y, T &gap, int num_vertex
 		gap_vec[i] = xf + x_norm + max_vec[i];
 	}
 	// Compute L2 norm of gap
-	compute_L2(gap_vec, gap, num_vertex);
+	compute_RMS(gap_vec, gap, num_vertex);
 	// Free memory
 	delete []grad_x;
 	delete []max_vec;

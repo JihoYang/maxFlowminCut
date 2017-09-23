@@ -32,12 +32,12 @@ int main(int argc, char **argv)
 	// Start time
 	clock_t tStart = clock();
 	// Parameters
-	float alpha = 1.5;
+	float alpha = 1;
 	float rho = 1;
 	float gap = 1;
 	float eps = 1E-6;
 	int	  it  = 0;
-	int iter_max = 100;
+	int iter_max = 1000;
 	const char *method = "PD_CPU";
 	// Import bk file    
     read_bk<float> *g = new read_bk<float>(argv[1]); 
@@ -65,13 +65,13 @@ int main(int argc, char **argv)
 	while (it < iter_max && gap > eps){
 		// Update X
 		updateX <float> (w, mVert, x, tau, div_y, y, f, x_diff, numNodes);
-		// Update Y
-		updateY <float> (w, x, mEdge, y, sigma, x_diff, grad_x_diff, numEdges);
 		// Compute gap
 		compute_gap <float> (w, mEdge, x, f, div_y, gap, numNodes, numEdges);
 		cout << "Iteration = " << it << endl << endl;
 		cout << "Gap = " << gap << endl << endl;
 		it = it + 1;
+		// Update Y for next iteration
+		updateY <float> (w, x, mEdge, y, sigma, x_diff, grad_x_diff, numEdges);
 	}
 	// End time
 	clock_t tEnd = clock();
@@ -80,7 +80,11 @@ int main(int argc, char **argv)
 	cout << "------------------- End of program -------------------"  << endl << endl;
 	cout << "Execution Time = " << (double)1000*(tEnd - tStart)/CLOCKS_PER_SEC << " ms" << endl << endl;
 	//Export results
+	const char* dt_tau = "dt_tau";
+	const char* dt_sigma = "dt_sigma";
 	export_result <float> (method, x, numNodes);
+	export_result <float> (dt_tau, tau, numNodes);
+	export_result <float> (dt_sigma, sigma, numEdges);
 	// Free memory    
     delete g;
 	delete []x;

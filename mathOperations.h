@@ -15,7 +15,7 @@ template <class T>
 void compute_L1 (T *grad_x, T &x_norm, int num_vertex);
 
 template <class T>
-void compute_L2 (T *gap_vec, T &gap, int num_vertex);
+void compute_RMS (T *gap_vec, T &gap, int num_vertex);
 
 template <class T>
 void compute_scalar_product (T *x, T *f, T &xf, int num_vertex);
