@@ -7,7 +7,7 @@ template <class T>
 void export_result(const char *method, T *x, int numNodes){
 	// Create a file
 	char FileName[80];
-	sprintf(FileName, "%s_displacement.csv", method);
+	sprintf(FileName, "%s.csv", method);
 	// Write results to this file
 	FILE *f = fopen(FileName, "wb");
 	for (int i = 0; i < numNodes; i++){
