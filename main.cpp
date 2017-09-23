@@ -1,3 +1,17 @@
+//////////////////////////////////////////////////////////////////////////
+//																		//
+//		GPU accelerated max flow min cut graph problem solver			//
+//																		//
+//		Written by: Apoorva Gupta										//
+//					Jorge Salazar										//
+//					Jiho Yang											//
+//																		//
+//		Final update: 23/09/2017										//
+//																		//
+//////////////////////////////////////////////////////////////////////////
+	
+// TODO: the code diverges - check for the correctness of primal-dual algorithm and grad/div computation
+
 #include <iostream>
 #include <vector>
 #include <time.h>
@@ -14,12 +28,13 @@ int main(int argc, char **argv)
 		printf("Usage: %s <filename>\n", argv[0]);
 		return 1;
     }
+	// Start time
 	clock_t tStart = clock();
 	// Parameters
 	float alpha = 1.5;
-	float rho = 100000;
+	float rho = 1;
 	float gap = 1;
-	float eps = 0.01;
+	float eps = 1E-6;
 	int	  it  = 0;
 	int iter_max = 100;
 	const char *method = "PD_CPU";
@@ -57,7 +72,10 @@ int main(int argc, char **argv)
 		cout << "Gap = " << gap << endl << endl;
 		it = it + 1;
 	}
+	// End time
 	clock_t tEnd = clock();
+	// Program exit messages
+	if (it == iter_max) cout << "ERROR: Maximum number of iterations reached" << endl << endl;
 	cout << "------------------- End of program -------------------"  << endl << endl;
 	cout << "Execution Time = " << (double)1000*(tEnd - tStart)/CLOCKS_PER_SEC << " ms" << endl << endl;
 	//Export results
