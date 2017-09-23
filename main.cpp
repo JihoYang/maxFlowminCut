@@ -14,28 +14,26 @@ int main(int argc, char **argv)
     int numNodes  = g->nNodes;
     int numEdges = g->nEdges;
     float *f = g->f;
-    float **w = g->w;
-    int **ord = g->ord;
-    cout << "Number of edges is " << numEdges <<endl;
+    float *w = g->w;
+    vert* mVert = g->V;
+    edge* mEdge = g->E;
 
-    // For testing only:
-    /*cout << "\nIn main\n" <<endl;
-    for(int i = 0; i<numEdges; i++)
+    cout << "\n-- main --\n "<<endl;
+    int local_size;
+    for(int i = 0; i<numNodes; i++)
     {
-        cout<<"ord is "<< ord[i][0] <<", "<< ord[i][1] << endl;
+        local_size = mVert[i].nbhdVert.size();
+        cout << "Local size is "<< local_size<< endl;
+        cout<<"Vertex "<< i <<" has "<< local_size  <<" nbhrs" << endl;
+        for(int j = 0 ; j < local_size; j++)
+        {
+            cout<<"Vertex "<< i <<" has nbhd edge "<< mVert[i].nbhdEdges[j] <<endl;
+        } 
     } 
-    */
-    /*
     
-    cout << "Printing f" <<endl;
-    for (int n = 0; n<numNodes; n++)
-        cout<<"f_"<<n<<" = " << f[n]<< endl;
+    for (int n = 0; n<numEdges; n++)
+        cout<<"Edge has start "<< mEdge[n].start  <<" and end is " << mEdge[n].end << endl;
     
-    cout<< "Printing w" <<endl;
-    for (int i = 0; i<numNodes; i++)
-        for (int j = 0; j<numNodes; j++)
-            cout<<"w_{"<<i<<","<<j<<"} = " << w[i][j] << endl;
-    */
     delete g;
     
     return 0;
