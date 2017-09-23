@@ -17,7 +17,7 @@ class read_bk
         T **w;
         // Array containing nodes that form an edge
         // Given an edge "i", ord[i][0] is the smaller node 
-        //that composes it and ord[i][1] the bigger one.     
+        // that composes it and ord[i][1] the bigger one.     
         int **ord;
         
         // Methods

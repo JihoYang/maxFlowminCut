@@ -1,5 +1,28 @@
 #include "read_bk.h"
+#include <vector>
 using namespace std;
+
+// Data structures to store vertices and nodes
+// For Divergence
+struct vert
+{
+    std::vector<int> nbhdVert;
+    // sign contains 1 or -1
+	std::vector<int> sign;
+	std::vector<int> nbhdEdges;
+};
+
+// Consider undirected graph!
+// For Gradient
+template <class P>
+struct edge
+{
+    // start is supposed to be smaller than end
+    int start = 0, end = 0;
+    P* weight;
+};
+
+////////////////////////////////////////////
 
 template<class T>
 read_bk<T>::read_bk(char *filename)
@@ -16,8 +39,8 @@ read_bk<T>::~read_bk()
 template<class T>
 void read_bk<T>::init_graph(int numberNodes, int numberEdges)
 {
-    // Set memory for f(initial node setup) 
-	// and w(weights on the edges)
+    // Set memory for f(initial node setup), 
+	// w(weights on the edges) and ord(composition array of edges)
 	nNodes = numberNodes;
 	nEdges = numberEdges;
     f = new T[nNodes];
@@ -27,6 +50,8 @@ void read_bk<T>::init_graph(int numberNodes, int numberEdges)
 	for(int i = 0; i<nEdges; i++)
 	{
 		ord[i] = new int[2];
+		ord[i][0] = 0; 
+		ord[i][1] = 0; 
 	}	
 	for(int i = 0; i<nNodes; i++)
 	{	
