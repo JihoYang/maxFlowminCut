@@ -1,5 +1,8 @@
 #include <iostream>
+#include <vector>
 #include "read_bk.h"
+#include "primal_dual.h"
+
 using namespace std;
 
 int main(int argc, char **argv)
@@ -9,7 +12,14 @@ int main(int argc, char **argv)
 		printf("Usage: %s <filename>\n", argv[0]);
 		return 1;
     }
-    
+	// Parameters
+	float alpha = 1.5;
+	float rho = 100000;
+	float gap = 1;
+	float eps = 0.01;
+	int	  it  = 0;
+	int iter_max = 100;
+	// Import bk file    
     read_bk<float> *g = new read_bk<float>(argv[1]); 
     int numNodes  = g->nNodes;
     int numEdges = g->nEdges;
@@ -17,24 +27,41 @@ int main(int argc, char **argv)
     float *w = g->w;
     vert* mVert = g->V;
     edge* mEdge = g->E;
-
-    cout << "\n-- main --\n "<<endl;
-    int local_size;
-    for(int i = 0; i<numNodes; i++)
-    {
-        local_size = mVert[i].nbhdVert.size();
-        cout << "Local size is "<< local_size<< endl;
-        cout<<"Vertex "<< i <<" has "<< local_size  <<" nbhrs" << endl;
-        for(int j = 0 ; j < local_size; j++)
-        {
-            cout<<"Vertex "<< i <<" has nbhd edge "<< mVert[i].nbhdEdges[j] <<endl;
-        } 
-    } 
-    
-    for (int n = 0; n<numEdges; n++)
-        cout<<"Edge has start "<< mEdge[n].start  <<" and end is " << mEdge[n].end << endl;
-    
+	// Allocate memory
+	float *x = new float[numNodes];
+	float *y = new float[numEdges];
+	float *div_y = new float[numNodes];
+	float *x_diff = new float[numNodes];
+	float *grad_x_diff = new float[numEdges];
+	float *tau = new float[numNodes];
+	float *sigma = new float[numEdges];
+	// Initialise x and y
+	memset(x, 0, sizeof(float)*numNodes);
+	memset(y, 0, sizeof(float)*numEdges);
+	// Pre-compute time steps
+	compute_dt <float> (tau, sigma, w, alpha, rho, mVert, numNodes, numEdges);
+	// Iteration
+	cout << "------------------- Time loop started -------------------"  << endl;
+	while (it < iter_max && gap > eps){
+		// Update X
+		updateX <float> (w, mVert, x, tau, div_y, y, f, x_diff, numNodes);
+		// Update Y
+		updateY <float> (w, x, mEdge, y, sigma, x_diff, grad_x_diff, numEdges);
+		// Compute gap
+		compute_gap <float> (w, mEdge, x, f, div_y, gap, numNodes, numEdges);
+		cout << "Iteration = " << it << endl << endl;
+		cout << "Gap = " << gap << endl << endl;
+		it = it + 1;
+	}
+	// Free memory    
     delete g;
-    
+	delete []x;
+	delete []y;
+	delete []x_diff;
+	delete []div_y;
+	delete []grad_x_diff;
+	delete []tau;
+	delete []sigma;	
+
     return 0;
 }

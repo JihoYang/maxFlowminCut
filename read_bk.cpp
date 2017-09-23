@@ -77,7 +77,7 @@ bool read_bk<T>::readFile(char *filename)
             //
 			case 'p':
 				sscanf(line, "%c %d %d", &c, &numNodes, &numEdges);
-				cout << "Number of nodes is "<< numNodes << " and number of edges is "<< numEdges << endl;
+				//cout << "Number of nodes is "<< numNodes << " and number of edges is "<< numEdges << endl;
 				init_graph(numNodes, numEdges);
 				break;
 
@@ -88,12 +88,12 @@ bool read_bk<T>::readFile(char *filename)
 				sscanf(line, "%c %d %lf %lf ", &c, &nodeId1, &capacity, &capacity2);
 				if (capacity == 0.f && capacity2 == 0.f) 
 				{
-					cout<< "In node "<<nodeId1<<" the excess is "<<capacity<<" and the deficit is "<< capacity2 << endl; 
+					//cout<< "In node "<<nodeId1<<" the excess is "<<capacity<<" and the deficit is "<< capacity2 << endl; 
 					break;
 				}
 				// Add values to f per node(if connected to source or sink)		
 				else f[nodeId1] += capacity2 - capacity;
-				cout<< "In node "<<nodeId1<<" the excess is "<<capacity<<" and the deficit is "<< capacity2 << endl; 
+				//cout<< "In node "<<nodeId1<<" the excess is "<<capacity<<" and the deficit is "<< capacity2 << endl; 
 				break;
 
 			//
@@ -107,8 +107,7 @@ bool read_bk<T>::readFile(char *filename)
 				}
 				capacity = 0.f; capacity2 = 0.f;
 				sscanf(line, "%c %d %d %lf %lf", &c, &nodeId1, &nodeId2, &capacity, &capacity2);
-				cout<< "Edge with node1 "<<nodeId1<<" and node2 "<<nodeId2<<" capacity n1n2:  "<< capacity 
-							<<", and capacity n2n1: "<<capacity2<< endl; 
+				//cout<< "Edge with node1 "<<nodeId1<<" and node2 "<<nodeId2<<" capacity n1n2:  "<< capacity <<", and capacity n2n1: "<<capacity2<< endl; 
 
 				// Store edges ordering
 				if(nodeId1 < nodeId2)

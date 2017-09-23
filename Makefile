@@ -4,7 +4,7 @@ SOURCES=main.cpp primal_dual.cpp read_bk.cpp
 #Compiler
 #--------
 CC = g++
-CFLAGS = -std=c++11 -fstrict-overflow -Werror -Wshadow -Wstrict-overflow=4 -pedantic
+CFLAGS = -std=c++11 -fstrict-overflow -Werror -Wshadow -Wstrict-overflow=4 -pedantic 
 
 #Linker flags
 #------------
