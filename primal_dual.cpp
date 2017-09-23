@@ -61,20 +61,20 @@ void updateY(T *y, T *sigma, T *grad_f_y, int num_edge){
 
 // Compute time steps
 template <class T>
-void compute_dt(T *tau, T *sigma, T *w_u, T alpha, T phi, int num_vertex, int num_edge){
-	// Get the smaller value for loop
-	int lower = min(num_vertex, num_edge);
-    int upper = max(num_vertex, num_edge);
-    for (size_t i = 0; i < lower; i++){
-    	// Tau
+void compute_dt(T *tau, T *sigma, T *w_u, T alpha, T phi, vert *mVert, int num_vertex, int num_edge){
+	// Size of neighbouring vertices j for vertex i
+	int size_nbhd;
+	// Compute tau
+    for (size_t i = 0; i < num_vertex; i++){
 		T sum = (T)0;
-        for (size_t j = 0; j < num_vertex; j++){
-			// I need data structure to get the right index for w_u[i]
-			//w_u[];
-        	sum += pow(abs(w_u[i][j]), alpha);
+		size_nbhd = mVert[i].nbhdVert.size();
+        for (size_t j = 0; j < size_nbhd; j++){
+			sum += pow(abs(w_u[mVert[i].nbhdVert[j]]), alpha);
         }
         tau[i] = 1 / (phi * sum);
-        // Sigma
+	}
+	// Compute sigma
+	for (size_t i = 0; i < num_edge; i++){
 		sigma[i] = phi / pow(abs(w_u[i]), 2 - alpha);
 	}
 }

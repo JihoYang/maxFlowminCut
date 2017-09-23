@@ -1,5 +1,6 @@
 #include <iostream>
 #include <math.h>
+#include "read_bk.h"
 
 template <class T>
 void updateU (T *u, T *tau, T *div_y, T *, T *f, T *f_y, int num_vertex);
@@ -8,7 +9,7 @@ template <class T>
 void updateY (T *y, T *sigma, T *grad_f_y, int num_edge);
 
 template <class T>
-void compute_dt(T *tau, T *sigma, T *w_u, T alpha, T phi, int num_vertex, int num_edge);
+void compute_dt(T *tau, T *sigma, T *w_u, T alpha, T phi, vert *mVert, int num_vertex, int num_edge);
 
 template <class T>
 void compute_L1 (T *grad_u, T &u_norm, int num_vertex);
