@@ -70,6 +70,7 @@ void compute_dt(T *tau, T *sigma, T *w_u, T alpha, T phi, int num_vertex, int nu
 		T sum = (T)0;
         for (size_t j = 0; j < num_vertex; j++){
 			// I need data structure to get the right index for w_u[i]
+			//w_u[];
         	sum += pow(abs(w_u[i][j]), alpha);
         }
         tau[i] = 1 / (phi * sum);
