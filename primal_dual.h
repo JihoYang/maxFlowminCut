@@ -1,3 +1,6 @@
+#ifndef __PRIMAL_DUAL_H__
+#define __PRIMAL_DUAL_H__
+
 #include <iostream>
 #include <math.h>
 #include "read_bk.h"
@@ -26,5 +29,4 @@ void get_max (T *div_y, T *f, T *max_vec, int num_vertex);
 template <class T>
 void compute_gap(T *u, T *f, T *div_y, T &gap, int num_vertex, int num_edge);
 
-
-			  
+#endif 			  
