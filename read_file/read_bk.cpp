@@ -70,7 +70,10 @@ void read_bk<T>::free_memory()
 	delete[] f;
 	for(int i = 0; i<nNodes; i++)
 		delete[] w[i];
+	for(int i = 0; i<nEdges; i++)
+		delete[] ord[i];
 	delete[] w; 
+	delete[] ord; 
 }
 
 
