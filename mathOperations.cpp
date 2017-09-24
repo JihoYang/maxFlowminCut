@@ -1,5 +1,5 @@
 #include <iostream>
-#include <math.h>
+#include <cmath>
 #include <vector>
 #include "mathOperations.h"
 #include "read_bk.h"

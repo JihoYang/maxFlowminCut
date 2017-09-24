@@ -19,6 +19,7 @@
 #include "primal_dual.h"
 #include "mathOperations.h"
 #include "postProcessing.h"
+#include <string.h>
 
 using namespace std;
 
