@@ -62,11 +62,7 @@ void updateX(T *w, vert *mVert, T *x, T *tau, T *div_y, T *y, T *f, T *x_diff, i
             x_new = 0;
          else if (x_new > 1)
             x_new = 1;
-         else if (x_new > 0 && x_new < 0.5)
-             x_new = 0;
-         else if (x_new >= 0.5 && x_new < 1)
-             x_new = 1;
-		// Update u
+        // Update u
         x[i] = x_new;
      }
 }
@@ -79,17 +75,13 @@ void updateY(T *w, T *x, edge *mEdge, T *y, T *sigma, T *x_diff, T *grad_x_diff,
 		// Compute gradient of 2u_(t+1) - u_t (output = grad_x_diff)
 		gradient_calculate<T>(w, x, mEdge , num_edge, grad_x_diff);
 		// Compute new y
-         y_new = y[i] + sigma[i] * grad_x_diff[i];
+		 y_new = y[i] + sigma[i] * grad_x_diff[i];
 		// Clamping
         if (y_new < - 1)
         	y_new = -1;
         else if (y_new > 1)
         	y_new = 1;
-        else if (y_new > -1 && y_new < 0.5)
-            y_new = -1;
-        else if (y_new < 1 && y_new >= 0.5)
-           y_new = 1;
-		// Update y
+        // Update y
         y[i] = y_new;
     }   
 }      
