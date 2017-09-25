@@ -37,8 +37,8 @@ void compute_dt(T *tau, T *sigma, T *w_u, T alpha, T phi, vert *mVert, int num_v
 
 // Compare 0 and div_y - f
 template <class T>
-void get_max (T *div_y, T *f, T *max_vec, T &max_val, int num_vertex){
-	T sum = 0;
+void get_max (T *div_y, T *f, T *max_vec, T &sum, int num_vertex){
+	sum = 0.f;
 	// Get max value and sum the results
     for (size_t i = 0; i < num_vertex; i++){
         max_vec[i] = max( (T) 0, div_y[i] - f[i] );
