@@ -37,10 +37,12 @@ void compute_dt(T *tau, T *sigma, T *w_u, T alpha, T phi, vert *mVert, int num_v
 
 // Compare 0 and div_y - f
 template <class T>
-void get_max (T *div_y, T *f, T *max_vec, int num_vertex){
-	// Get max value
+void get_max (T *div_y, T *f, T *max_vec, T &max_val, int num_vertex){
+	T sum = 0;
+	// Get max value and sum the results
     for (size_t i = 0; i < num_vertex; i++){
-        max_vec[i] = max((T)0, div_y[i] - f[i]);
+        max_vec[i] = max( (T) 0, div_y[i] - f[i] );
+		sum += max_vec[i];
     }
 }
 
@@ -99,6 +101,7 @@ void compute_gap(T *w, edge *mEdge, T *x, T *f, T *div_y, T &gap, int num_vertex
 	T *grad_x = new T[num_edge];
 	T *max_vec = new T[num_vertex];
 	T *gap_vec = new T[num_vertex];
+	T max_val;
 	// Compute gradient of u
 	gradient_calculate(w, x, mEdge, num_edge, grad_x);
 	// Parameters
@@ -108,18 +111,13 @@ void compute_gap(T *w, edge *mEdge, T *x, T *f, T *div_y, T &gap, int num_vertex
 	// Compute L1 norm of gradient of u
 	compute_L1(grad_x, x_norm, num_vertex);
 	// Compare 0 and div_y - f
-	get_max<T>(div_y, f, max_vec, num_vertex);
+	get_max<T>(div_y, f, max_vec, max_val, num_vertex);
 	// Compute gap
-	for (size_t i = 0; i < num_vertex; i++){
-		gap_vec[i] = xf + x_norm + max_vec[i];
-	}
-	// Compute L2 norm of gap
-	compute_RMS(gap_vec, gap, num_vertex);
+	gap = (xf + x_norm + max_val) / num_edge;
 	// Free memory
 	delete []grad_x;
 	delete []max_vec;
 	delete []gap_vec;
-
 }
 
 template void compute_dt<float>(float*, float*, float*, float, float, vert*, int, int);
@@ -130,5 +128,3 @@ template void updateX<float>(float*, vert*, float*, float*, float*, float*, floa
 template void updateX<double>(double*, vert*, double*, double*, double*, double*, double*, double*, int);
 template void updateY<float>(float*, float*, edge*, float*, float*, float*, float*, int);
 template void updateY<double>(double*, double*, edge*, double*, double*, double*, double*, int);
-
-
