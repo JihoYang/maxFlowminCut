@@ -38,7 +38,7 @@ int main(int argc, char **argv)
 	float gap = 1;
 	float eps = 1E-6;
 	int	  it  = 0;
-	int iter_max = 1000;
+	int iter_max = 500;
 	const char *method = "PD_CPU";
 	// Import bk file    
     read_bk<float> *g = new read_bk<float>(argv[1]); 

@@ -60,7 +60,7 @@ void updateX(T *w, vert *mVert, T *x, T *tau, T *div_y, T *y, T *f, T *x_diff, i
 		// Clamping
         if (x_new < 0)
             x_new = 0;
-         else if (x_new > 1)
+        else if (x_new > 1)
             x_new = 1;
         // Update u
         x[i] = x_new;
