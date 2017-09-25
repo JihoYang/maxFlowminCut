@@ -52,7 +52,7 @@ void updateX(T *w, vert *mVert, T *x, T *tau, T *div_y, T *y, T *f, T *x_diff, i
      T x_new;
      for (size_t i = 0; i < num_vertex; i++){
 		// Compute divergence of y (output = div_y)
-		divergence_calculate(w, y, mVert, num_vertex, div_y);
+		divergence_calculate<T>(w, y, mVert, num_vertex, div_y);
 		// Compute new u
         x_new = x[i] + tau[i] * (div_y[i] - f[i]);
 		// Compute 2u_(t+1) - u_t for y update
@@ -77,7 +77,7 @@ void updateY(T *w, T *x, edge *mEdge, T *y, T *sigma, T *x_diff, T *grad_x_diff,
 	T y_new;
     for (size_t i = 0; i < num_edge; i++){
 		// Compute gradient of 2u_(t+1) - u_t (output = grad_x_diff)
-		gradient_calculate(w, x, mEdge , num_edge, grad_x_diff);
+		gradient_calculate<T>(w, x, mEdge , num_edge, grad_x_diff);
 		// Compute new y
          y_new = y[i] + sigma[i] * grad_x_diff[i];
 		// Clamping
