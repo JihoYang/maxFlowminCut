@@ -38,7 +38,7 @@ void compute_dt(T *tau, T *sigma, T *w_u, T alpha, T phi, vert *mVert, int num_v
 // Compare 0 and div_y - f
 template <class T>
 void get_max (T *div_y, T *f, T *max_vec, T &sum, int num_vertex){
-	sum = 0.f;
+	sum = (T) 0;
 	// Get max value and sum the results
     for (size_t i = 0; i < num_vertex; i++){
         max_vec[i] = max( (T) 0, div_y[i] - f[i] );
@@ -104,6 +104,7 @@ void compute_gap(T *w, edge *mEdge, T *x, T *f, T *div_y, T &gap, int num_vertex
 	compute_L1(grad_x, x_norm, num_edge);
 	// Compare 0 and div_y - f
 	get_max<T>(div_y, f, max_vec, max_val, num_vertex);
+	//cout << " Xf = " << xf << " x_norm = " << x_norm << " max_val = " << max_val << endl;
 	// Compute gap
 	gap = (xf + x_norm + max_val) / num_edge;
 	// Free memory
