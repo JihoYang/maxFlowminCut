@@ -20,15 +20,17 @@ void gradient_calculate(T *w, T *x, edge *mEdge , int numEdges, T *grad){
 // Compute divergence
 template<typename T>
 void divergence_calculate(T* w, T* p, vert *mVert, int numNodes, T* divg){
-    int ndhd_vertices, sign, edge;
+    int nbhd_vertices, sign, edge;
+    T temp;
     for (int v =0 ; v<numNodes; v++){
-        ndhd_vertices = mVert[v].nbhdVert.size();
-        for (int j = 0; j< ndhd_vertices ; j++){
+        nbhd_vertices = mVert[v].nbhdVert.size();
+        temp = 0;
+        for (int j = 0; j< nbhd_vertices ; j++){
             sign = mVert[v].sign[j];
             edge = mVert[v].nbhdEdges[j];
-            divg[v] += sign*w[edge]*p[edge];
+            temp += sign*w[edge]*p[edge];
         }
-        
+        divg[v] = temp;
     }
 }
 
