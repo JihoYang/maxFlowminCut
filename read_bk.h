@@ -13,7 +13,13 @@ struct vert
     std::vector<int> nbhdVert;
     // sign contains 1 or -1
 	std::vector<int> sign;
-	std::vector<int> nbhdEdges;
+    std::vector<int> nbhdEdges;
+    ~vert()
+    {
+        std::vector<int>().swap(nbhdVert);
+        std::vector<int>().swap(sign);
+        std::vector<int>().swap(nbhdEdges);
+    } 
 };
 
 // Consider undirected graph!
