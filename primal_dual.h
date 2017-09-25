@@ -9,7 +9,7 @@ template <class T>
 void compute_dt(T *tau, T *sigma, T *w_u, T alpha, T phi, vert *mVert, int num_vertex, int num_edge);
 
 template <class T>
-void get_max (T *div_y, T *f, T *max_vec, int num_vertex);
+void get_max (T *div_y, T *f, T *max_vec, T &max_val, int num_vertex);
 
 template <class T>
 void updateX (T *w, vert *mVert, T *x, T *tau, T *div_y, T *, T *f, T *x_diff, int num_vertex);
