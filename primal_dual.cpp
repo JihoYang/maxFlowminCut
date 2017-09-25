@@ -109,7 +109,7 @@ void compute_gap(T *w, edge *mEdge, T *x, T *f, T *div_y, T &gap, int num_vertex
 	// Compute scalar product
 	compute_scalar_product(x, f, xf, num_vertex);
 	// Compute L1 norm of gradient of u
-	compute_L1(grad_x, x_norm, num_vertex);
+	compute_L1(grad_x, x_norm, num_edge);
 	// Compare 0 and div_y - f
 	get_max<T>(div_y, f, max_vec, max_val, num_vertex);
 	// Compute gap
