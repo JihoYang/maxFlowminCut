@@ -136,8 +136,8 @@ bool read_bk<T>::readFile(char *filename)
 
 				// Add values to f and w per edge
 				a = capacity/2.f; b = capacity2/2.f;
-				f[nodeId1] += b - a;
-				f[nodeId2] += a - b;
+				f[nodeId1] += a - b;
+				f[nodeId2] += b - a;
 				w[currNumEdges]  = a + b;
 
 				currNumEdges++;
