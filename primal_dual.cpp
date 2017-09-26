@@ -11,8 +11,6 @@ using namespace std;
 // Compute time steps
 template <class T>
 void compute_dt(T *tau, T *sigma, T *w_u, T alpha, T phi, vert *mVert, int num_vertex, int num_edge){
-	// Infinity value
-	T eps = 1E-16;
     // Size of neighbouring vertices j for vertex i
     int size_nbhd;
     // Compute tau
@@ -24,14 +22,14 @@ void compute_dt(T *tau, T *sigma, T *w_u, T alpha, T phi, vert *mVert, int num_v
 		}
 		else if (size_nbhd != 0) {
 			for (size_t j = 0; j < size_nbhd; j++){
-				sum += pow(abs(w_u[mVert[i].nbhdVert[j]]), alpha);
+				sum += pow(abs(w_u[mVert[i].nbhdEdges[j]]), alpha);
 			}
-			tau[i] = 1 / (phi * sum);
+			tau[i] = (T)1 / ((T)phi * (T)sum);
 		}
     }
     // Compute sigma
     for (size_t i = 0; i < num_edge; i++){
-        sigma[i] = phi / pow(abs(w_u[i]), 2 - alpha);
+        sigma[i] = (T)phi / pow((T)abs(w_u[i]), (T)2 - (T) alpha);
     }
 }
 

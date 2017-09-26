@@ -13,7 +13,7 @@ void gradient_calculate(T *w, T *x, edge *mEdge , int numEdges, T *grad){
     for (int e = 0 ; e < numEdges; e++){
         a = mEdge[e].start;
         b = mEdge[e].end;
-        grad[e] = w[e] * (x[a] - x[b]);
+        grad[e] = w[e] * (x[b] - x[a]);
     }
 }
 
