@@ -18,6 +18,6 @@ template <class T>
 void updateY (T *w, T *x, edge *mEdge, T *y, T *sigma, T *x_diff, T *grad_x_diff, int num_edge);
 
 template <class T>
-void compute_gap(T *w, edge *mEdge, T *x, T *f, T *div_y, T &gap, int num_vertex, int num_edge);
+void compute_gap(T *w, edge *mEdge, T *x, T *f, T *div_y, T &gap, T &x_norm, T &xf, int num_vertex, int num_edge);
 
 #endif 			  

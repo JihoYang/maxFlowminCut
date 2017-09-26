@@ -56,6 +56,9 @@ int main(int argc, char **argv)
 	float *grad_x_diff = new float[numEdges];
 	float *tau = new float[numNodes];
 	float *sigma = new float[numEdges];
+	float xf;
+	float x_norm;
+	float max_flow;
 	// Initialise x and y
 	memset(x, 0, sizeof(float)*numNodes);
 	memset(y, 0, sizeof(float)*numEdges);
@@ -67,7 +70,7 @@ int main(int argc, char **argv)
 		// Update X
 		updateX <float> (w, mVert, x, tau, div_y, y, f, x_diff, numNodes);
 		// Compute gap
-		compute_gap <float> (w, mEdge, x, f, div_y, gap, numNodes, numEdges);
+		compute_gap <float> (w, mEdge, x, f, div_y, gap, x_norm, xf, numNodes, numEdges);
 		cout << "Iteration = " << it << endl << endl;
 		cout << "Gap = " << gap << endl << endl;
 		it = it + 1;
@@ -76,6 +79,12 @@ int main(int argc, char **argv)
 	}
 	// End time
 	clock_t tEnd = clock();
+	// Compute max flow
+	max_flow = xf + x_norm;	
+
+	cout << "Max flow = " << max_flow << endl << endl;
+
+
 	// Program exit messages
 	if (it == iter_max) cout << "ERROR: Maximum number of iterations reached" << endl << endl;
 	cout << "------------------- End of program -------------------"  << endl << endl;

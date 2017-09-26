@@ -86,7 +86,7 @@ void updateY(T *w, T *x, edge *mEdge, T *y, T *sigma, T *x_diff, T *grad_x_diff,
 
 // Compute gap
 template <class T>
-void compute_gap(T *w, edge *mEdge, T *x, T *f, T *div_y, T &gap, int num_vertex, int num_edge){
+void compute_gap(T *w, edge *mEdge, T *x, T *f, T *div_y, T &gap, T &x_norm, T &xf, int num_vertex, int num_edge){
 	// Allocate memory
 	T *grad_x = new T[num_edge];
 	T *max_vec = new T[num_vertex];
@@ -94,8 +94,6 @@ void compute_gap(T *w, edge *mEdge, T *x, T *f, T *div_y, T &gap, int num_vertex
 	T max_val;
 	// Compute gradient of u
 	gradient_calculate(w, x, mEdge, num_edge, grad_x);
-	// Parameters
-	T xf, x_norm;
 	// Compute scalar product
 	compute_scalar_product(x, f, xf, num_vertex);
 	// Compute L1 norm of gradient of u
@@ -113,8 +111,8 @@ void compute_gap(T *w, edge *mEdge, T *x, T *f, T *div_y, T &gap, int num_vertex
 
 template void compute_dt<float>(float*, float*, float*, float, float, vert*, int, int);
 template void compute_dt<double>(double*, double*, double*, double, double, vert*, int, int);
-template void compute_gap<float>(float*, edge*, float*, float*, float*, float&, int, int);
-template void compute_gap<double>(double*, edge*, double*, double*, double*, double&, int, int);
+template void compute_gap<float>(float*, edge*, float*, float*, float*, float&, float&, float&, int, int);
+template void compute_gap<double>(double*, edge*, double*, double*, double*, double&, double&, double&, int, int);
 template void updateX<float>(float*, vert*, float*, float*, float*, float*, float*, float*, int);
 template void updateX<double>(double*, vert*, double*, double*, double*, double*, double*, double*, int);
 template void updateY<float>(float*, float*, edge*, float*, float*, float*, float*, int);
