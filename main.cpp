@@ -6,7 +6,7 @@
 //					Jorge Salazar										//
 //					Jiho Yang											//
 //																		//
-//		Final update: 25/09/2017										//
+//		Final update: 26/09/2017										//
 //																		//
 //////////////////////////////////////////////////////////////////////////
 	
@@ -46,6 +46,7 @@ int main(int argc, char **argv)
     int numEdges = g->nEdges;
     float *f = g->f;
     float *w = g->w;
+	float b = g->b;
     vert* mVert = g->V;
     edge* mEdge = g->E;
 	// Allocate memory
@@ -80,7 +81,7 @@ int main(int argc, char **argv)
 	// End time
 	clock_t tEnd = clock();
 	// Compute max flow
-	max_flow = xf + x_norm;	
+	max_flow = xf + x_norm + b;
 
 	cout << "Max flow = " << max_flow << endl << endl;
 
@@ -90,11 +91,7 @@ int main(int argc, char **argv)
 	cout << "------------------- End of program -------------------"  << endl << endl;
 	cout << "Execution Time = " << (double)1000*(tEnd - tStart)/CLOCKS_PER_SEC << " ms" << endl << endl;
 	//Export results
-	const char* dt_tau = "dt_tau";
-	const char* dt_sigma = "dt_sigma";
 	export_result <float> (method, x, numNodes);
-	export_result <float> (dt_tau, tau, numNodes);
-	export_result <float> (dt_sigma, sigma, numEdges);
 	// Free memory    
     delete g;
 	delete []x;

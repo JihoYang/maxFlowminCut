@@ -52,7 +52,7 @@ bool read_bk<T>::readFile(char *filename)
 	char line[MAX_LINE_LEN];
 	char c;
 	// Maybe change this to only integers, depending on the problem..
-	double capacity, capacity2, a, b;
+	double capacity, capacity2, a1, a2;
 	FILE *pFile;
 	
 	if ((pFile = fopen(filename, "r")) == NULL) 
@@ -92,7 +92,10 @@ bool read_bk<T>::readFile(char *filename)
 					break;
 				}
 				// Add values to f per node(if connected to source or sink)		
-				else f[nodeId1] += capacity2 - capacity;
+				else {
+					f[nodeId1] += capacity2 - capacity;
+					b += capacity;
+				}
 				//cout<< "In node "<<nodeId1<<" the excess is "<<capacity<<" and the deficit is "<< capacity2 << endl; 
 				break;
 
@@ -135,10 +138,10 @@ bool read_bk<T>::readFile(char *filename)
 				V[nodeId2].nbhdEdges.push_back(currNumEdges);
 
 				// Add values to f and w per edge
-				a = capacity/2.f; b = capacity2/2.f;
-				f[nodeId1] += a - b;
-				f[nodeId2] += b - a;
-				w[currNumEdges]  = a + b;
+				a1 = capacity/2.f; a2 = capacity2/2.f;
+				f[nodeId1] += a1 - a2;
+				f[nodeId2] += a2 - a1;
+				w[currNumEdges]  = a1 + a2;
 
 				currNumEdges++;
 				break;

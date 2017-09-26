@@ -46,6 +46,8 @@ class read_bk
         T *f;
         // Array of weights, size = nEdges
         T *w;
+		// Constant factor for energy computation
+		T b = T (0);
         
         // Methods
         // Allocate memory for dynamic array
