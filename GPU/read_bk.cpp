@@ -4,6 +4,7 @@ using namespace std;
 template<class T>
 read_bk<T>::read_bk(char *filename)
 {
+	b = (T) 0;
 	readFile(filename);
 } 
 

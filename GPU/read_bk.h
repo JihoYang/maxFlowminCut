@@ -27,7 +27,7 @@ struct vert
 struct edge
 {
     // start is supposed to be smaller than end
-    int start= 0, end= 0;
+    int start, end;
 };
 
 
@@ -36,8 +36,8 @@ class read_bk
 {
     public:    
         // Variables
-        int nNodes = 0;
-        int nEdges = 0;
+        int nNodes;
+        int nEdges;
         
         // Structures for vertices and edges
         vert *V;
@@ -47,7 +47,7 @@ class read_bk
         // Array of weights, size = nEdges
         T *w;
 		// Constant factor for energy computation
-		T b = T (0);
+		T b;
         
         // Methods
         // Allocate memory for dynamic array

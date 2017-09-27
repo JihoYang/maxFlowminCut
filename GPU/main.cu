@@ -41,7 +41,11 @@ int main(int argc, char **argv)
 	int iter_max = 500;
 	const char *method = "PD_CPU";
 	// Import bk file    
-    read_bk<float> *g = new read_bk<float>(argv[1]); 
+	read_bk<float> *g = new read_bk<float>(argv[1]); 
+	read_bk<float> *d_g;
+	cudaMalloc((void**)&d_g, sizeof(read_bk<float>));
+	cudaMemcpy(d_g, g, sizeof(read_bk<float>), cudaMemcpyHostToDevice);
+	cudaMemcpy(g, d_g, sizeof(read_bk<float>), cudaMemcpyDeviceToHost);
     int numNodes  = g->nNodes;
     int numEdges = g->nEdges;
     float *f = g->f;
