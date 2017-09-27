@@ -16,7 +16,7 @@
 #include <vector>
 #include <time.h>
 #include "read_bk.h"
-#include "primal_dual.h"
+#include "primal_dual.cuh"
 #include "mathOperations.h"
 #include "postProcessing.h"
 #include <string.h>
