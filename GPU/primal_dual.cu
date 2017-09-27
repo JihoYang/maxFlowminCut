@@ -51,7 +51,7 @@ __device__ void updateY(float *x, float *y, float &x_diff, float *w, edge *mEdge
 	// Temporary values
 	float y_new, grad_x_diff;
 	// Compute gradient of x_diff
-	// compute_gradient(w, x, mEdge, num_edge, grad_x_diff); NOTE GRAD_X_DIFF IS A REFERENCE
+	//compute_gradient(w, x, mEdge, num_edge, grad_x_diff); NOTE GRAD_X_DIFF IS A REFERENCE
 	// Compute new y
 	y_new = y[idx] + sigma[idx] * grad_x_diff;
 	// Clamping
@@ -88,8 +88,40 @@ void compute_dt(T *tau, T *sigma, T *w_u, T alpha, T phi, vert *mVert, int num_v
     }
 }
 
+/*
+template <class T> __global__
+void compute_dt(T *tau, T *sigma, T *w_u, T alpha, T phi, vert *mVert, int num_vertex, int num_edge){
+    // Size of neighbouring vertices j for vertex i
+    int size_nbhd;
+    // Compute tau
+    int tnum_x = threadIdx.x + blockIdx.x*blockDim.x;
+    int tnum_y = threadIdx.y + blockIdx.y*blockDim.y;
+    int tnum_z = threadIdx.z + blockIdx.z*blockDim.z;
+    int i = tnum_x + tnum_y + tnum_z; 
+
+    if (i < num_vertex){
+        T sum = (T)0;
+        size_nbhd = mVert[i].nbhdVert.size();
+		if (size_nbhd == 0){ 
+			tau[i] = 0;
+		}
+		else if (size_nbhd != 0) {
+			for (size_t j = 0; j < size_nbhd; j++){
+				sum += pow(abs(w_u[mVert[i].nbhdEdges[j]]), alpha);
+			}
+			tau[i] = (T)1 / ((T)phi * (T)sum);
+		}
+    }
+    // Compute sigma
+	__syncthreads();
+    if (i<num_edge){
+        sigma[i] = (T)phi / pow((T)abs(w_u[i]), (T)2 - (T) alpha);
+    }
+}
+*/
+
 // Compare 0 and div_y - f
-template <class T>
+template <class T> 
 void get_max (T *div_y, T *f, T *max_vec, T &sum, int num_vertex){
 	sum = (T) 0;
 	// Get max value and sum the results
@@ -129,9 +161,10 @@ void compute_gap(T *w, edge *mEdge, T *x, T *f, T *div_y, T &gap, T &x_norm, T &
 	delete []gap_vec;
 }
 
-/*
+
 template void compute_dt<float>(float*, float*, float*, float, float, vert*, int, int);
 template void compute_dt<double>(double*, double*, double*, double, double, vert*, int, int);
+/*
 template void compute_gap<float>(float*, edge*, float*, float*, float*, float&, float&, float&, int, int);
 template void compute_gap<double>(double*, edge*, double*, double*, double*, double&, double&, double&, int, int);
 */

@@ -70,7 +70,7 @@ int main(int argc, char **argv)
 	memset(x, 0, sizeof(float)*numNodes);
 	memset(y, 0, sizeof(float)*numEdges);
 	// Pre-compute time steps
-	compute_dt <float> (tau, sigma, w, alpha, rho, mVert, numNodes, numEdges);
+	//compute_dt <float> (tau, sigma, w, alpha, rho, mVert, numNodes, numEdges);
 	// Iteration
 	cout << "------------------- Time loop started -------------------"  << endl;
 	/*while (it < iter_max && gap > eps){

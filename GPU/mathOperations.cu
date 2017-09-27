@@ -63,12 +63,12 @@ template <class T> __device__ void divergence_calculate(T* w, T* p, vert *mVert,
     int nbhd_vertices, sign, edge;
     T temp = 0;
     if (v< numNodes){
-        nbhd_vertices = mVert[v].nbhdVert.size();
+        /*nbhd_vertices = mVert[v].nbhdVert.size();
         for (int j = 0; j< nbhd_vertices ; j++){
             sign = mVert[v].sign[j];
             edge = mVert[v].nbhdEdges[j];
             temp += sign*w[edge]*p[edge];
-        }
+        }*/
         divg[v] = temp;
     }
 }
