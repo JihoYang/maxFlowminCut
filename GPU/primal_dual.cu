@@ -175,44 +175,9 @@ void compute_gap(T *w, edge *mEdge, T *x, T *f, T *div_y, T &gap, T &x_norm, T &
 }*/
 
 
-template <class T> __host__
-void d_compute_gap(T *w, edge *mEdge, T *x, T *f, T *div_y, T &gap, T &x_norm, T &xf, int num_vertex, int num_edge, dim3 grid, dim3 block){
-	cublasHandle_t handle;
-	cublasCreate(&handle);
-	// Allocate memory
-	T *d_grad_x, *d_max_vec, *d_gap_vec;
-	cudaMalloc((void**)&d_grad_x, num_edge*sizeof(float));
-	cudaMalloc((void**)&d_max_vec, num_vertex*sizeof(float));
-	cudaMalloc((void**)&d_gap_vec, num_vertex*sizeof(float));
-		
-	T max_val;
-	// Compute gradient of u
-	gradient_calculate <T> <<<grid, block>>>(w, x, mEdge, num_edge, d_grad_x);
-	// Compute scalar product
-	cublasDdot(handle, num_vertex, x, 1, f, 1, &xf);	
-	//compute_scalar_product(x, f, xf, num_vertex);
-	// Compute L1 norm of gradient of u
-	cublasDasum(handle, num_vertex, d_grad_x, 1, &x_norm);	
-	//compute_L1(grad_x, x_norm, num_edge);
-	// Compare 0 and div_y - f
-	max_vec_computation <T> <<<grid, block >>> (div_y, f, d_max_vec, num_vertex);
-	cublasDasum(handle, num_vertex, d_max_vec, 1, &max_val);
-	//cout << " Xf = " << xf << " x_norm = " << x_norm << " max_val = " << max_val << endl;
-	// Compute gap
-	gap = (xf + x_norm + max_val) / num_edge;
-	// Free memory
-	cudaFree(d_grad_x);
-	cudaFree(d_max_vec);
-	cudaFree(d_gap_vec);
-}
-
-
 
 template __global__ void d_compute_dt<float>(float*, float*, float*, float, float, vert*, int, int);
 template __global__ void d_compute_dt<double>(double*, double*, double*, double, double, vert*, int, int);
-
-template __host__ void d_compute_gap<float>(float*, edge*, float*, float*, float*, float&, float&, float&, int, int, dim3, dim3);
-template __host__ void d_compute_gap<double>(double*, edge*, double*, double*, double*, double&, double&, double&, int, int, dim3, dim3);
 template <class T> __global__ void max_vec_computation (float *div_y, float *f, float *max_vec, int num_vertex);
 template <class T> __global__ void max_vec_computation (double *div_y, double *f, double *max_vec, int num_vertex);
 

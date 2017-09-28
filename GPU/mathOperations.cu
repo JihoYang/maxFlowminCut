@@ -37,8 +37,23 @@ void divergence_calculate(T* w, T* p, vert *mVert, int numNodes, T* divg){
 }*/
 
 //COMPUTE GRADIENT GPU
-template <class T> __device__ __global__ 
+template <class T> __device__
 void gradient_calculate(T *w, T *x, edge *mEdge , int numEdges, T *grad){
+    int tnum_x = threadIdx.x + blockIdx.x*blockDim.x;
+    int tnum_y = threadIdx.y + blockIdx.y*blockDim.y;
+    int tnum_z = threadIdx.z + blockIdx.z*blockDim.z;
+    int e = tnum_x + tnum_y + tnum_z; 
+
+    int a , b;
+    if (e< numEdges){
+        a = mEdge[e].start;
+        b = mEdge[e].end;
+        grad[e] = w[e] * (x[b] - x[a]);
+    }
+}
+
+template <class T> __global__
+void h_gradient_calculate(T *w, T *x, edge *mEdge , int numEdges, T *grad){
     int tnum_x = threadIdx.x + blockIdx.x*blockDim.x;
     int tnum_y = threadIdx.y + blockIdx.y*blockDim.y;
     int tnum_z = threadIdx.z + blockIdx.z*blockDim.z;
@@ -136,8 +151,10 @@ cublasCreate(&handle);
 cublasDdot(handle, num_vertex, x, 1, f, 1, &xf);
 */
 
-template __device__ __global__ void gradient_calculate <float>(float*, float*, edge*, int, float*);
-template __device__ __global__ void gradient_calculate <double>(double*, double*, edge*, int, double*);
+template __global__ void h_gradient_calculate <float>(float*, float*, edge*, int, float*);
+template __global__ void h_gradient_calculate <double>(double*, double*, edge*, int, double*);
+template __device__ void gradient_calculate <float>(float*, float*, edge*, int, float*);
+template __device__ void gradient_calculate <double>(double*, double*, edge*, int, double*);
 template __device__ void divergence_calculate <float>(float*, float*, vert*, int, float*);
 template __device__ void divergence_calculate <double>(double*, double*, vert*, int, double*);
 /*

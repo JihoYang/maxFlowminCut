@@ -20,6 +20,9 @@
 #include "mathOperations.cuh"
 #include "postProcessing.h"
 #include <string.h>
+#include <cublas_v2.h>
+
+# define T float
 
 using namespace std;
 
@@ -42,6 +45,7 @@ int main(int argc, char **argv)
 	float xf;
 	float x_norm;
 	float max_flow;
+	T max_val;
 	const char *method = "PD_CPU";
 	
 	// Import bk file    
@@ -86,7 +90,14 @@ int main(int argc, char **argv)
 	cudaMemset(d_grad_x_diff , 0, numEdges*sizeof(float));
 	cudaMemset(d_tau , 0, numNodes*sizeof(float));
 	cudaMemset(d_sigma , 0, numEdges*sizeof(float));
-	
+
+	cublasHandle_t handle;
+	cublasCreate(&handle);
+
+	T *d_grad_x, *d_max_vec, *d_gap_vec;
+	cudaMalloc((void**)&d_grad_x, numEdges*sizeof(float));
+	cudaMalloc((void**)&d_max_vec, numNodes*sizeof(float));
+	cudaMalloc((void**)&d_gap_vec, numNodes*sizeof(float));
 	
 	dim3 block = dim3(1024,1,1);
 	int grid_x = ((max(numNodes, numEdges) + block.x - 1)/block.x);
@@ -101,8 +112,23 @@ int main(int argc, char **argv)
 	while (it < iter_max && gap > eps){
 		// Update X
 		//updateX <float> (w, mVert, x, tau, div_y, y, f, x_diff, numNodes);
+
+		//********************************************** Compute gap
+		
+		// Compute gradient of u
+		h_gradient_calculate <T> <<<grid, block>>>(d_g->w, d_x, d_g->E, numEdges, d_grad_x);
+		// Compute L1 norm of gradient of u
+		cublasSasum(handle, numNodes, d_grad_x, 1, &x_norm);
+		// Compute scalar product
+		cublasSdot(handle, numNodes, d_x, 1, d_g->f, 1, &xf);	
+		// Compare 0 and div_y - f
+		max_vec_computation <T> <<<grid, block >>> (d_div_y, d_g->f, d_max_vec, numNodes);
+		cublasSasum(handle, numNodes, d_max_vec, 1, &max_val);
+		//cout << " Xf = " << xf << " x_norm = " << x_norm << " max_val = " << max_val << endl;
 		// Compute gap
-		d_compute_gap <float> (d_g->w, d_g->E, d_x, d_g->f, d_div_y, gap, x_norm, xf, numNodes, numEdges, grid, block);
+		gap = (xf + x_norm + max_val) / numEdges;
+		
+		//******************************************* Compute Gap end
 		cout << "Iteration = " << it << endl << endl;
 		cout << "Gap = " << gap << endl << endl;
 		it = it + 1;
@@ -135,5 +161,9 @@ int main(int argc, char **argv)
 	delete []tau;
 	delete []sigma;	
 	*/
+
+	cudaFree(d_grad_x);
+	cudaFree(d_max_vec);
+	cudaFree(d_gap_vec);
     return 0;
 }

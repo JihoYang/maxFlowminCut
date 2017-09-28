@@ -5,8 +5,11 @@
 #include <math.h>
 #include "read_bk.h"
 
-template <class T> __device__ __global__
+template <class T> __device__
 void gradient_calculate(T *w, T *x, edge *mEdge , int numEdges, T *grad);
+
+template <class T> __global__
+void h_gradient_calculate(T *w, T *x, edge *mEdge , int numEdges, T *grad);
 
 template <class T> __device__ 
 void divergence_calculate(T* w, T* p, vert *mVert, int numNodes, T* divg);
