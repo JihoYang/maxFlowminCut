@@ -10,16 +10,21 @@
 // For Divergence
 struct vert
 {
-    std::vector<int> nbhdVert;
-    // sign contains 1 or -1
-	std::vector<int> sign;
-    std::vector<int> nbhdEdges;
-    ~vert()
-    {
-        std::vector<int>().swap(nbhdVert);
-        std::vector<int>().swap(sign);
-        std::vector<int>().swap(nbhdEdges);
-    } 
+    public:
+        std::vector<int> _nbhdVert;
+        // sign contains 1 or -1
+        std::vector<int> _sign;
+        std::vector<int> _nbhdEdges;
+        int* nbhdVert;
+        int* sign;
+        int* nbhdEdges;
+        int nbhdSize;
+        ~vert()
+        {
+            std::vector<int>().swap(_nbhdVert);
+            std::vector<int>().swap(_sign);
+            std::vector<int>().swap(_nbhdEdges);
+        }    
 };
 
 // Consider undirected graph!
@@ -29,7 +34,6 @@ struct edge
     // start is supposed to be smaller than end
     int start, end;
 };
-
 
 template <class T>
 class read_bk
@@ -58,6 +62,8 @@ class read_bk
         read_bk(char* filename);
         
         ~read_bk();
-        
+    private:
+        void assign_pointers();        
 };
 #endif
+
