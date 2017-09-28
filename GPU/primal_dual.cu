@@ -4,7 +4,6 @@
 #include <algorithm>
 #include "primal_dual.cuh"
 #include "mathOperations.cuh"
-#include "read_bk.h"
 #include <cublas_v2.h>
 
 using namespace std;
@@ -71,7 +70,7 @@ void compute_dt(T *tau, T *sigma, T *w_u, T alpha, T phi, vert *mVert, int num_v
     // Compute tau
     for (size_t i = 0; i < num_vertex; i++){
         T sum = (T)0;
-        size_nbhd = mVert[i].nbhdVert.size();
+        size_nbhd = mVert[i].nbhdSize;
 		if (size_nbhd == 0){ 
 			tau[i] = 0;
 		}
@@ -131,9 +130,23 @@ void get_max (T *div_y, T *f, T *max_vec, T &sum, int num_vertex){
     }
 }
 
+/*
+template <class T> __global__
+void max_vec_computation (T *div_y, T *f, T *max_vec, int num_vertex){
+	int tnum_x = threadIdx.x + blockIdx.x*blockDim.x;
+    int tnum_y = threadIdx.y + blockIdx.y*blockDim.y;
+    int tnum_z = threadIdx.z + blockIdx.z*blockDim.z;
+    int i = tnum_x + tnum_y + tnum_z; 
+	
+	// Get max value and sum the results
+    if (i < num_vertex){
+        max_vec[i] = max( (T) 0, div_y[i] - f[i] );
+    }
+}
+*/
 
 // Compute gap
-template <class T>
+template <class T> 
 void compute_gap(T *w, edge *mEdge, T *x, T *f, T *div_y, T &gap, T &x_norm, T &xf, int num_vertex, int num_edge){
 	cublasHandle_t handle;
 	cublasCreate(&handle);
@@ -160,6 +173,37 @@ void compute_gap(T *w, edge *mEdge, T *x, T *f, T *div_y, T &gap, T &x_norm, T &
 	delete []max_vec;
 	delete []gap_vec;
 }
+
+/*
+template <class T> 
+void compute_gap(T *w, edge *mEdge, T *x, T *f, T *div_y, T &gap, T &x_norm, T &xf, int num_vertex, int num_edge){
+	cublasHandle_t handle;
+	cublasCreate(&handle);
+	// Allocate memory
+	T *grad_x = new T[num_edge];
+	T *max_vec = new T[num_vertex];
+	T *gap_vec = new T[num_vertex];
+	T max_val;
+	// Compute gradient of u
+	gradient_calculate(w, x, mEdge, num_edge, grad_x);
+	// Compute scalar product
+	cublasDdot(handle, num_vertex, x, 1, f, 1, &xf);	
+	//compute_scalar_product(x, f, xf, num_vertex);
+	// Compute L1 norm of gradient of u
+	cublasDasum(handle, num_vertex, grad_x, 1, &x_norm);	
+	//compute_L1(grad_x, x_norm, num_edge);
+	// Compare 0 and div_y - f
+	max_vec_computation <<<grid, block >>> (div_y, f, max_vec, num_vertex);
+	cublasDasum(handle, num_vertex, max_vec, 1, &max_val);
+	//cout << " Xf = " << xf << " x_norm = " << x_norm << " max_val = " << max_val << endl;
+	// Compute gap
+	gap = (xf + x_norm + max_val) / num_edge;
+	// Free memory
+	delete []grad_x;
+	delete []max_vec;
+	delete []gap_vec;
+}
+*/
 
 
 template void compute_dt<float>(float*, float*, float*, float, float, vert*, int, int);

@@ -6,6 +6,7 @@ read_bk<T>::read_bk(char *filename)
 {
 	b = (T) 0;
 	readFile(filename);
+	assign_pointers();
 } 
 
 template<class T>
@@ -130,13 +131,13 @@ bool read_bk<T>::readFile(char *filename)
 				E[currNumEdges].start = min;
 				E[currNumEdges].end = max; 	
 				// Info for node1			
-				V[nodeId1].nbhdVert.push_back(nodeId2);
-				V[nodeId1].sign.push_back(sign);
-				V[nodeId1].nbhdEdges.push_back(currNumEdges);
+				V[nodeId1]._nbhdVert.push_back(nodeId2);
+				V[nodeId1]._sign.push_back(sign);
+				V[nodeId1]._nbhdEdges.push_back(currNumEdges);
 				// for node2
-				V[nodeId2].nbhdVert.push_back(nodeId1);
-				V[nodeId2].sign.push_back(-sign);
-				V[nodeId2].nbhdEdges.push_back(currNumEdges);
+				V[nodeId2]._nbhdVert.push_back(nodeId1);
+				V[nodeId2]._sign.push_back(-sign);
+				V[nodeId2]._nbhdEdges.push_back(currNumEdges);
 
 				// Add values to f and w per edge
 				a1 = capacity/2.f; a2 = capacity2/2.f;
@@ -154,6 +155,22 @@ bool read_bk<T>::readFile(char *filename)
 	pFile = NULL;
 	
 	return true;
+}
+
+template<class T>
+void read_bk<T>::assign_pointers()
+{
+	for(int i = 0; i < nNodes; i++)
+	{
+		if(V[i]._nbhdVert.size()>0)
+		{
+			V[i].sign = &V[i]._sign[0];
+			V[i].nbhdVert = &V[i]._nbhdVert[0]; 
+			V[i].nbhdEdges = &V[i]._nbhdEdges[0];
+			V[i].nbhdSize = V[i]._nbhdVert.size();
+		}	
+		
+	}	
 }
 
 // Tell the compiler which T we are going to use

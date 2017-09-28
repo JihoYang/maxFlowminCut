@@ -37,24 +37,24 @@ int main(int argc, char **argv)
 	float rho = 1;
 	float gap = 1;
 	float eps = 1E-6;
-	int	  it  = 0;
+	int it  = 0;
 	int iter_max = 500;
 	const char *method = "PD_CPU";
-	// Import bk file    
-	read_bk<float> *g = new read_bk<float>(argv[1]); 
 	
-	read_bk<float> *d_g;
+	// Import bk file    
+	read_bk<float> *g = new read_bk<float>(argv[1]); 	
+	int numNodes  = g->nNodes;
+	int numEdges = g->nEdges;
+	float *f = g->f;
+	float *w = g->w;
+	float b = g->b;
+	vert* mVert = g->V;
+	edge* mEdge = g->E;
+
+	
 	cudaMalloc((void**)&d_g, sizeof(read_bk<float>));
 	cudaMemcpy(d_g, g, sizeof(read_bk<float>), cudaMemcpyHostToDevice);
-	
-    int numNodes  = g->nNodes;
-    int numEdges = g->nEdges;
-    float *f = g->f;
-    float *w = g->w;
 
-	float b = g->b;
-    vert* mVert = g->V;
-    edge* mEdge = g->E;
 	// Allocate memory
 	float *x = new float[numNodes];
 	float *y = new float[numEdges];
@@ -63,6 +63,13 @@ int main(int argc, char **argv)
 	float *grad_x_diff = new float[numEdges];
 	float *tau = new float[numNodes];
 	float *sigma = new float[numEdges];
+
+	read_bk<float> *d_g;
+ 	float * d_x, *d_y, *d_div_y, *d_x_diff, d_grad_x_diff, *d_tau, *d_sigma;
+	cudaMalloc((void**)&d_g, sizeof(read_bk<float>));
+	cudaMalloc((void**)&d_x )
+
+
 	float xf;
 	float x_norm;
 	float max_flow;
