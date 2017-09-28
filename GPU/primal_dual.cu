@@ -63,7 +63,7 @@ __device__ void updateY(float *x, float *y, float &x_diff, float *w, edge *mEdge
 }
 
 // Compute time steps
-template <class T>
+/*template <class T>
 void compute_dt(T *tau, T *sigma, T *w_u, T alpha, T phi, vert *mVert, int num_vertex, int num_edge){
     // Size of neighbouring vertices j for vertex i
     int size_nbhd;
@@ -85,11 +85,11 @@ void compute_dt(T *tau, T *sigma, T *w_u, T alpha, T phi, vert *mVert, int num_v
     for (size_t i = 0; i < num_edge; i++){
         sigma[i] = (T)phi / pow((T)abs(w_u[i]), (T)2 - (T) alpha);
     }
-}
+}*/
 
-/*
+
 template <class T> __global__
-void compute_dt(T *tau, T *sigma, T *w_u, T alpha, T phi, vert *mVert, int num_vertex, int num_edge){
+void d_compute_dt(T *tau, T *sigma, T *w_u, T alpha, T phi, vert *mVert, int num_vertex, int num_edge){
     // Size of neighbouring vertices j for vertex i
     int size_nbhd;
     // Compute tau
@@ -100,7 +100,7 @@ void compute_dt(T *tau, T *sigma, T *w_u, T alpha, T phi, vert *mVert, int num_v
 
     if (i < num_vertex){
         T sum = (T)0;
-        size_nbhd = mVert[i].nbhdVert.size();
+        size_nbhd = mVert[i].nbhdSize;
 		if (size_nbhd == 0){ 
 			tau[i] = 0;
 		}
@@ -114,13 +114,13 @@ void compute_dt(T *tau, T *sigma, T *w_u, T alpha, T phi, vert *mVert, int num_v
     // Compute sigma
 	__syncthreads();
     if (i<num_edge){
-        sigma[i] = (T)phi / pow((T)abs(w_u[i]), (T)2 - (T) alpha);
+        sigma[i] = (T)phi / pow((T)abs(w_u[i]), (T) 2 - (T) alpha);
     }
 }
-*/
+
 
 // Compare 0 and div_y - f
-template <class T> 
+/*template <class T> 
 void get_max (T *div_y, T *f, T *max_vec, T &sum, int num_vertex){
 	sum = (T) 0;
 	// Get max value and sum the results
@@ -128,25 +128,25 @@ void get_max (T *div_y, T *f, T *max_vec, T &sum, int num_vertex){
         max_vec[i] = max( (T) 0, div_y[i] - f[i] );
 		sum += max_vec[i];
     }
-}
+}*/
 
-/*
+
 template <class T> __global__
 void max_vec_computation (T *div_y, T *f, T *max_vec, int num_vertex){
 	int tnum_x = threadIdx.x + blockIdx.x*blockDim.x;
-    int tnum_y = threadIdx.y + blockIdx.y*blockDim.y;
-    int tnum_z = threadIdx.z + blockIdx.z*blockDim.z;
-    int i = tnum_x + tnum_y + tnum_z; 
-	
+	int tnum_y = threadIdx.y + blockIdx.y*blockDim.y;
+	int tnum_z = threadIdx.z + blockIdx.z*blockDim.z;
+	int i = tnum_x + tnum_y + tnum_z; 
+
 	// Get max value and sum the results
-    if (i < num_vertex){
-        max_vec[i] = max( (T) 0, div_y[i] - f[i] );
-    }
+	if (i < num_vertex){
+	max_vec[i] = max( (T) 0, div_y[i] - f[i] );
+	}
 }
-*/
+
 
 // Compute gap
-template <class T> 
+/*template <class T> 
 void compute_gap(T *w, edge *mEdge, T *x, T *f, T *div_y, T &gap, T &x_norm, T &xf, int num_vertex, int num_edge){
 	cublasHandle_t handle;
 	cublasCreate(&handle);
@@ -172,43 +172,48 @@ void compute_gap(T *w, edge *mEdge, T *x, T *f, T *div_y, T &gap, T &x_norm, T &
 	delete []grad_x;
 	delete []max_vec;
 	delete []gap_vec;
-}
+}*/
 
-/*
-template <class T> 
-void compute_gap(T *w, edge *mEdge, T *x, T *f, T *div_y, T &gap, T &x_norm, T &xf, int num_vertex, int num_edge){
+
+template <class T> __host__
+void d_compute_gap(T *w, edge *mEdge, T *x, T *f, T *div_y, T &gap, T &x_norm, T &xf, int num_vertex, int num_edge, dim3 grid, dim3 block){
 	cublasHandle_t handle;
 	cublasCreate(&handle);
 	// Allocate memory
-	T *grad_x = new T[num_edge];
-	T *max_vec = new T[num_vertex];
-	T *gap_vec = new T[num_vertex];
+	T *d_grad_x, *d_max_vec, *d_gap_vec;
+	cudaMalloc((void**)&d_grad_x, num_edge*sizeof(float));
+	cudaMalloc((void**)&d_max_vec, num_vertex*sizeof(float));
+	cudaMalloc((void**)&d_gap_vec, num_vertex*sizeof(float));
+		
 	T max_val;
 	// Compute gradient of u
-	gradient_calculate(w, x, mEdge, num_edge, grad_x);
+	gradient_calculate <T> <<<grid, block>>>(w, x, mEdge, num_edge, d_grad_x);
 	// Compute scalar product
 	cublasDdot(handle, num_vertex, x, 1, f, 1, &xf);	
 	//compute_scalar_product(x, f, xf, num_vertex);
 	// Compute L1 norm of gradient of u
-	cublasDasum(handle, num_vertex, grad_x, 1, &x_norm);	
+	cublasDasum(handle, num_vertex, d_grad_x, 1, &x_norm);	
 	//compute_L1(grad_x, x_norm, num_edge);
 	// Compare 0 and div_y - f
-	max_vec_computation <<<grid, block >>> (div_y, f, max_vec, num_vertex);
-	cublasDasum(handle, num_vertex, max_vec, 1, &max_val);
+	max_vec_computation <T> <<<grid, block >>> (div_y, f, d_max_vec, num_vertex);
+	cublasDasum(handle, num_vertex, d_max_vec, 1, &max_val);
 	//cout << " Xf = " << xf << " x_norm = " << x_norm << " max_val = " << max_val << endl;
 	// Compute gap
 	gap = (xf + x_norm + max_val) / num_edge;
 	// Free memory
-	delete []grad_x;
-	delete []max_vec;
-	delete []gap_vec;
+	cudaFree(d_grad_x);
+	cudaFree(d_max_vec);
+	cudaFree(d_gap_vec);
 }
-*/
 
 
-template void compute_dt<float>(float*, float*, float*, float, float, vert*, int, int);
-template void compute_dt<double>(double*, double*, double*, double, double, vert*, int, int);
-/*
-template void compute_gap<float>(float*, edge*, float*, float*, float*, float&, float&, float&, int, int);
-template void compute_gap<double>(double*, edge*, double*, double*, double*, double&, double&, double&, int, int);
-*/
+
+template __global__ void d_compute_dt<float>(float*, float*, float*, float, float, vert*, int, int);
+template __global__ void d_compute_dt<double>(double*, double*, double*, double, double, vert*, int, int);
+
+template __host__ void d_compute_gap<float>(float*, edge*, float*, float*, float*, float&, float&, float&, int, int, dim3, dim3);
+template __host__ void d_compute_gap<double>(double*, edge*, double*, double*, double*, double&, double&, double&, int, int, dim3, dim3);
+template <class T> __global__ void max_vec_computation (float *div_y, float *f, float *max_vec, int num_vertex);
+template <class T> __global__ void max_vec_computation (double *div_y, double *f, double *max_vec, int num_vertex);
+
+

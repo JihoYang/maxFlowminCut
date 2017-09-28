@@ -5,7 +5,7 @@
 #include <math.h>
 #include "read_bk.h"
 
-template <class T> __device__ 
+template <class T> __device__ __global__
 void gradient_calculate(T *w, T *x, edge *mEdge , int numEdges, T *grad);
 
 template <class T> __device__ 
