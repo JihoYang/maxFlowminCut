@@ -178,7 +178,7 @@ void compute_gap(T *w, edge *mEdge, T *x, T *f, T *div_y, T &gap, T &x_norm, T &
 
 template __global__ void d_compute_dt<float>(float*, float*, float*, float, float, vert*, int, int);
 template __global__ void d_compute_dt<double>(double*, double*, double*, double, double, vert*, int, int);
-template <class T> __global__ void max_vec_computation (float *div_y, float *f, float *max_vec, int num_vertex);
-template <class T> __global__ void max_vec_computation (double *div_y, double *f, double *max_vec, int num_vertex);
+template __global__ void max_vec_computation (float *div_y, float *f, float *max_vec, int num_vertex);
+template __global__ void max_vec_computation (double *div_y, double *f, double *max_vec, int num_vertex);
 
 
