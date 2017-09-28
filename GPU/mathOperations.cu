@@ -88,6 +88,27 @@ template <class T> __device__ void divergence_calculate(T* w, T* p, vert *mVert,
     }
 }
 
+// COMPUTE DIVERGENCE GPU - Global
+template <class T> __global__ void h_divergence_calculate(T* w, T* p, vert *mVert, int numNodes, T* divg){
+
+    int tnum_x = threadIdx.x + blockIdx.x*blockDim.x;
+    int tnum_y = threadIdx.y + blockIdx.y*blockDim.y;
+    int tnum_z = threadIdx.z + blockIdx.z*blockDim.z;
+    int v = tnum_x + tnum_y + tnum_z; 
+
+    int nbhd_vertices, sign, edge;
+    T temp = 0;
+    if (v< numNodes){
+        nbhd_vertices = mVert[v].nbhdSize;
+        for (int j = 0; j< nbhd_vertices ; j++){
+            sign = mVert[v].sign[j];
+            edge = mVert[v].nbhdEdges[j];
+            temp += sign*w[edge]*p[edge];
+        }
+        divg[v] = temp;
+    }
+}
+
 // Compute L1 norm
 /*template <class T>
 void compute_L1 (T *grad_x, T &x_norm, int num_vertex){
@@ -157,6 +178,8 @@ template __device__ void gradient_calculate <float>(float*, float*, edge*, int, 
 template __device__ void gradient_calculate <double>(double*, double*, edge*, int, double*);
 template __device__ void divergence_calculate <float>(float*, float*, vert*, int, float*);
 template __device__ void divergence_calculate <double>(double*, double*, vert*, int, double*);
+template __global__ void h_divergence_calculate <float>(float*, float*, vert*, int, float*);
+template __global__ void h_divergence_calculate <double>(double*, double*, vert*, int, double*);
 /*
 template void compute_L1 <float> (float*, float&, int);
 template void compute_L1 <double> (double*, double&, int);

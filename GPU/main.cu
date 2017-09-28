@@ -114,7 +114,12 @@ int main(int argc, char **argv)
 		//updateX <float> (w, mVert, x, tau, div_y, y, f, x_diff, numNodes);
 
 		//********************************************** Compute gap
-		
+		// Update X
+		updateX <float> <<< grid, block >>> (d_x, d_y, d_g->w, d_g->f, d_x_diff, d_div_y, d_g->V, d_tau, numNodes);
+		// Update Y
+		updateY <float> <<<grid, block >>> (d_x_diff, d_y, d_g->w, d_g->E, d_sigma, numEdges);
+		// Update divergence of Y
+		h_divergence_calculate(d_g->w, d_y, d_g->V, numNodes, d_div_y);
 		// Compute gradient of u
 		h_gradient_calculate <T> <<<grid, block>>>(d_g->w, d_x, d_g->E, numEdges, d_grad_x);
 		// Compute L1 norm of gradient of u
