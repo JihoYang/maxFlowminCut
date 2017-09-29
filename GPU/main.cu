@@ -70,8 +70,6 @@ int main(int argc, char **argv)
 	for (int i= 0 ; i< numEdges; i++){
 		start_edge[i] = mEdge[i].start;
 		end_edge[i] = mEdge[i].end;
-
-		cout << start_edge[i] << "   " << end_edge[i] << endl;
 	}
 
 	int *d_start_edge , *d_end_edge;
@@ -195,7 +193,7 @@ int main(int argc, char **argv)
 		// Update X
 		updateX <float> <<< grid, block >>> (d_x, d_y, d_w, d_f, d_x_diff, d_div_y, d_nbhd_size, d_nbhd_start, d_nbhd_sign, d_nbhd_edges, d_tau, numNodes);
 
-		/*  Perfectly fine upto here.. have checked d_x_diff, d_y, d_w and d_sigma*/
+		/*  Perfectly fine upto here.. have checked d_x_diff, d_y, d_w and d_sigma.. the arrays that go into updateY  */
 
 		// Update Y
 		updateY <float> <<<grid, block >>> (d_x_diff, d_y, d_w, d_start_edge, d_end_edge, d_sigma, numEdges);
