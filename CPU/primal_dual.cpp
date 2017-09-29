@@ -69,9 +69,14 @@ void updateX(T *w, vert *mVert, T *x, T *tau, T *div_y, T *y, T *f, T *x_diff, i
 template <class T>
 void updateY(T *w, T *x, edge *mEdge, T *y, T *sigma, T *x_diff, T *grad_x_diff, int num_edge){
 	T y_new;
+	// Compute gradient of 2u_(t+1) - u_t (output = grad_x_diff)
+	gradient_calculate<T>(w, x, mEdge , num_edge, grad_x_diff);
+
+	for (int i=0; i<num_edge; i++){
+		cout << grad_x_diff[i] << endl;
+	}
+    
     for (size_t i = 0; i < num_edge; i++){
-		// Compute gradient of 2u_(t+1) - u_t (output = grad_x_diff)
-		gradient_calculate<T>(w, x, mEdge , num_edge, grad_x_diff);
 		// Compute new y
 		 y_new = y[i] + sigma[i] * grad_x_diff[i];
 		// Clamping

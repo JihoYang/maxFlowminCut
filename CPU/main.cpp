@@ -38,7 +38,7 @@ int main(int argc, char **argv)
 	float gap = 1;
 	float eps = 1E-6;
 	int	  it  = 0;
-	int iter_max = 500;
+	int iter_max = 1;
 	const char *method = "PD_CPU";
 	// Import bk file    
     read_bk<float> *g = new read_bk<float>(argv[1]); 
@@ -65,18 +65,22 @@ int main(int argc, char **argv)
 	memset(y, 0, sizeof(float)*numEdges);
 	// Pre-compute time steps
 	compute_dt <float> (tau, sigma, w, alpha, rho, mVert, numNodes, numEdges);
+	
 	// Iteration
 	cout << "------------------- Time loop started -------------------"  << endl;
 	while (it < iter_max && gap > eps){
 		// Update X
 		updateX <float> (w, mVert, x, tau, div_y, y, f, x_diff, numNodes);
+		
+		// Update Y for next iteration
+		updateY <float> (w, x, mEdge, y, sigma, x_diff, grad_x_diff, numEdges);
+		
 		// Compute gap
 		compute_gap <float> (w, mEdge, x, f, div_y, gap, x_norm, xf, numNodes, numEdges);
 		cout << "Iteration = " << it << endl << endl;
 		cout << "Gap = " << gap << endl << endl;
 		it = it + 1;
-		// Update Y for next iteration
-		updateY <float> (w, x, mEdge, y, sigma, x_diff, grad_x_diff, numEdges);
+		
 	}
 	// End time
 	clock_t tEnd = clock();

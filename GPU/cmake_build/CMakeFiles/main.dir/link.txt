@@ -1,0 +1,1 @@
+/usr/bin/c++      CMakeFiles/main.dir/postProcessing.cpp.o CMakeFiles/main.dir/read_bk.cpp.o CMakeFiles/main.dir/main_generated_main.cu.o CMakeFiles/main.dir/main_generated_mathOperations.cu.o CMakeFiles/main.dir/main_generated_primal_dual.cu.o  -o main -rdynamic -Wl,-Bstatic -lcudart_static -Wl,-Bdynamic -lpthread -ldl -lrt -lcublas 
