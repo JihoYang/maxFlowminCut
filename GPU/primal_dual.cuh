@@ -5,6 +5,12 @@
 #include <math.h>
 #include "read_bk.h"
 
+template <class T> __device__
+void gradient_calculate(T *w, T *x, edge *mEdge , int numEdges, T &grad);
+
+template <class T> __device__ 
+void divergence_calculate(T* w, T* p, vert *mVert, int numNodes, T* divg);
+
 // GPU
 template <class T>
 __global__ void updateX(T *x, T *y, T *w, T *f, T *x_diff, T *div_y, vert *mVert, T *tau, int num_vertex);
@@ -16,6 +22,6 @@ template <class T>
 __global__ void d_compute_dt(T *tau, T *sigma, T *w_u, T alpha, T phi, vert *mVert, int num_vertex, int num_edge);
 
 template <class T> 
-__global__ void max_vec_computation (T *div_y, T *f, T *max_vec, T &max_val, int num_vertex);
+__global__ void max_vec_computation (T *div_y, T *f, T *max_vec, int num_vertex);
 
 #endif 			  

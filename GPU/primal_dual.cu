@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <iostream>
 #include <math.h>
 #include <vector>
@@ -7,6 +8,43 @@
 #include <cublas_v2.h>
 
 using namespace std;
+
+//COMPUTE GRADIENT GPU
+template <class T> __device__
+void gradient_calculate(T *w, T *x, edge *mEdge , int numEdges, T &grad){
+    int tnum_x = threadIdx.x + blockIdx.x*blockDim.x;
+    int tnum_y = threadIdx.y + blockIdx.y*blockDim.y;
+    int tnum_z = threadIdx.z + blockIdx.z*blockDim.z;
+    int e = tnum_x + tnum_y + tnum_z; 
+
+    int a , b;
+    if (e< numEdges){
+        a = mEdge[e].start;
+        b = mEdge[e].end;
+        grad = w[e] * (x[b] - x[a]);
+    }
+}
+
+// COMPUTE DIVERGENCE GPU
+template <class T> __device__ void divergence_calculate(T* w, T* p, vert *mVert, int numNodes, T* divg){
+
+    int tnum_x = threadIdx.x + blockIdx.x*blockDim.x;
+    int tnum_y = threadIdx.y + blockIdx.y*blockDim.y;
+    int tnum_z = threadIdx.z + blockIdx.z*blockDim.z;
+    int v = tnum_x + tnum_y + tnum_z; 
+
+    int nbhd_vertices, sign, edge;
+    T temp = 0;
+    if (v< numNodes){
+        nbhd_vertices = mVert[v].nbhdSize;
+        for (int j = 0; j< nbhd_vertices ; j++){
+            sign = mVert[v].sign[j];
+            edge = mVert[v].nbhdEdges[j];
+            temp += sign*w[edge]*p[edge];
+        }
+        divg[v] = temp;
+    }
+}
 
 // Update X (GPU)
 template <class T> 
@@ -48,7 +86,7 @@ __global__ void updateY(T *x_diff, T *y, T *w, edge *mEdge, T *sigma, int num_ed
 	//int idx = x_thread + (size_t)w*y_thread + (size_t)w*h*z_thread;
 	int idx = x_thread;
 	// Temporary values
-	float y_new, grad_x_diff;
+	T y_new, grad_x_diff;
 	// Compute gradient of x_diff
 	gradient_calculate <T> (w, x_diff, mEdge, num_edge, grad_x_diff);
 	// Compute new y
@@ -68,9 +106,13 @@ __global__ void d_compute_dt(T *tau, T *sigma, T *w_u, T alpha, T phi, vert *mVe
     int size_nbhd;
     // Compute tau
     int tnum_x = threadIdx.x + blockIdx.x*blockDim.x;
-    int tnum_y = threadIdx.y + blockIdx.y*blockDim.y;
-    int tnum_z = threadIdx.z + blockIdx.z*blockDim.z;
-    int i = tnum_x + tnum_y + tnum_z; 
+    //int tnum_y = threadIdx.y + blockIdx.y*blockDim.y;
+    //int tnum_z = threadIdx.z + blockIdx.z*blockDim.z;
+    //int i = tnum_x + tnum_y + tnum_z; 
+	int i = tnum_x;
+	if (i == 1){
+		printf("before compute_dt inside kernel");
+	}
 	// If there are no neighbours set tau to be zero
     if (i < num_vertex){
         T sum = (T)0;
@@ -115,3 +157,7 @@ template __global__ void d_compute_dt<double>(double*, double*, double*, double,
 
 template __global__ void max_vec_computation (float *div_y, float *f, float *max_vec, int num_vertex);
 template __global__ void max_vec_computation (double *div_y, double *f, double *max_vec, int num_vertex);
+template __device__ void gradient_calculate <float>(float*, float*, edge*, int, float&);
+template __device__ void gradient_calculate <double>(double*, double*, edge*, int, double&);
+template __device__ void divergence_calculate <float>(float*, float*, vert*, int, float*);
+template __device__ void divergence_calculate <double>(double*, double*, vert*, int, double*);

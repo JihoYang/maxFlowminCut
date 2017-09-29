@@ -5,12 +5,11 @@
 //		Written by: Apoorva Gupta										//
 //					Jorge Salazar										//
 //					Jiho Yang											//
-//			numEdges															//
+//																		//
 //		Final update: 26/09/2017										//
 //																		//
 //////////////////////////////////////////////////////////////////////////
 	
-// TODO: the code diverges - check for the correctness of primal-dual algorithm and grad/div computation
 
 #include <iostream>
 #include <vector>
@@ -57,6 +56,7 @@ int main(int argc, char **argv)
 	float b = g->b;
 	vert* mVert = g->V;
 	edge* mEdge = g->E;
+	cout << "bk file imported" << endl;
 
 	// Allocate memory on host
 	float *x = new float[numNodes];
@@ -66,10 +66,12 @@ int main(int argc, char **argv)
 	float *grad_x_diff = new float[numEdges];
 	float *tau = new float[numNodes];
 	float *sigma = new float[numEdges];
+	cout << "Memory allocated on host" << endl;
 
 	// Names of all the cuda_arrays	
 	read_bk<float> *d_g;
- 	float * d_x, *d_y, *d_div_y, *d_x_diff, *d_grad_x_diff, *d_tau, *d_sigma;
+ 	float *d_x, *d_y, *d_div_y, *d_x_diff, *d_grad_x_diff, *d_tau, *d_sigma;
+	float *d_w;
 	
 	// Allocate memory on cuda	
 	cudaMalloc((void**)&d_g, sizeof(read_bk<float>));
@@ -80,6 +82,7 @@ int main(int argc, char **argv)
 	cudaMalloc((void**)&d_grad_x_diff, numEdges*sizeof(float));
 	cudaMalloc((void**)&d_tau, numNodes*sizeof(float));
 	cudaMalloc((void**)&d_sigma, numEdges*sizeof(float));
+	cout << "Memory allocated on device" << endl;
 
 	// Initialise cuda memories
 	cudaMemcpy(d_g, g, sizeof(read_bk<float>), cudaMemcpyHostToDevice);	
@@ -90,6 +93,7 @@ int main(int argc, char **argv)
 	cudaMemset(d_grad_x_diff , 0, numEdges*sizeof(float));
 	cudaMemset(d_tau , 0, numNodes*sizeof(float));
 	cudaMemset(d_sigma , 0, numEdges*sizeof(float));
+	cout << "Memory initialised on device" << endl;
 
 	cublasHandle_t handle;
 	cublasCreate(&handle);
@@ -103,23 +107,21 @@ int main(int argc, char **argv)
 	int grid_x = ((max(numNodes, numEdges) + block.x - 1)/block.x);
 	int grid_y = 1;
 	int grid_z = 1;
-	dim3 grid = dim3(grid_x, grid_y, grid_z );
+	dim3 grid = dim3(grid_x, grid_y, grid_z);
 
+	cout << "before dt computation" << endl;
 	// Pre-compute time steps
 	d_compute_dt <float> <<<grid, block>>> (d_tau, d_sigma, d_g->w, alpha, rho, d_g->V, numNodes, numEdges);
+	cout << "time step computed" << endl;
 	// Iteration
 	cout << "------------------- Time loop started -------------------"  << endl;
 	while (it < iter_max && gap > eps){
-		// Update X
-		//updateX <float> (w, mVert, x, tau, div_y, y, f, x_diff, numNodes);
-
-		//********************************************** Compute gap
 		// Update X
 		updateX <float> <<< grid, block >>> (d_x, d_y, d_g->w, d_g->f, d_x_diff, d_div_y, d_g->V, d_tau, numNodes);
 		// Update Y
 		updateY <float> <<<grid, block >>> (d_x_diff, d_y, d_g->w, d_g->E, d_sigma, numEdges);
 		// Update divergence of Y
-		h_divergence_calculate(d_g->w, d_y, d_g->V, numNodes, d_div_y);
+		h_divergence_calculate <T> <<<grid, block>>> (d_g->w, d_y, d_g->V, numNodes, d_div_y);
 		// Compute gradient of u
 		h_gradient_calculate <T> <<<grid, block>>>(d_g->w, d_x, d_g->E, numEdges, d_grad_x);
 		// Compute L1 norm of gradient of u
@@ -129,16 +131,11 @@ int main(int argc, char **argv)
 		// Compare 0 and div_y - f
 		max_vec_computation <T> <<<grid, block >>> (d_div_y, d_g->f, d_max_vec, numNodes);
 		cublasSasum(handle, numNodes, d_max_vec, 1, &max_val);
-		//cout << " Xf = " << xf << " x_norm = " << x_norm << " max_val = " << max_val << endl;
 		// Compute gap
 		gap = (xf + x_norm + max_val) / numEdges;
-		
-		//******************************************* Compute Gap end
 		cout << "Iteration = " << it << endl << endl;
 		cout << "Gap = " << gap << endl << endl;
 		it = it + 1;
-		// Update Y for next iteration
-		//updateY <float> (w, x, mEdge, y, sigma, x_diff, grad_x_diff, numEdges);
 	}
 	// End time
 	clock_t tEnd = clock();

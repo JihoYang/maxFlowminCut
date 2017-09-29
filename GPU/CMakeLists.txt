@@ -1,4 +1,5 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.9)
 FIND_PACKAGE(CUDA REQUIRED)
+SET(cuda_nvcc_flags "-dc")
 CUDA_ADD_EXECUTABLE(main main.cu mathOperations.cu postProcessing.cpp primal_dual.cu read_bk.cpp)
 target_link_libraries(main ${CUDA_CUBLAS_LIBRARIES})
