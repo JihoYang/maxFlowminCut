@@ -21,11 +21,11 @@
 #include <string.h>
 #include <cublas_v2.h>
 
-# define T float
-# define FLOAT
+//# define T float
+//# define FLOAT
 
-//#define T double
-//#define DOUBLE
+#define T double
+#define DOUBLE
  
 
 using namespace std;
@@ -44,7 +44,7 @@ void printDevice(S* d_arr, int num_elem, char* s)
 
 int main(int argc, char **argv)
 {
-    if (argc <= 4)
+    if (argc <= 1)
 	{
 		printf("Usage: %s <filename> -alpha <value> - rho <value> -it <maximum number of iterations>\n", argv[0]);
 		return 1;
@@ -57,7 +57,7 @@ int main(int argc, char **argv)
 	T gap = 1;
 	T eps = 1E-6;
 	int it  = 0;
-	int iter_max = 10;
+	int iter_max = 100;
 	T xf;
 	T x_norm;
 	T max_flow;

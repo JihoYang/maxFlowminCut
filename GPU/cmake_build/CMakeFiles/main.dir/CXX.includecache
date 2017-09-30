@@ -6,11 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/usr/prakt/s151/maxFlowminCut/GPU/read_bk.cpp
+/home/apoorv/maxFlowminCut/GPU/read_bk.cpp
 read_bk.h
-/usr/prakt/s151/maxFlowminCut/GPU/read_bk.h
+/home/apoorv/maxFlowminCut/GPU/read_bk.h
 
-/usr/prakt/s151/maxFlowminCut/GPU/read_bk.h
+/home/apoorv/maxFlowminCut/GPU/read_bk.h
 iostream
 -
 fstream
