@@ -25,6 +25,18 @@
 
 using namespace std;
 
+template<class S>
+void printDevice(S* d_arr, int num_elem, char* s)
+{
+	S* temp = new S[num_elem] ;
+	cudaMemcpy(temp, d_arr, num_elem*sizeof(S), cudaMemcpyDeviceToHost);
+	for(int i = 0; i<num_elem; i++)
+	{
+		cout<< s << "_"<<i<<" is "<< temp[i] <<endl; 
+	} 
+	//delete[] S; 
+}
+
 int main(int argc, char **argv)
 {
     if (argc <= 1)
@@ -35,12 +47,12 @@ int main(int argc, char **argv)
 	// Start time
 	clock_t tStart = clock();
 	// Parameters
-	float alpha = 1;
-	float rho = 1;
+	float alpha = 0.9;
+	float rho = 10;
 	float gap = 1;
 	float eps = 1E-6;
 	int it  = 0;
-	int iter_max = 100;
+	int iter_max = 10;
 	float xf;
 	float x_norm;
 	float max_flow;
@@ -51,19 +63,24 @@ int main(int argc, char **argv)
 	read_bk<float> *g = new read_bk<float>(argv[1]); 	
 	int numNodes  = g->nNodes;
 	int numEdges = g->nEdges;
-	
-	// Allocating and initializing f and w on the device
 	float *f = g->f;
 	float *w = g->w;
+	vert* mVert = g->V;
+	edge* mEdge = g->E;
+	float b = g->b;
+
+	cout << "bk file imported in HOST"  << endl;
+	
+	// Allocating and initializing f and w on the device
 	T *d_f , *d_w;
 	cudaMalloc((void**)&d_f , numNodes*sizeof(T));
 	cudaMalloc((void**)&d_w , numEdges*sizeof(T));
 	cudaMemcpy(d_f , f, numNodes*sizeof(T), cudaMemcpyHostToDevice);
 	cudaMemcpy(d_w , w, numEdges*sizeof(T), cudaMemcpyHostToDevice);
 
-	// Allocating and initializing the start and end of edge on the device
-	edge* mEdge = g->E;
+	cout << "Allocation and Initialization of f and w on DEVICE completed" << endl;
 
+	// Allocating and initializing the start and end of edge on the device
 	int *start_edge = new int[numEdges];
 	int *end_edge = new int[numEdges];
 
@@ -78,8 +95,12 @@ int main(int argc, char **argv)
 	cudaMemcpy(d_start_edge , start_edge, numEdges*sizeof(int), cudaMemcpyHostToDevice);
 	cudaMemcpy(d_end_edge , end_edge, numEdges*sizeof(int), cudaMemcpyHostToDevice);
 
+	cout << "Allocation and Initialization of start_edge and end_edge on DEVICE completed" << endl;
+
+	delete[] start_edge;
+	delete[] end_edge;
+
 	// Allocating and initializing the ndhdsize, nbhdvert, nbhdsign and nbhdedges on the device
-	vert* mVert = g->V;
 
 	int double_edges = 2*numEdges; 
 	int* h_nbhd_size = new int[numNodes];
@@ -117,24 +138,18 @@ int main(int argc, char **argv)
 	cudaMemcpy(d_nbhd_sign , h_nbhd_sign, double_edges*sizeof(int), cudaMemcpyHostToDevice);
 	cudaMemcpy(d_nbhd_edges , h_nbhd_edges, double_edges*sizeof(int), cudaMemcpyHostToDevice);
 
-	float b = g->b;
-	cout << "bk file imported" << endl;
+	cout << "Allocation and Initialization of  d_nbhd_size, d_nbhd_start, d_nbhd_vert, d_nbhd_sign, d_nbhd_edges and end_edge on DEVICE completed" << endl;
 
-	// Allocate memory on host
-	float *x = new float[numNodes];
-	float *y = new float[numEdges];
-	float *div_y = new float[numNodes];
-	float *x_diff = new float[numNodes];
-	float *grad_x_diff = new float[numEdges];
-	float *tau = new float[numNodes];
-	cout << "Memory allocated on host" << endl;
+	delete[] h_nbhd_size;
+	delete[] h_nbhd_vert;
+	delete[] h_nbhd_sign;
+	delete[] h_nbhd_edges;
 
 	// Names of all the cuda_arrays	
-	read_bk<float> *d_g;
  	float *d_x, *d_y, *d_div_y, *d_x_diff, *d_grad_x_diff, *d_tau, *d_sigma;
+ 	T *d_grad_x, *d_max_vec, *d_gap_vec;
 	
 	// Allocate memory on cuda	
-	cudaMalloc((void**)&d_g, sizeof(read_bk<float>));
 	cudaMalloc((void**)&d_x, numNodes*sizeof(float));
 	cudaMalloc((void**)&d_y, numEdges*sizeof(float));
 	cudaMalloc((void**)&d_div_y, numNodes*sizeof(float));
@@ -142,10 +157,12 @@ int main(int argc, char **argv)
 	cudaMalloc((void**)&d_grad_x_diff, numEdges*sizeof(float));
 	cudaMalloc((void**)&d_tau, numNodes*sizeof(float));
 	cudaMalloc((void**)&d_sigma, numEdges*sizeof(float));
-	cout << "Memory allocated on device" << endl;
+	cudaMalloc((void**)&d_grad_x, numEdges*sizeof(float));
+	cudaMalloc((void**)&d_max_vec, numNodes*sizeof(float));
+	cudaMalloc((void**)&d_gap_vec, numNodes*sizeof(float));
+
 
 	// Initialise cuda memories
-	cudaMemcpy(d_g, g, sizeof(read_bk<float>), cudaMemcpyHostToDevice);	
 	cudaMemset(d_x , 0, numNodes*sizeof(float));
 	cudaMemset(d_y , 0, numEdges*sizeof(float));
 	cudaMemset(d_div_y , 0, numNodes*sizeof(float));
@@ -153,17 +170,16 @@ int main(int argc, char **argv)
 	cudaMemset(d_grad_x_diff , 0, numEdges*sizeof(float));
 	cudaMemset(d_tau , 0, numNodes*sizeof(float));
 	cudaMemset(d_sigma , 0, numEdges*sizeof(float));
+	cudaMemset(d_grad_x, 0 , numEdges*sizeof(float));
+	cudaMemset(d_max_vec, 0 , numNodes*sizeof(float));
+	cudaMemset(d_gap_vec, 0 , numNodes*sizeof(float));
 
-	cout << "Memory initialised on device" << endl;
+	cout << "Memory Allocated and initiaized for temperory arrays on DEVICE" << endl;
 
 	cublasHandle_t handle;
 	cublasCreate(&handle);
 
-	T *d_grad_x, *d_max_vec, *d_gap_vec;
-	cudaMalloc((void**)&d_grad_x, numEdges*sizeof(float));
-	cudaMalloc((void**)&d_max_vec, numNodes*sizeof(float));
-	cudaMalloc((void**)&d_gap_vec, numNodes*sizeof(float));
-
+	cout << "handle for BLAS operations created" << endl;
 
 	dim3 block = dim3(1024,1,1);
 	int grid_x = ((max(numNodes, numEdges) + block.x - 1)/block.x);
@@ -171,36 +187,33 @@ int main(int argc, char **argv)
 	int grid_z = 1;
 	dim3 grid = dim3(grid_x, grid_y, grid_z);
 
-	cout << "before dt computation" << endl;
-	// Pre-compute time steps
-	
+	cout << "grid and block dimensions calculated" << endl;
+
 	d_compute_dt <<<grid, block>>> (d_tau, d_sigma, d_w, alpha, rho, d_nbhd_size, d_nbhd_edges, d_nbhd_start, numNodes, numEdges);
 
+	cout << "tau and sigma calculation completed on the DEVICE" << endl;
 
-	cout << "time step computed" << endl;
 	// Iteration
 	cout << "------------------- Time loop started -------------------"  << endl;
 	while (it < iter_max && gap > eps){
 		// Update X
 		updateX <float> <<< grid, block >>> (d_x, d_y, d_w, d_f, d_x_diff, d_div_y, d_nbhd_size, d_nbhd_start, d_nbhd_sign, d_nbhd_edges, d_tau, numNodes);
 
-		T *sigma = new T[numNodes];
-		cudaMemcpy(sigma, d_x, numNodes*sizeof(T), cudaMemcpyDeviceToHost);
-
-		for (int i=0; i<numNodes; i++){
-			cout << sigma[i] << endl;
-		}
-
-		/*  Perfectly fine upto here.. have checked d_x_diff, d_y, d_w and d_sigma.. the arrays that go into updateY  */
-
 		// Update Y
 		updateY <float> <<<grid, block >>> (d_x_diff, d_y, d_w, d_start_edge, d_end_edge, d_sigma, numEdges);
 
-		cudaMemcpy(sigma, d_y, numNodes*sizeof(T), cudaMemcpyDeviceToHost);
+		/*
+		printDevice <float> (d_tau , numNodes, "d_tau");
 
-		for (int i=0; i<numNodes; i++){
-			cout << sigma[i] << endl;
-		}
+		printDevice <float> (d_sigma , numEdges, "d_sigma");
+
+		printDevice <float> (d_x , numNodes, "d_x");
+
+		printDevice <float> (d_x_diff , numNodes, "d_x_diff");
+
+		printDevice <float> (d_div_y , numNodes, "d_div_y");
+
+		printDevice <float> (d_y , numNodes, "d_y");*/
 
 		// Update divergence of Y
 		h_divergence_calculate <T> <<<grid, block>>> (d_w, d_y, d_nbhd_size, d_nbhd_start, d_nbhd_sign, d_nbhd_edges, numNodes, d_div_y);
@@ -227,14 +240,6 @@ int main(int argc, char **argv)
 		it = it + 1;
 	}
 	
-	/*T *sigma = new T[numNodes];
-	cudaMemcpy(sigma, d_x, numNodes*sizeof(T), cudaMemcpyDeviceToHost);
-
-	for (int i=0; i<numNodes; i++){
-		cout << sigma[i] << endl;
-	}*/
-
-	
 	// End time
 	clock_t tEnd = clock();
 	// Compute max flow
@@ -251,13 +256,23 @@ int main(int argc, char **argv)
 	//export_result <float> (method, x, numNodes);
 	// Free memory    
 	delete g;
-	delete[] start_edge;
-	delete[] end_edge;
-	delete[] h_nbhd_size;
-	delete[] h_nbhd_vert;
-	delete[] h_nbhd_sign;
-	delete[] h_nbhd_edges;
 	
+	cudaFree(d_f);
+	cudaFree(d_w);
+	cudaFree(d_start_edge);
+	cudaFree(d_end_edge);
+	cudaFree(d_nbhd_size);
+	cudaFree(d_nbhd_start);
+	cudaFree(d_nbhd_vert);
+	cudaFree(d_nbhd_sign);
+	cudaFree(d_nbhd_edges);
+	cudaFree(d_x);
+	cudaFree(d_y);
+	cudaFree(d_div_y);
+	cudaFree(d_x_diff);
+	cudaFree(d_grad_x_diff);
+	cudaFree(d_tau);
+	cudaFree(d_sigma);
 	cudaFree(d_grad_x);
 	cudaFree(d_max_vec);
 	cudaFree(d_gap_vec);
