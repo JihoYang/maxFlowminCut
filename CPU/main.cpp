@@ -71,10 +71,18 @@ int main(int argc, char **argv)
 	while (it < iter_max && gap > eps){
 		// Update X
 		updateX <float> (w, mVert, x, tau, div_y, y, f, x_diff, numNodes);
+
+		for (int i = 0 ; i<numNodes ; i++){
+			cout << "x:" << i << "  " << x[i] << endl;
+		}
 		
 		// Update Y for next iteration
 		updateY <float> (w, x, mEdge, y, sigma, x_diff, grad_x_diff, numEdges);
 		
+		for (int i = 0 ; i<numEdges ; i++){
+			cout << "y:" << i << "  " << y[i] << endl;
+		}
+
 		// Compute gap
 		compute_gap <float> (w, mEdge, x, f, div_y, gap, x_norm, xf, numNodes, numEdges);
 		cout << "Iteration = " << it << endl << endl;

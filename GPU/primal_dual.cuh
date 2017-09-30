@@ -6,10 +6,10 @@
 #include "read_bk.h"
 
 template <class T> 
-__device__ void gradient_calculate(T *w, T *x, int* d_start_edge, int* d_end_edge, int numEdges, T &grad);
+__device__ void gradient_calculate(T *w, T *x, int* d_start_edge, int* d_end_edge, int e, T &grad);
 
 template <class T>
- __device__ void divergence_calculate(T* w, T* p, int* d_nbhd_size, int* d_nbhd_start, int* d_nbhd_sign, int* d_nbhd_edges, int numNodes, T* divg);
+ __device__ void divergence_calculate(T* w, T* p, int* d_nbhd_size, int* d_nbhd_start, int* d_nbhd_sign, int* d_nbhd_edges, int v, T& divg);
 
 template <class T> 
 __global__ void updateX(T *x, T *y, T *w, T *f, T *x_diff, T *div_y, int* d_nbhd_size, int* d_nbhd_start, int* d_nbhd_sign, int* d_nbhd_edges, T *tau, int num_vertex);

@@ -78,9 +78,6 @@ int main(int argc, char **argv)
 	cudaMemcpy(d_start_edge , start_edge, numEdges*sizeof(int), cudaMemcpyHostToDevice);
 	cudaMemcpy(d_end_edge , end_edge, numEdges*sizeof(int), cudaMemcpyHostToDevice);
 
-	delete[] start_edge;
-	delete[] end_edge;
-
 	// Allocating and initializing the ndhdsize, nbhdvert, nbhdsign and nbhdedges on the device
 	vert* mVert = g->V;
 
@@ -119,12 +116,6 @@ int main(int argc, char **argv)
 	cudaMemcpy(d_nbhd_vert , h_nbhd_vert, double_edges*sizeof(int), cudaMemcpyHostToDevice);
 	cudaMemcpy(d_nbhd_sign , h_nbhd_sign, double_edges*sizeof(int), cudaMemcpyHostToDevice);
 	cudaMemcpy(d_nbhd_edges , h_nbhd_edges, double_edges*sizeof(int), cudaMemcpyHostToDevice);
-
-	delete[] h_nbhd_size;
-	delete[] h_nbhd_vert;
-	delete[] h_nbhd_sign;
-	delete[] h_nbhd_edges;
-
 
 	float b = g->b;
 	cout << "bk file imported" << endl;
@@ -193,13 +184,26 @@ int main(int argc, char **argv)
 		// Update X
 		updateX <float> <<< grid, block >>> (d_x, d_y, d_w, d_f, d_x_diff, d_div_y, d_nbhd_size, d_nbhd_start, d_nbhd_sign, d_nbhd_edges, d_tau, numNodes);
 
+		T *sigma = new T[numNodes];
+		cudaMemcpy(sigma, d_x, numNodes*sizeof(T), cudaMemcpyDeviceToHost);
+
+		for (int i=0; i<numNodes; i++){
+			cout << sigma[i] << endl;
+		}
+
 		/*  Perfectly fine upto here.. have checked d_x_diff, d_y, d_w and d_sigma.. the arrays that go into updateY  */
 
 		// Update Y
 		updateY <float> <<<grid, block >>> (d_x_diff, d_y, d_w, d_start_edge, d_end_edge, d_sigma, numEdges);
 
+		cudaMemcpy(sigma, d_y, numNodes*sizeof(T), cudaMemcpyDeviceToHost);
+
+		for (int i=0; i<numNodes; i++){
+			cout << sigma[i] << endl;
+		}
+
 		// Update divergence of Y
-		h_divergence_calculate <T> <<<grid, block>>> (d_w, d_y, d_nbhd_size, d_nbhd_start, d_nbhd_sign, d_nbhd_edges, numNodes, d_div_y);
+		/*h_divergence_calculate <T> <<<grid, block>>> (d_w, d_y, d_nbhd_size, d_nbhd_start, d_nbhd_sign, d_nbhd_edges, numNodes, d_div_y);
 
 		// Compare 0 and div_y - f
 		max_vec_computation <T> <<<grid, block >>> (d_div_y, d_f, d_max_vec, numNodes);  ////  Quite sure it is right
@@ -220,14 +224,14 @@ int main(int argc, char **argv)
 		// Compute gap
 		gap = (xf + x_norm + max_val) / numEdges;
 		cout << "Iteration = " << it << endl << endl;
-		cout << "Gap = " << gap << endl << endl;
+		cout << "Gap = " << gap << endl << endl;*/
 		it = it + 1;
 	}
 	
-	/*T *sigma = new T[numEdges];
-	cudaMemcpy(sigma, d_w, numEdges*sizeof(T), cudaMemcpyDeviceToHost);
+	/*T *sigma = new T[numNodes];
+	cudaMemcpy(sigma, d_x, numNodes*sizeof(T), cudaMemcpyDeviceToHost);
 
-	for (int i=0; i<numEdges; i++){
+	for (int i=0; i<numNodes; i++){
 		cout << sigma[i] << endl;
 	}*/
 
@@ -248,6 +252,12 @@ int main(int argc, char **argv)
 	//export_result <float> (method, x, numNodes);
 	// Free memory    
 	delete g;
+	delete[] start_edge;
+	delete[] end_edge;
+	delete[] h_nbhd_size;
+	delete[] h_nbhd_vert;
+	delete[] h_nbhd_sign;
+	delete[] h_nbhd_edges;
 	
 	cudaFree(d_grad_x);
 	cudaFree(d_max_vec);

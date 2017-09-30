@@ -17,7 +17,7 @@ __global__ void h_gradient_calculate(T *w, T *x,int* d_start_edge, int* d_end_ed
     int e = tnum_x + tnum_y + tnum_z; 
 
     int a , b;
-    if (e< numEdges){
+    if ( e< numEdges){
         a = d_start_edge[e];
         b = d_end_edge[e];
         grad[e] = w[e] * (x[b] - x[a]);

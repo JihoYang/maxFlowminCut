@@ -11,24 +11,17 @@ using namespace std;
 
 // COMPUTE DIVERGENCE GPU
 template <class T>
- __device__ void divergence_calculate(T* w, T* p, int* d_nbhd_size, int* d_nbhd_start, int* d_nbhd_sign, int* d_nbhd_edges, int numNodes, T* divg){
-
-    int tnum_x = threadIdx.x + blockIdx.x*blockDim.x;
-    int tnum_y = threadIdx.y + blockIdx.y*blockDim.y;
-    int tnum_z = threadIdx.z + blockIdx.z*blockDim.z;
-    int v = tnum_x + tnum_y + tnum_z; 
+ __device__ void divergence_calculate(T* w, T* p, int* d_nbhd_size, int* d_nbhd_start, int* d_nbhd_sign, int* d_nbhd_edges, int v, T &divg){
 
     int nbhd_vertices, sign, edge;
     T temp = 0;
-    if (v< numNodes){
-        nbhd_vertices = d_nbhd_size[v];
-        for (int j = 0; j< nbhd_vertices ; j++){
-            sign = d_nbhd_sign[d_nbhd_start[v] + j];
-            edge = d_nbhd_edges[d_nbhd_start[v] + j];
-            temp += sign*w[edge]*p[edge];
-        }
-        divg[v] = temp;
+    nbhd_vertices = d_nbhd_size[v];
+    for (int j = 0; j< nbhd_vertices ; j++){
+        sign = d_nbhd_sign[d_nbhd_start[v] + j];
+        edge = d_nbhd_edges[d_nbhd_start[v] + j];
+        temp += sign*w[edge]*p[edge];
     }
+    divg = temp;
 }
 
 // Update X (GPU)
@@ -42,10 +35,10 @@ __global__ void updateX(T *x, T *y, T *w, T *f, T *x_diff, T *div_y, int* d_nbhd
 	int idx = x_thread + y_thread + z_thread;
 	// Temporary values
 	float x_new;
-	// Compute divergence of y 
-	divergence_calculate <T> (w, y, d_nbhd_size, d_nbhd_start, d_nbhd_sign, d_nbhd_edges, num_vertex, div_y);
 	// Compute new u
 	if (idx < num_vertex){
+		// Compute divergence of y 
+		divergence_calculate <T> (w, y, d_nbhd_size, d_nbhd_start, d_nbhd_sign, d_nbhd_edges, idx, div_y[idx]);
 		// Compute u
 		x_new = x[idx] + tau[idx] * (div_y[idx] - f[idx]);
 		// Compute x_diff
@@ -61,18 +54,11 @@ __global__ void updateX(T *x, T *y, T *w, T *f, T *x_diff, T *div_y, int* d_nbhd
 
 //COMPUTE GRADIENT GPU
 template <class T> 
-__device__ void gradient_calculate(T *w, T *x,int* d_start_edge, int* d_end_edge , int numEdges, T &grad){
-    int tnum_x = threadIdx.x + blockIdx.x*blockDim.x;
-    int tnum_y = threadIdx.y + blockIdx.y*blockDim.y;
-    int tnum_z = threadIdx.z + blockIdx.z*blockDim.z;
-    int e = tnum_x + tnum_y + tnum_z; 
-
+__device__ void gradient_calculate(T *w, T *x,int* d_start_edge, int* d_end_edge , int e, T &grad){
     int a , b;
-    if (e< numEdges){
-        a = d_start_edge[e];
-        b = d_end_edge[e];
-        grad = w[e] * (x[b] - x[a]);
-    }
+    a = d_start_edge[e];
+    b = d_end_edge[e];
+    grad = w[e] * (x[b] - x[a]);
 }
 
 // Update Y (GPU)
@@ -88,7 +74,7 @@ __global__ void updateY(T *x_diff, T *y, T *w, int* d_start_edge, int* d_end_edg
 		// Temporary values
 		T y_new, grad_x_diff;
 		// Compute gradient of x_diff
-		gradient_calculate <T> (w, x_diff, d_start_edge, d_end_edge, num_edge, grad_x_diff);
+		gradient_calculate <T> (w, x_diff, d_start_edge, d_end_edge, idx, grad_x_diff);
 		//printf("%f\n", grad_x_diff );
 		// Compute new y
 		y_new = y[idx] + sigma[idx] * grad_x_diff;
@@ -161,5 +147,5 @@ template __global__ void max_vec_computation (double*, double*, double*, int );
 template __device__ void gradient_calculate <float>(float*, float*, int*, int*, int, float&);
 template __device__ void gradient_calculate <double>(double*, double*, int*, int*, int, double&);
 
-template __device__ void divergence_calculate <float>(float*, float*, int*, int*, int*, int*, int, float*);
-template __device__ void divergence_calculate <double>(double*, double*, int*, int*, int*, int*, int, double*);
+template __device__ void divergence_calculate <float>(float*, float*, int*, int*, int*, int*, int, float&);
+template __device__ void divergence_calculate <double>(double*, double*, int*, int*, int*, int*, int, double&);
