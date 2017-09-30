@@ -256,6 +256,7 @@ int main(int argc, char **argv)
 		cout << "Iteration = " << it << endl << endl;
 		cout << "Gap = " << gap << endl << endl;
 		it = it + 1;
+
 	}
 
 	// Round solution
@@ -264,6 +265,23 @@ int main(int argc, char **argv)
 	// End time
 	clock_t tEnd = clock();
 	// Compute max flow
+	h_gradient_calculate <T> <<<grid, block>>>(d_w, d_x, d_start_edge, d_end_edge, numEdges, d_grad_x);															CUDA_CHECK;
+
+	#ifdef FLOAT
+		// Compute L1 norm of gradient of u
+		cublasSasum(handle, numNodes, d_grad_x, 1, &x_norm);  /// seems to add up the value
+		CUDA_CHECK;
+
+		// Compute scalar product 
+		cublasSdot(handle, numNodes, d_x, 1, d_f, 1, &xf);	/// seems to do to the dot product
+		CUDA_CHECK;
+		
+	#else
+			cublasDasum(handle, numNodes, d_grad_x, 1, &x_norm);				CUDA_CHECK;
+			cublasDdot(handle, numNodes, d_x, 1, d_f, 1, &xf);					CUDA_CHECK;
+	#endif
+
+
 	max_flow = xf + x_norm + b;
 
 	cout << "Max flow = " << max_flow << endl << endl;
