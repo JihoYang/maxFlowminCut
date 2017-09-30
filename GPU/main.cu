@@ -44,9 +44,9 @@ void printDevice(S* d_arr, int num_elem, char* s)
 
 int main(int argc, char **argv)
 {
-    if (argc <= 3)
+    if (argc <= 4)
 	{
-		printf("Usage: %s <filename> -alpha <value> - rho <value>\n", argv[0]);
+		printf("Usage: %s <filename> -alpha <value> - rho <value> -it <maximum number of iterations>\n", argv[0]);
 		return 1;
     }
 	// Start time
@@ -63,12 +63,13 @@ int main(int argc, char **argv)
 	T max_flow;
 	T max_val;
 	//const char *method = "PD_CPU";
-	// Environment variables
+	// Command line parameters
 	getParam("alpha", alpha, argc, argv);
 	cout << "alpha: " << alpha << endl;
 	getParam("rho", rho, argc, argv);
 	cout << "rho: " << rho << endl;
-
+	getParam("it", iter_max, argc, argv);
+	cout << "it: " << rho << endl;
 	// Import bk file    
 	read_bk<T> *g = new read_bk<T>(argv[1]); 	
 	int numNodes  = g->nNodes;
