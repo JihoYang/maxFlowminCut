@@ -85,6 +85,12 @@ __global__ void updateY(T *x_diff, T *y, T *w, int* d_start_edge, int* d_end_edg
 			y_new = 1;
 		// Update y
 		y[idx] = y_new;
+		/*if (idx == 0) {y[idx] = -0.888889;}
+		if (idx == 1) {y[idx] = -1;}
+		if (idx == 2) {y[idx] = -0.111111;}
+		if (idx == 3) {y[idx] = -0.111111;}
+		if (idx == 4) {y[idx] = 0;}*/
+
 	}
 }
 
