@@ -21,13 +21,11 @@
 #include <string.h>
 #include <cublas_v2.h>
 
-/*
 # define T float
 # define FLOAT
-*/
 
-#define T double
-#define DOUBLE
+//#define T double
+//#define DOUBLE
  
 
 using namespace std;
@@ -54,8 +52,8 @@ int main(int argc, char **argv)
 	// Start time
 	clock_t tStart = clock();
 	// Parameters
-	T alpha = 0.9;
-	T rho = 10;
+	T alpha = 1;
+	T rho = 1;
 	T gap = 1;
 	T eps = 1E-6;
 	int it  = 0;
@@ -162,55 +160,27 @@ int main(int argc, char **argv)
  	T *d_grad_x, *d_max_vec, *d_gap_vec;
 	
 	// Allocate memory on cuda	
-<<<<<<< HEAD
-	cudaMalloc((void**)&d_x, numNodes*sizeof(float));												CUDA_CHECK;
-	cudaMalloc((void**)&d_y, numEdges*sizeof(float));												CUDA_CHECK;
-	cudaMalloc((void**)&d_div_y, numNodes*sizeof(float));											CUDA_CHECK;
-	cudaMalloc((void**)&d_x_diff, numNodes*sizeof(float));											CUDA_CHECK;
-	cudaMalloc((void**)&d_grad_x_diff, numEdges*sizeof(float));										CUDA_CHECK;
-	cudaMalloc((void**)&d_tau, numNodes*sizeof(float));												CUDA_CHECK;
-	cudaMalloc((void**)&d_sigma, numEdges*sizeof(float));											CUDA_CHECK;
-	cudaMalloc((void**)&d_grad_x, numEdges*sizeof(float));											CUDA_CHECK;
-	cudaMalloc((void**)&d_max_vec, numNodes*sizeof(float));											CUDA_CHECK;
-	cudaMalloc((void**)&d_gap_vec, numNodes*sizeof(float));											CUDA_CHECK;
-
-
+	cudaMalloc((void**)&d_x, numNodes*sizeof(T));												CUDA_CHECK;
+	cudaMalloc((void**)&d_y, numEdges*sizeof(T));												CUDA_CHECK;
+	cudaMalloc((void**)&d_div_y, numNodes*sizeof(T));											CUDA_CHECK;
+	cudaMalloc((void**)&d_x_diff, numNodes*sizeof(T));											CUDA_CHECK;
+	cudaMalloc((void**)&d_grad_x_diff, numEdges*sizeof(T));										CUDA_CHECK;
+	cudaMalloc((void**)&d_tau, numNodes*sizeof(T));												CUDA_CHECK;
+	cudaMalloc((void**)&d_sigma, numEdges*sizeof(T));											CUDA_CHECK;
+	cudaMalloc((void**)&d_grad_x, numEdges*sizeof(T));											CUDA_CHECK;
+	cudaMalloc((void**)&d_max_vec, numNodes*sizeof(T));											CUDA_CHECK;
+	cudaMalloc((void**)&d_gap_vec, numNodes*sizeof(T));											CUDA_CHECK;
 	// Initialise cuda memories
-	cudaMemset(d_x , 0, numNodes*sizeof(float));													CUDA_CHECK;
-	cudaMemset(d_y , 0, numEdges*sizeof(float));													CUDA_CHECK;
-	cudaMemset(d_div_y , 0, numNodes*sizeof(float));												CUDA_CHECK;
-	cudaMemset(d_x_diff , 0, numNodes*sizeof(float));												CUDA_CHECK;
-	cudaMemset(d_grad_x_diff , 0, numEdges*sizeof(float));											CUDA_CHECK;
-	cudaMemset(d_tau , 0, numNodes*sizeof(float));													CUDA_CHECK;
-	cudaMemset(d_sigma , 0, numEdges*sizeof(float));												CUDA_CHECK;
-	cudaMemset(d_grad_x, 0 , numEdges*sizeof(float));												CUDA_CHECK;
-	cudaMemset(d_max_vec, 0 , numNodes*sizeof(float));												CUDA_CHECK;
-	cudaMemset(d_gap_vec, 0 , numNodes*sizeof(float));												CUDA_CHECK;
-=======
-	cudaMalloc((void**)&d_x, numNodes*sizeof(T));
-	cudaMalloc((void**)&d_y, numEdges*sizeof(T));
-	cudaMalloc((void**)&d_div_y, numNodes*sizeof(T));
-	cudaMalloc((void**)&d_x_diff, numNodes*sizeof(T));
-	cudaMalloc((void**)&d_grad_x_diff, numEdges*sizeof(T));
-	cudaMalloc((void**)&d_tau, numNodes*sizeof(T));
-	cudaMalloc((void**)&d_sigma, numEdges*sizeof(T));
-	cudaMalloc((void**)&d_grad_x, numEdges*sizeof(T));
-	cudaMalloc((void**)&d_max_vec, numNodes*sizeof(T));
-	cudaMalloc((void**)&d_gap_vec, numNodes*sizeof(T));
-
-
-	// Initialise cuda memories
-	cudaMemset(d_x , 0, numNodes*sizeof(T));
-	cudaMemset(d_y , 0, numEdges*sizeof(T));
-	cudaMemset(d_div_y , 0, numNodes*sizeof(T));
-	cudaMemset(d_x_diff , 0, numNodes*sizeof(T));
-	cudaMemset(d_grad_x_diff , 0, numEdges*sizeof(T));
-	cudaMemset(d_tau , 0, numNodes*sizeof(T));
-	cudaMemset(d_sigma , 0, numEdges*sizeof(T));
-	cudaMemset(d_grad_x, 0 , numEdges*sizeof(T));
-	cudaMemset(d_max_vec, 0 , numNodes*sizeof(T));
-	cudaMemset(d_gap_vec, 0 , numNodes*sizeof(T));
->>>>>>> aa651693f3d4e2a79af52b4a5db4ea9c23b3a600
+	cudaMemset(d_x , 0, numNodes*sizeof(T));													CUDA_CHECK;
+	cudaMemset(d_y , 0, numEdges*sizeof(T));													CUDA_CHECK;
+	cudaMemset(d_div_y , 0, numNodes*sizeof(T));												CUDA_CHECK;
+	cudaMemset(d_x_diff , 0, numNodes*sizeof(T));												CUDA_CHECK;
+	cudaMemset(d_grad_x_diff , 0, numEdges*sizeof(T));											CUDA_CHECK;
+	cudaMemset(d_tau , 0, numNodes*sizeof(T));													CUDA_CHECK;
+	cudaMemset(d_sigma , 0, numEdges*sizeof(T));												CUDA_CHECK;
+	cudaMemset(d_grad_x, 0 , numEdges*sizeof(T));												CUDA_CHECK;
+	cudaMemset(d_max_vec, 0 , numNodes*sizeof(T));												CUDA_CHECK;
+	cudaMemset(d_gap_vec, 0 , numNodes*sizeof(T));												CUDA_CHECK;
 
 	cout << "Memory Allocated and initiaized for temperory arrays on DEVICE" << endl;
 
@@ -234,18 +204,10 @@ int main(int argc, char **argv)
 	// Iteration
 	cout << "------------------- Time loop started -------------------"  << endl;
 	while (it < iter_max && gap > eps){
-		// Update X
-<<<<<<< HEAD
-		updateX <float> <<< grid, block >>> (d_x, d_y, d_w, d_f, d_x_diff, d_div_y, d_nbhd_size, d_nbhd_start, d_nbhd_sign, d_nbhd_edges, d_tau, numNodes);			CUDA_CHECK;
-
-		// Update Y
-		updateY <float> <<<grid, block >>> (d_x_diff, d_y, d_w, d_start_edge, d_end_edge, d_sigma, numEdges);														CUDA_CHECK;
-=======
-		updateX <T> <<< grid, block >>> (d_x, d_y, d_w, d_f, d_x_diff, d_div_y, d_nbhd_size, d_nbhd_start, d_nbhd_sign, d_nbhd_edges, d_tau, numNodes);
+		updateX <T> <<< grid, block >>> (d_x, d_y, d_w, d_f, d_x_diff, d_div_y, d_nbhd_size, d_nbhd_start, d_nbhd_sign, d_nbhd_edges, d_tau, numNodes);				CUDA_CHECK;
 
 		// Update Y
 		updateY <T> <<<grid, block >>> (d_x_diff, d_y, d_w, d_start_edge, d_end_edge, d_sigma, numEdges);
->>>>>>> aa651693f3d4e2a79af52b4a5db4ea9c23b3a600
 
 		/*
 		printDevice <float> (d_tau , numNodes, "d_tau");
