@@ -1,8 +1,9 @@
 file(REMOVE_RECURSE
   "CMakeFiles/main.dir/main_generated_main.cu.o"
   "CMakeFiles/main.dir/main_generated_mathOperations.cu.o"
+  "CMakeFiles/main.dir/main_generated_postProcessing.cu.o"
   "CMakeFiles/main.dir/main_generated_primal_dual.cu.o"
-  "CMakeFiles/main.dir/postProcessing.cpp.o"
+  "CMakeFiles/main.dir/main_generated_helper.cu.o"
   "CMakeFiles/main.dir/read_bk.cpp.o"
   "main.pdb"
   "main"

@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/apoorv/maxFlowminCut/GPU
+CMAKE_SOURCE_DIR = /usr/prakt/s151/maxFlowminCut/GPU
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/apoorv/maxFlowminCut/GPU/cmake_build
+CMAKE_BINARY_DIR = /usr/prakt/s151/maxFlowminCut/GPU/cmake_build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -69,8 +69,8 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/usr/bin/cmake-gui -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /usr/prakt/s151/maxFlowminCut/GPU/cmake_build/CMakeFiles /usr/prakt/s151/maxFlowminCut/GPU/cmake_build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /usr/prakt/s151/maxFlowminCut/GPU/cmake_build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -123,33 +123,6 @@ main/fast:
 	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
 .PHONY : main/fast
 
-postProcessing.o: postProcessing.cpp.o
-
-.PHONY : postProcessing.o
-
-# target to build an object file
-postProcessing.cpp.o:
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/postProcessing.cpp.o
-.PHONY : postProcessing.cpp.o
-
-postProcessing.i: postProcessing.cpp.i
-
-.PHONY : postProcessing.i
-
-# target to preprocess a source file
-postProcessing.cpp.i:
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/postProcessing.cpp.i
-.PHONY : postProcessing.cpp.i
-
-postProcessing.s: postProcessing.cpp.s
-
-.PHONY : postProcessing.s
-
-# target to generate assembly for a file
-postProcessing.cpp.s:
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/postProcessing.cpp.s
-.PHONY : postProcessing.cpp.s
-
 read_bk.o: read_bk.cpp.o
 
 .PHONY : read_bk.o
@@ -186,9 +159,6 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... main"
-	@echo "... postProcessing.o"
-	@echo "... postProcessing.i"
-	@echo "... postProcessing.s"
 	@echo "... read_bk.o"
 	@echo "... read_bk.i"
 	@echo "... read_bk.s"

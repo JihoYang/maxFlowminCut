@@ -6,25 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/home/apoorv/maxFlowminCut/GPU/postProcessing.cpp
-iostream
--
-stdio.h
--
-postProcessing.h
-/home/apoorv/maxFlowminCut/GPU/postProcessing.h
-
-/home/apoorv/maxFlowminCut/GPU/postProcessing.h
-iostream
--
-stdio.h
--
-
-/home/apoorv/maxFlowminCut/GPU/read_bk.cpp
+/usr/prakt/s151/maxFlowminCut/GPU/read_bk.cpp
 read_bk.h
-/home/apoorv/maxFlowminCut/GPU/read_bk.h
+/usr/prakt/s151/maxFlowminCut/GPU/read_bk.h
 
-/home/apoorv/maxFlowminCut/GPU/read_bk.h
+/usr/prakt/s151/maxFlowminCut/GPU/read_bk.h
 iostream
 -
 fstream
