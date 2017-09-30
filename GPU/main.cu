@@ -40,7 +40,7 @@ int main(int argc, char **argv)
 	float gap = 1;
 	float eps = 1E-6;
 	int it  = 0;
-	int iter_max = 1;
+	int iter_max = 100;
 	float xf;
 	float x_norm;
 	float max_flow;
@@ -203,11 +203,10 @@ int main(int argc, char **argv)
 		}
 
 		// Update divergence of Y
-		/*h_divergence_calculate <T> <<<grid, block>>> (d_w, d_y, d_nbhd_size, d_nbhd_start, d_nbhd_sign, d_nbhd_edges, numNodes, d_div_y);
+		h_divergence_calculate <T> <<<grid, block>>> (d_w, d_y, d_nbhd_size, d_nbhd_start, d_nbhd_sign, d_nbhd_edges, numNodes, d_div_y);
 
 		// Compare 0 and div_y - f
 		max_vec_computation <T> <<<grid, block >>> (d_div_y, d_f, d_max_vec, numNodes);  ////  Quite sure it is right
-
 		
 		// Compute gradient of u
 		h_gradient_calculate <T> <<<grid, block>>>(d_w, d_x, d_start_edge, d_end_edge, numEdges, d_grad_x);
@@ -224,7 +223,7 @@ int main(int argc, char **argv)
 		// Compute gap
 		gap = (xf + x_norm + max_val) / numEdges;
 		cout << "Iteration = " << it << endl << endl;
-		cout << "Gap = " << gap << endl << endl;*/
+		cout << "Gap = " << gap << endl << endl;
 		it = it + 1;
 	}
 	

@@ -72,9 +72,9 @@ void updateY(T *w, T *x, edge *mEdge, T *y, T *sigma, T *x_diff, T *grad_x_diff,
 	// Compute gradient of 2u_(t+1) - u_t (output = grad_x_diff)
 	gradient_calculate<T>(w, x, mEdge , num_edge, grad_x_diff);
 
-	/*for (int i=0; i<num_edge; i++){
+	for (int i=0; i<num_edge; i++){
 		cout << grad_x_diff[i] << endl;
-	}*/
+	}
     
     for (size_t i = 0; i < num_edge; i++){
 		// Compute new y
