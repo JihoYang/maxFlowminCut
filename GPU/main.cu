@@ -23,12 +23,12 @@
 #include <string.h>
 #include <cublas_v2.h>
 
-//# define T float
-//# define FLOAT
-
+# define T float
+# define FLOAT
+/*
 #define T double
 #define DOUBLE
- 
+*/
 
 using namespace std;
 
@@ -59,7 +59,7 @@ int main(int argc, char **argv)
 	T gap = 1;
 	T eps = 1E-6;
 	int it  = 0;
-	int iter_max = 100;
+	int iter_max = 100000;
 	T xf;
 	T x_norm;
 	T max_flow;
@@ -206,6 +206,7 @@ int main(int argc, char **argv)
 
 	// Iteration
 	cout << "------------------- Time loop started -------------------"  << endl;
+	int print_com = 10;
 	while (it < iter_max && gap > eps){
 		updateX <T> <<< grid, block >>> (d_x, d_y, d_w, d_f, d_x_diff, d_div_y, d_nbhd_size, d_nbhd_start, d_nbhd_sign, d_nbhd_edges, d_tau, numNodes);				CUDA_CHECK;
 
@@ -213,6 +214,17 @@ int main(int argc, char **argv)
 		updateY <T> <<<grid, block >>> (d_x_diff, d_y, d_w, d_start_edge, d_end_edge, d_sigma, numEdges);
 
 		
+<<<<<<< HEAD
+		/*printDevice <float> (d_tau , print_com, "d_tau");
+
+		printDevice <float> (d_sigma , print_com, "d_sigma");
+
+		printDevice <float> (d_x , print_com, "d_x");
+
+		printDevice <float> (d_x_diff , print_com, "d_x_diff");
+
+		printDevice <float> (d_div_y , print_com, "d_div_y");
+=======
 		printDevice <T> (d_tau , numNodes, "d_tau");
 
 		printDevice <T> (d_sigma , numEdges, "d_sigma");
@@ -224,7 +236,10 @@ int main(int argc, char **argv)
 		printDevice <T> (d_div_y , numNodes, "d_div_y");
 
 		printDevice <T> (d_y , numNodes, "d_y");
+>>>>>>> 805df32f8773236d84e9ebcf48604f93de169823
 
+		printDevice <float> (d_y , print_com, "d_y");
+*/
 		// Update divergence of Y	
 		h_divergence_calculate <T> <<<grid, block>>> (d_w, d_y, d_nbhd_size, d_nbhd_start, d_nbhd_sign, d_nbhd_edges, numNodes, d_div_y);							CUDA_CHECK;
 
@@ -234,10 +249,10 @@ int main(int argc, char **argv)
 		// Compute gradient of u
 		h_gradient_calculate <T> <<<grid, block>>>(d_w, d_x, d_start_edge, d_end_edge, numEdges, d_grad_x);															CUDA_CHECK;
 
-		if (it % (int)(iter_max/10) == 0){
+		if (it % 100 == 0){
 			#ifdef FLOAT
 				// Compute L1 norm of gradient of u
-				cublasSasum(handle, numNodes, d_grad_x, 1, &x_norm);  /// seems to add up the value
+				cublasSasum(handle, numEdges, d_grad_x, 1, &x_norm);  /// seems to add up the value
 				CUDA_CHECK;
 
 				// Compute scalar product 
@@ -257,9 +272,11 @@ int main(int argc, char **argv)
 			
 			// Compute gap
 			gap = (xf + x_norm + max_val) / numEdges;
-			cout << "Gap = " << gap << endl << endl;
+
+			cout << "Gap = " << gap  << "  xf  " << xf << "  x_norm  " << x_norm << "  max_val  " << max_val<< endl;
+			cout << "Iteration = " << it << endl << endl;
 		}
-		cout << "Iteration = " << it << endl << endl;
+		
 		it = it + 1;
 	}
 
@@ -273,7 +290,7 @@ int main(int argc, char **argv)
 
 	#ifdef FLOAT
 		// Compute L1 norm of gradient of u
-		cublasSasum(handle, numNodes, d_grad_x, 1, &x_norm);  /// seems to add up the value
+		cublasSasum(handle, numEdges, d_grad_x, 1, &x_norm);  /// seems to add up the value
 		CUDA_CHECK;
 
 		// Compute scalar product 
@@ -285,6 +302,8 @@ int main(int argc, char **argv)
 			cublasDdot(handle, numNodes, d_x, 1, d_f, 1, &xf);					CUDA_CHECK;
 	#endif
 
+
+	cout  << "  xf  " << xf << "  x_norm  " << x_norm << "  b  " << b<< endl;
 
 	max_flow = xf + x_norm + b;
 

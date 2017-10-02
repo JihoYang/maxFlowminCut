@@ -40,8 +40,8 @@ int main(int argc, char **argv)
 	// Start time
 	clock_t tStart = clock();
 	// Parameters
-	float alpha = 0.001;
-	float rho = 1000;
+	float alpha = 1;
+	float rho = 1;
 	float gap = 1;
 	float eps = 1E-6;
 	int	  it  = 0;

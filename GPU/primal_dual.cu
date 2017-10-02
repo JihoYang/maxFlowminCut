@@ -126,7 +126,7 @@ template <class T>
     }
     // Compute sigma
     if (i < num_edge){
-        sigma[i] = (T)phi / pow((T)abs(w_u[i]), (T) 2 - (T) alpha);
+        sigma[i] = (T)phi / (pow((T)abs(w_u[i]), (T) 2 - (T) alpha)*2);
 		//sigma[i] = 0.00001;
     }
 }
