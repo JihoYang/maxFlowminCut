@@ -212,18 +212,18 @@ int main(int argc, char **argv)
 		// Update Y
 		updateY <T> <<<grid, block >>> (d_x_diff, d_y, d_w, d_start_edge, d_end_edge, d_sigma, numEdges);
 
-		/*
-		printDevice <float> (d_tau , numNodes, "d_tau");
+		
+		printDevice <T> (d_tau , numNodes, "d_tau");
 
-		printDevice <float> (d_sigma , numEdges, "d_sigma");
+		printDevice <T> (d_sigma , numEdges, "d_sigma");
 
-		printDevice <float> (d_x , numNodes, "d_x");
+		printDevice <T> (d_x , numNodes, "d_x");
 
-		printDevice <float> (d_x_diff , numNodes, "d_x_diff");
+		printDevice <T> (d_x_diff , numNodes, "d_x_diff");
 
-		printDevice <float> (d_div_y , numNodes, "d_div_y");
+		printDevice <T> (d_div_y , numNodes, "d_div_y");
 
-		printDevice <float> (d_y , numNodes, "d_y");*/
+		printDevice <T> (d_y , numNodes, "d_y");
 
 		// Update divergence of Y	
 		h_divergence_calculate <T> <<<grid, block>>> (d_w, d_y, d_nbhd_size, d_nbhd_start, d_nbhd_sign, d_nbhd_edges, numNodes, d_div_y);							CUDA_CHECK;
