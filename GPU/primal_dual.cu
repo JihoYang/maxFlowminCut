@@ -121,11 +121,13 @@ template <class T>
 				sum += pow(abs(w_u[d_nbhd_edges[start_nbhd + j]]), alpha); 
 			}
 			tau[i] = (T)1 / ((T)phi * (T)sum);
+			//tau[i] = 0.00001;
 		}
     }
     // Compute sigma
     if (i < num_edge){
         sigma[i] = (T)phi / pow((T)abs(w_u[i]), (T) 2 - (T) alpha);
+		//sigma[i] = 0.00001;
     }
 }
 

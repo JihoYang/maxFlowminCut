@@ -71,7 +71,7 @@ int main(int argc, char **argv)
 	getParam("rho", rho, argc, argv);
 	cout << "rho: " << rho << endl;
 	getParam("it", iter_max, argc, argv);
-	cout << "it: " << rho << endl;
+	cout << "it: " << iter_max << endl;
 	// Import bk file    
 	read_bk<T> *g = new read_bk<T>(argv[1]); 	
 	int numNodes  = g->nNodes;
