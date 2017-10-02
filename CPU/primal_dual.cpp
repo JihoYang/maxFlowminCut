@@ -30,7 +30,7 @@ void compute_dt(T *tau, T *sigma, T *w_u, T alpha, T phi, vert *mVert, int num_v
     }
     // Compute sigma
     for (size_t i = 0; i < num_edge; i++){
-        sigma[i] = (T)phi / (T)pow(abs(w_u[i]), 2 - alpha);
+        sigma[i] = (T)phi / ((T)pow(abs(w_u[i]), 2 - alpha)*2);
     }
 }
 
