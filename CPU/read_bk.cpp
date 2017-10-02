@@ -25,7 +25,8 @@ void read_bk<T>::init_graph(int numberNodes, int numberEdges)
 	// w(weights on the edges)
 	f = new T[nNodes];
 	w = new T[nEdges];
-	
+	b = 0;
+
 	for(int i = 0; i<nNodes; i++) f[i] = 0;	
 	for(int i = 0; i<nEdges; i++) w[i] = 0;	
 }
@@ -139,9 +140,9 @@ bool read_bk<T>::readFile(char *filename)
 
 				// Add values to f and w per edge
 				a1 = capacity/2.f; a2 = capacity2/2.f;
-				f[nodeId1] += a1 - a2;
-				f[nodeId2] += a2 - a1;
-				w[currNumEdges]  = a1 + a2;
+				f[nodeId1] += +a1 - a2;
+				f[nodeId2] += +a2 - a1;
+				w[currNumEdges] = a1 + a2;
 
 				currNumEdges++;
 				break;

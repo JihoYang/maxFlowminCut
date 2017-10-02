@@ -20,4 +20,6 @@ void compute_RMS (T *gap_vec, T &gap, int num_vertex);
 template <class T>
 void compute_scalar_product (T *x, T *f, T &xf, int num_vertex);
 
+template <class T>
+void roundVector(T* x, int num_elem);
 #endif

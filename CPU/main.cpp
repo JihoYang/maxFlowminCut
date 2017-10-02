@@ -23,6 +23,13 @@
 
 using namespace std;
 
+template <class S>
+void printResults(S* results, int num_elem, char* name)
+{
+	for(int i = 0; i< num_elem; i++)
+		cout<<name<<"_"<<i<<" is "<<results[i]<<endl;
+}
+
 int main(int argc, char **argv)
 {
     if (argc <= 1)
@@ -33,12 +40,12 @@ int main(int argc, char **argv)
 	// Start time
 	clock_t tStart = clock();
 	// Parameters
-	float alpha = 1;
-	float rho = 1;
+	float alpha = 0.001;
+	float rho = 1000;
 	float gap = 1;
 	float eps = 1E-6;
 	int	  it  = 0;
-	int iter_max = 1;
+	int iter_max = 1000;
 	const char *method = "PD_CPU";
 	// Import bk file    
     read_bk<float> *g = new read_bk<float>(argv[1]); 
@@ -65,26 +72,31 @@ int main(int argc, char **argv)
 	memset(y, 0, sizeof(float)*numEdges);
 	// Pre-compute time steps
 	compute_dt <float> (tau, sigma, w, alpha, rho, mVert, numNodes, numEdges);
-	
+	//printResults(tau, numNodes, "tau");
+	//printResults(sigma, numEdges, "sigma");
+	//cout << "index="<<e <<", print grad "<<grad[e]<<endl;
 	// Iteration
 	cout << "------------------- Time loop started -------------------"  << endl;
 	while (it < iter_max && gap > eps){
 		// Update X
 		updateX <float> (w, mVert, x, tau, div_y, y, f, x_diff, numNodes);
-
-		for (int i = 0 ; i<numNodes ; i++){
-			cout << "x:" << i << "  " << x[i] << endl;
-		}
+	
+		//for (int i = 0 ; i<numNodes ; i++){
+		//	cout << "x:" << i << "  " << x[i] << endl;
+		//}
 		
 		// Update Y for next iteration
 		updateY <float> (w, x, mEdge, y, sigma, x_diff, grad_x_diff, numEdges);
-		
-		for (int i = 0 ; i<numEdges ; i++){
-			cout << "y:" << i << "  " << y[i] << endl;
-		}
+		//printResults(x, numNodes, "x");
+		//printResults(y, numEdges, "y");
+		///printResults(x_diff, numNodes, "x_diff");
+		//printResults(div_y, numNodes, "div_y");
+		//for (int i = 0 ; i<numEdges ; i++){
+		//	cout << "y:" << i << "  " << y[i] << endl;
+		//}
 
 		// Compute gap
-		compute_gap <float> (w, mEdge, x, f, div_y, gap, x_norm, xf, numNodes, numEdges);
+		compute_gap <float> (w, mEdge, mVert, x, y, f, gap, x_norm, xf, numNodes, numEdges);
 		cout << "Iteration = " << it << endl << endl;
 		cout << "Gap = " << gap << endl << endl;
 		it = it + 1;
@@ -93,7 +105,19 @@ int main(int argc, char **argv)
 	// End time
 	clock_t tEnd = clock();
 	// Compute max flow
+	float* grad_x = new float[numNodes]; 
+	roundVector<float>(x, numNodes);
+	printResults<float>(x, numNodes, "x_final");
+	compute_scalar_product<float>(x, f, xf, numNodes);
+	gradient_calculate<float>(w, x, mEdge, numEdges, grad_x);
+	// Compute scalar product
+	// Compute L1 norm of gradient of u
+	compute_L1<float>(grad_x, x_norm, numEdges);
+	//cout << " Xf = " << xf << " x_norm = " << x_norm << " max_val = " << max_val << endl;
+	// Compute gap
+
 	max_flow = xf + x_norm + b;
+	cout << "xf="<<xf<<" x_norm="<<x_norm<<" b="<<b<<endl;
 
 	cout << "Max flow = " << max_flow << endl << endl;
 
@@ -113,6 +137,9 @@ int main(int argc, char **argv)
 	delete []grad_x_diff;
 	delete []tau;
 	delete []sigma;	
+	delete [] grad_x;
+	delete [] f;
+	delete [] w; 
 
     return 0;
 }
