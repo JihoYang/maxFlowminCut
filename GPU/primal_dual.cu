@@ -59,6 +59,9 @@ __device__ void gradient_calculate(T *w, T *x,int* d_start_edge, int* d_end_edge
     a = d_start_edge[e];
     b = d_end_edge[e];
     grad = w[e] * (x[b] - x[a]);
+
+    //printf("for e = %d a is %d b is %d w is %f x[b] is %f x[a] is %fand grad is %f\n",e, a, b, w[e], x[b] , x[a], grad );
+
 }
 
 // Update Y (GPU)
@@ -75,7 +78,8 @@ __global__ void updateY(T *x_diff, T *y, T *w, int* d_start_edge, int* d_end_edg
 		T y_new, grad_x_diff;
 		// Compute gradient of x_diff
 		gradient_calculate <T> (w, x_diff, d_start_edge, d_end_edge, idx, grad_x_diff);
-		//printf("%f\n", grad_x_diff );
+
+		//printf("grad_x_diff for %d is %f\n", idx, grad_x_diff );
 		// Compute new y
 		y_new = y[idx] + sigma[idx] * grad_x_diff;
 		// Clamping
@@ -117,11 +121,13 @@ template <class T>
 				sum += pow(abs(w_u[d_nbhd_edges[start_nbhd + j]]), alpha); 
 			}
 			tau[i] = (T)1 / ((T)phi * (T)sum);
+			//tau[i] = 0.00001;
 		}
     }
     // Compute sigma
     if (i < num_edge){
         sigma[i] = (T)phi / pow((T)abs(w_u[i]), (T) 2 - (T) alpha);
+		//sigma[i] = 0.00001;
     }
 }
 
