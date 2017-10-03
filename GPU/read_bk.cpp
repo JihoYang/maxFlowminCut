@@ -22,7 +22,8 @@ void read_bk<T>::init_graph(int numberNodes, int numberEdges)
 	nEdges = numberEdges;
 	// Allocate memory for vertex and edge structures
 	V = new vert[nNodes];
-	E = new edge[nEdges];
+	edge_start = new int[nEdges];
+	edge_end = new int[nEdges];
     // Allocate memory for f(initial node setup), 
 	// w(weights on the edges)
 	f = new T[nNodes];
@@ -36,7 +37,8 @@ template<class T>
 void read_bk<T>::free_memory()
 {
 	delete[] V;
-	delete[] E;   
+	delete[] edge_start;
+	delete[] edge_end;   
 	delete[] f;
 	delete[] w;
 }
@@ -128,8 +130,8 @@ bool read_bk<T>::readFile(char *filename)
 					sign = -1;
 				}
 				// Info for edge 
-				E[currNumEdges].start = min;
-				E[currNumEdges].end = max; 	
+				edge_start[currNumEdges] = min;
+				edge_end[currNumEdges] = max; 	
 				// Info for node1			
 				V[nodeId1]._nbhdVert.push_back(nodeId2);
 				V[nodeId1]._sign.push_back(sign);

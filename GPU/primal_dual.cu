@@ -9,7 +9,7 @@
 
 using namespace std;
 
-// COMPUTE DIVERGENCE GPU
+// COMPUTE DIVERGENCE (GPU)
 template <class T>
  __device__ void divergence_calculate(T* w, T* p, int* d_nbhd_size, int* d_nbhd_start, int* d_nbhd_sign, int* d_nbhd_edges, int v, T &divg){
 
@@ -52,15 +52,13 @@ __global__ void updateX(T *x, T *y, T *w, T *f, T *x_diff, T *div_y, int* d_nbhd
 	}
 }
 
-//COMPUTE GRADIENT GPU
+//COMPUTE GRADIENT (GPU)
 template <class T> 
 __device__ void gradient_calculate(T *w, T *x,int* d_start_edge, int* d_end_edge , int e, T &grad){
     int a , b;
     a = d_start_edge[e];
     b = d_end_edge[e];
     grad = w[e] * (x[b] - x[a]);
-
-    //printf("for e = %d a is %d b is %d w is %f x[b] is %f x[a] is %fand grad is %f\n",e, a, b, w[e], x[b] , x[a], grad );
 
 }
 
@@ -78,8 +76,6 @@ __global__ void updateY(T *x_diff, T *y, T *w, int* d_start_edge, int* d_end_edg
 		T y_new, grad_x_diff;
 		// Compute gradient of x_diff
 		gradient_calculate <T> (w, x_diff, d_start_edge, d_end_edge, idx, grad_x_diff);
-
-		//printf("grad_x_diff for %d is %f\n", idx, grad_x_diff );
 		// Compute new y
 		y_new = y[idx] + sigma[idx] * grad_x_diff;
 		// Clamping
@@ -89,15 +85,10 @@ __global__ void updateY(T *x_diff, T *y, T *w, int* d_start_edge, int* d_end_edg
 			y_new = 1;
 		// Update y
 		y[idx] = y_new;
-		/*if (idx == 0) {y[idx] = -0.888889;}
-		if (idx == 1) {y[idx] = -1;}
-		if (idx == 2) {y[idx] = -0.111111;}
-		if (idx == 3) {y[idx] = -0.111111;}
-		if (idx == 4) {y[idx] = 0;}*/
-
 	}
 }
 
+// Compute dt (GPU)
 template <class T> 
  __global__ void d_compute_dt(T *tau, T *sigma, T *w_u, T alpha, T phi, int *d_nbhd_size, int*d_nbhd_edges ,int* d_nbhd_start, int num_vertex, int num_edge){
     // Size of neighbouring vertices j for vertex i
@@ -107,27 +98,20 @@ template <class T>
     int i = tnum_x + tnum_y + tnum_z; 
 
     int size_nbhd = d_nbhd_size[i]; 
-	int start_nbhd = d_nbhd_start[i]; 
-    // Compute tau
+	int start_nbhd = d_nbhd_start[i];
 
-	// If there are no neighbours set tau to be zero
-    if (i < num_vertex){
-        
-        T sum = (T)0;
-		if ( size_nbhd == 0){ tau[i] = 0; }
+	// If there are no neighbours set tau to be zero .... no need as we are setting d_tau to 0
+    if (i < num_vertex && size_nbhd > 0){
 
-		else if (size_nbhd != 0) {
-			for (size_t j = 0; j < size_nbhd; j++){ 
+		T sum = (T)0;
+		for (size_t j = 0; j < size_nbhd; j++){ 
 				sum += pow(abs(w_u[d_nbhd_edges[start_nbhd + j]]), alpha); 
 			}
-			tau[i] = (T)1 / ((T)phi * (T)sum);
-			//tau[i] = 0.00001;
-		}
+		tau[i] = (T)1 / ((T)phi * (T)sum);
     }
     // Compute sigma
     if (i < num_edge){
         sigma[i] = (T)phi / (pow((T)abs(w_u[i]), (T) 2 - (T) alpha)*2);
-		//sigma[i] = 0.00001;
     }
 }
 

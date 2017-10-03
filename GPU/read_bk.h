@@ -45,7 +45,8 @@ class read_bk
         
         // Structures for vertices and edges
         vert *V;
-        edge *E;
+        int *edge_start;
+        int *edge_end; 
         // Vector of weights per node, size = nNodes
         T *f;
         // Array of weights, size = nEdges
