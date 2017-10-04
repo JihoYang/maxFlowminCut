@@ -15,10 +15,10 @@ struct vert
         // sign contains 1 or -1
         std::vector<int> _sign;
         std::vector<int> _nbhdEdges;
-        int* nbhdVert;
-        int* sign;
-        int* nbhdEdges;
-        int nbhdSize;
+        //int* nbhdVert;
+        //int* sign;
+        //int* nbhdEdges;
+        //int nbhdSize;
         ~vert()
         {
             std::vector<int>().swap(_nbhdVert);
@@ -46,7 +46,13 @@ class read_bk
         // Structures for vertices and edges
         vert *V;
         int *edge_start;
-        int *edge_end; 
+        int *edge_end;
+        // Linearized array of data
+        int* h_nbhd_size;
+        int* h_nbhd_start;
+        int* h_nbhd_vert;
+        int* h_nbhd_sign;
+        int* h_nbhd_edges;
         // Vector of weights per node, size = nNodes
         T *f;
         // Array of weights, size = nEdges

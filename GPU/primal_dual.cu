@@ -34,19 +34,19 @@ __global__ void updateX(T *x, T *y, T *w, T *f, T *x_diff, T *div_y, int* d_nbhd
 	// Get indices
 	int idx = x_thread + y_thread + z_thread;
 	// Temporary values
-	float x_new;
+	T x_new;
 	// Compute new u
 	if (idx < num_vertex){
 		// Compute divergence of y 
 		divergence_calculate <T> (w, y, d_nbhd_size, d_nbhd_start, d_nbhd_sign, d_nbhd_edges, idx, div_y[idx]);
 		// Compute u
 		x_new = x[idx] + tau[idx] * (div_y[idx] - f[idx]);
-		// Compute x_diff
-		x_diff[idx] = 2*x_new - x[idx];
 		if (x_new < 0)
 			x_new = 0;
 		else if (x_new > 1)
 			x_new = 1;
+		// Compute x_diff
+		x_diff[idx] = 2*x_new - x[idx];
 		// Update X	
 		x[idx] = x_new;
 	}

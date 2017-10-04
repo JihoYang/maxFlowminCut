@@ -78,7 +78,7 @@ int main(int argc, char **argv)
 	int numEdges = g->nEdges;
 	T *f = g->f;
 	T *w = g->w;
-	vert* mVert = g->V;
+	//vert* mVert = g->V;
 	T b = g->b;
 
 	cout << "bk file imported in HOST"  << endl;
@@ -102,29 +102,38 @@ int main(int argc, char **argv)
 
 	cout << "Allocation and Initialization of start_edge and end_edge on DEVICE completed" << endl << endl;
 
+	int double_edges = 2 * numEdges;
+	int* h_nbhd_size = &(g->h_nbhd_size[0]); 
+	int* h_nbhd_start = &(g->h_nbhd_start[0]) ;
+ 	int* h_nbhd_vert = &(g->h_nbhd_vert[0]);
+ 	int *h_nbhd_sign = &(g->h_nbhd_sign[0]);
+	int *h_nbhd_edges = &(g->h_nbhd_edges[0]);
+	
+	/*
+	for(int i = 0; i<double_edges; i++)
+	{
+		cout<<"h_nbhd_vert_"<<i<<" is "<<h_nbhd_vert[i]<<", h_nbhd_sign_"<<i<<" is "<<h_nbhd_sign[i]<<", h_nbhd_edges_"<<i<<" is "<<h_nbhd_edges[i]<<endl; 
+	} 
+*/
+	/*
 	// Allocating and initializing the ndhdsize, nbhdvert, nbhdsign and nbhdedges on the device
 	int double_edges = 2*numEdges; 
-	int* h_nbhd_size = new int[numNodes];
-	int* h_nbhd_start = new int[numNodes];
- 	int* h_nbhd_vert = new int[double_edges];
- 	int *h_nbhd_sign = new int[double_edges];
- 	int *h_nbhd_edges = new int[double_edges];
-
+	
  	int local_size = 0;
- 	for (int i = 0; i< numNodes ; i++){
+	for (int i = 0; i< numNodes ; i++)
+	{
  		h_nbhd_size[i] = mVert[i].nbhdSize;
  		h_nbhd_start[i] = 0;
- 		if (i>0){
- 			h_nbhd_start[i] = h_nbhd_size[i-1] + h_nbhd_start[i-1];  
- 		}
- 			for (int j = 0 ; j< h_nbhd_size[i] ; j++){
- 				local_size = h_nbhd_start[i] + j;
- 				h_nbhd_vert[local_size] = mVert[i].nbhdVert[j];
- 				h_nbhd_sign[local_size] = mVert[i].sign[j];
- 				h_nbhd_edges[local_size] = mVert[i].nbhdEdges[j];
- 			}
+		if (i>0) h_nbhd_start[i] = h_nbhd_size[i-1] + h_nbhd_start[i-1];
+		for (int j = 0 ; j< h_nbhd_size[i] ; j++)
+		{
+			local_size = h_nbhd_start[i] + j;
+			h_nbhd_vert[local_size] = mVert[i].nbhdVert[j];
+			h_nbhd_sign[local_size] = mVert[i].sign[j];
+			h_nbhd_edges[local_size] = mVert[i].nbhdEdges[j];
+		}
  	}
-
+	 */
  	int *d_nbhd_size, *d_nbhd_start, *d_nbhd_vert, *d_nbhd_sign, *d_nbhd_edges;
  	cudaMalloc((void**)&d_nbhd_size , numNodes*sizeof(int));										//CUDA_CHECK;
  	cudaMalloc((void**)&d_nbhd_start , numNodes*sizeof(int));										//CUDA_CHECK;
@@ -199,6 +208,8 @@ int main(int argc, char **argv)
 		// Update Y
 		updateY <T> <<<grid, block >>> (d_x_diff, d_y, d_w, d_start_edge, d_end_edge, d_sigma, numEdges);															//CUDA_CHECK;
 
+		if (it % 1000 == 0){
+
 		// Update divergence of Y	
 		h_divergence_calculate <T> <<<grid, block>>> (d_w, d_y, d_nbhd_size, d_nbhd_start, d_nbhd_sign, d_nbhd_edges, numNodes, d_div_y);							//CUDA_CHECK;
 
@@ -208,7 +219,6 @@ int main(int argc, char **argv)
 		// Compute gradient of u
 		h_gradient_calculate <T> <<<grid, block>>>(d_w, d_x, d_start_edge, d_end_edge, numEdges, d_grad_x);															//CUDA_CHECK;
 
-		if (it % 1000 == 0){
 			#ifdef FLOAT
 				// Compute L1 norm of gradient of u
 				cublasSasum(handle, numEdges, d_grad_x, 1, &x_norm);  								//CUDA_CHECK;
@@ -257,6 +267,7 @@ int main(int argc, char **argv)
 	#endif
 
 
+	//printDevice<float>(d_x, numNodes, "x_");
 	cout  << "  xf  " << xf << "  x_norm  " << x_norm << "  b  " << b<< endl;
 
 	max_flow = xf + x_norm + b;

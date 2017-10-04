@@ -24,6 +24,11 @@ void read_bk<T>::init_graph(int numberNodes, int numberEdges)
 	V = new vert[nNodes];
 	edge_start = new int[nEdges];
 	edge_end = new int[nEdges];
+	h_nbhd_size = new int[nNodes];
+	h_nbhd_start = new int[nNodes];
+	h_nbhd_vert = new int[2*nEdges];
+	h_nbhd_sign = new int[2*nEdges];
+	h_nbhd_edges = new int[2*nEdges];
     // Allocate memory for f(initial node setup), 
 	// w(weights on the edges)
 	f = new T[nNodes];
@@ -42,7 +47,6 @@ void read_bk<T>::free_memory()
 	delete[] f;
 	delete[] w;
 }
-
 
 template<class T>
 bool read_bk<T>::readFile(char *filename)
@@ -162,16 +166,26 @@ bool read_bk<T>::readFile(char *filename)
 template<class T>
 void read_bk<T>::assign_pointers()
 {
+	int local_size = 0;
 	for(int i = 0; i < nNodes; i++)
 	{
-		if(V[i]._nbhdVert.size()>0)
+		/*if(V[i]._nbhdVert.size()>0)
 		{
 			V[i].sign = &V[i]._sign[0];
 			V[i].nbhdVert = &V[i]._nbhdVert[0]; 
 			V[i].nbhdEdges = &V[i]._nbhdEdges[0];
 			V[i].nbhdSize = V[i]._nbhdVert.size();
-		}	
-		
+		}*/			
+		h_nbhd_size[i] = V[i]._nbhdVert.size();
+		h_nbhd_start[i] = 0;
+		if (i>0) h_nbhd_start[i] = h_nbhd_size[i-1] + h_nbhd_start[i-1];
+		for (int j = 0 ; j< h_nbhd_size[i] ; j++)
+		{
+			local_size = h_nbhd_start[i] +j;
+			h_nbhd_vert[local_size] = V[i]._nbhdVert[j];
+			h_nbhd_sign[local_size] = V[i]._sign[j];
+			h_nbhd_edges[local_size] = V[i]._nbhdEdges[j];
+		}
 	}	
 }
 
