@@ -7,8 +7,6 @@
 
 using namespace std;
 
-
-
 template <class T> 
 __global__ void h_gradient_calculate(T *w, T *x,int* d_start_edge, int* d_end_edge , int numEdges, T *grad){
     int tnum_x = threadIdx.x + blockIdx.x*blockDim.x;

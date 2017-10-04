@@ -137,8 +137,8 @@ template __global__ void updateY <double> (double*, double*, double*, int* , int
 template __global__ void d_compute_dt<float>(float*, float*, float*, float, float, int* , int*, int*, int, int);
 template __global__ void d_compute_dt<double>(double*, double*, double*, double, double, int*, int*, int*, int, int);
 
-template __global__ void max_vec_computation (float*, float*, float*, int );
-template __global__ void max_vec_computation (double*, double*, double*, int );
+template __global__ void max_vec_computation <float > (float*, float*, float*, int );
+template __global__ void max_vec_computation <double> (double*, double*, double*, int );
 
 template __device__ void gradient_calculate <float>(float*, float*, int*, int*, int, float&);
 template __device__ void gradient_calculate <double>(double*, double*, int*, int*, int, double&);

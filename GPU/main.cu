@@ -20,15 +20,15 @@
 #include "mathOperations.cuh"
 #include "postProcessing.cuh"
 #include "helper.cuh"
-#include <string.h>
+#include <string.h>	
 #include <cublas_v2.h>
 
-# define T float
-# define FLOAT
-/*
+//# define T float
+//# define FLOAT
+
 #define T double
 #define DOUBLE
-*/
+
 
 using namespace std;
 
@@ -57,7 +57,7 @@ int main(int argc, char **argv)
 	T alpha = 1;
 	T rho = 1;
 	T gap = 1;
-	T eps = 1E-6;
+	T eps = 1E-4;
 	int it  = 0;
 	int iter_max = 100000;
 	T xf;
@@ -109,31 +109,6 @@ int main(int argc, char **argv)
  	int *h_nbhd_sign = &(g->h_nbhd_sign[0]);
 	int *h_nbhd_edges = &(g->h_nbhd_edges[0]);
 	
-	/*
-	for(int i = 0; i<double_edges; i++)
-	{
-		cout<<"h_nbhd_vert_"<<i<<" is "<<h_nbhd_vert[i]<<", h_nbhd_sign_"<<i<<" is "<<h_nbhd_sign[i]<<", h_nbhd_edges_"<<i<<" is "<<h_nbhd_edges[i]<<endl; 
-	} 
-*/
-	/*
-	// Allocating and initializing the ndhdsize, nbhdvert, nbhdsign and nbhdedges on the device
-	int double_edges = 2*numEdges; 
-	
- 	int local_size = 0;
-	for (int i = 0; i< numNodes ; i++)
-	{
- 		h_nbhd_size[i] = mVert[i].nbhdSize;
- 		h_nbhd_start[i] = 0;
-		if (i>0) h_nbhd_start[i] = h_nbhd_size[i-1] + h_nbhd_start[i-1];
-		for (int j = 0 ; j< h_nbhd_size[i] ; j++)
-		{
-			local_size = h_nbhd_start[i] + j;
-			h_nbhd_vert[local_size] = mVert[i].nbhdVert[j];
-			h_nbhd_sign[local_size] = mVert[i].sign[j];
-			h_nbhd_edges[local_size] = mVert[i].nbhdEdges[j];
-		}
- 	}
-	 */
  	int *d_nbhd_size, *d_nbhd_start, *d_nbhd_vert, *d_nbhd_sign, *d_nbhd_edges;
  	cudaMalloc((void**)&d_nbhd_size , numNodes*sizeof(int));										//CUDA_CHECK;
  	cudaMalloc((void**)&d_nbhd_start , numNodes*sizeof(int));										//CUDA_CHECK;
@@ -210,14 +185,14 @@ int main(int argc, char **argv)
 
 		if (it % 1000 == 0){
 
-		// Update divergence of Y	
-		h_divergence_calculate <T> <<<grid, block>>> (d_w, d_y, d_nbhd_size, d_nbhd_start, d_nbhd_sign, d_nbhd_edges, numNodes, d_div_y);							//CUDA_CHECK;
+			// Update divergence of Y	
+			h_divergence_calculate <T> <<<grid, block>>> (d_w, d_y, d_nbhd_size, d_nbhd_start, d_nbhd_sign, d_nbhd_edges, numNodes, d_div_y);							//CUDA_CHECK;
 
-		// Compare 0 and div_y - f
-		max_vec_computation <T> <<<grid, block >>> (d_div_y, d_f, d_max_vec, numNodes);  																			//CUDA_CHECK;
-		
-		// Compute gradient of u
-		h_gradient_calculate <T> <<<grid, block>>>(d_w, d_x, d_start_edge, d_end_edge, numEdges, d_grad_x);															//CUDA_CHECK;
+			// Compare 0 and div_y - f
+			max_vec_computation <T> <<<grid, block >>> (d_div_y, d_f, d_max_vec, numNodes);  																			//CUDA_CHECK;
+			
+			// Compute gradient of u
+			h_gradient_calculate <T> <<<grid, block>>>(d_w, d_x, d_start_edge, d_end_edge, numEdges, d_grad_x);															//CUDA_CHECK;
 
 			#ifdef FLOAT
 				// Compute L1 norm of gradient of u
@@ -230,7 +205,7 @@ int main(int argc, char **argv)
 				cublasSasum(handle, numNodes, d_max_vec, 1, &max_val); 								//CUDA_CHECK;
 			
 			#else
-				cublasDasum(handle, numNodes, d_grad_x, 1, &x_norm);								//CUDA_CHECK;
+				cublasDasum(handle, numEdges, d_grad_x, 1, &x_norm);								//CUDA_CHECK;
 				
 				cublasDdot(handle, numNodes, d_x, 1, d_f, 1, &xf);									//CUDA_CHECK;
 				
@@ -239,21 +214,21 @@ int main(int argc, char **argv)
 			#endif
 			
 			// Compute gap
-			gap = (xf + x_norm + max_val) / numEdges;
+			gap = (xf + x_norm + max_val) / (T)numEdges;
 			cout << "Iteration = " << it << endl << endl;
-			cout << "Gap = " << gap  << "  xf  " << xf << "  x_norm  " << x_norm << "  max_val  " << max_val<< endl;
+			cout << "Gap = " << gap  << "  xf  " << xf << "  x_norm  " << x_norm << "  max_val  " << max_val << "  max_flow  " << (xf + x_norm + b) << endl;
 		}
 		
 		it = it + 1;
 	}
 
 	// Round solution
-	round_solution <T> <<<grid, block>>> (d_x, numNodes);											//CUDA_CHECK;
+	//round_solution <T> <<<grid, block>>> (d_x, numNodes);											//CUDA_CHECK;
 	
 	// End time
 	clock_t tEnd = clock();
 	// Compute max flow
-	h_gradient_calculate <T> <<<grid, block>>>(d_w, d_x, d_start_edge, d_end_edge, numEdges, d_grad_x);		//CUDA_CHECK;
+	//h_gradient_calculate <T> <<<grid, block>>>(d_w, d_x, d_start_edge, d_end_edge, numEdges, d_grad_x);		//CUDA_CHECK;
 
 	#ifdef FLOAT
 		cublasSasum(handle, numEdges, d_grad_x, 1, &x_norm);  										//CUDA_CHECK;
@@ -261,7 +236,7 @@ int main(int argc, char **argv)
 		cublasSdot(handle, numNodes, d_x, 1, d_f, 1, &xf);	                           				//CUDA_CHECK;
 		
 	#else
-		cublasDasum(handle, numNodes, d_grad_x, 1, &x_norm);										//CUDA_CHECK;
+		cublasDasum(handle, numEdges, d_grad_x, 1, &x_norm);										//CUDA_CHECK;
 		
 		cublasDdot(handle, numNodes, d_x, 1, d_f, 1, &xf);											//CUDA_CHECK;
 	#endif
