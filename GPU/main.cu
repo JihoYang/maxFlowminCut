@@ -81,6 +81,7 @@ int main(int argc, char **argv)
 	//vert* mVert = g->V;
 	T b = g->b;
 
+
 	cout << "bk file imported in HOST"  << endl;
 	
 	// Allocating and initializing f and w on the device
@@ -150,8 +151,8 @@ int main(int argc, char **argv)
 	cudaMemset(d_div_y , 0, numNodes*sizeof(T));													//CUDA_CHECK;
 	cudaMemset(d_x_diff , 0, numNodes*sizeof(T));													//CUDA_CHECK;
 	cudaMemset(d_grad_x_diff , 0, numEdges*sizeof(T));												//CUDA_CHECK;
-	cudaMemset(d_tau , 0, numNodes*sizeof(T));														//CUDA_CHECK;
-	cudaMemset(d_sigma , 0, numEdges*sizeof(T));													//CUDA_CHECK;
+	cudaMemset(d_tau , 1, numNodes*sizeof(T));														//CUDA_CHECK;
+	cudaMemset(d_sigma , 1, numEdges*sizeof(T));													//CUDA_CHECK;
 	cudaMemset(d_grad_x, 0 , numEdges*sizeof(T));													//CUDA_CHECK;
 	cudaMemset(d_max_vec, 0 , numNodes*sizeof(T));													//CUDA_CHECK;
 	cudaMemset(d_gap_vec, 0 , numNodes*sizeof(T));													//CUDA_CHECK;
@@ -171,6 +172,10 @@ int main(int argc, char **argv)
 
 	cout << "grid and block dimensions calculated" << endl << endl;
 
+	clock_t tmid = clock();
+
+	cout << "Execution Time = " << (double)1000*(tmid - tStart)/CLOCKS_PER_SEC << " ms" << endl << endl;
+
 	d_compute_dt <<<grid, block>>> (d_tau, d_sigma, d_w, alpha, rho, d_nbhd_size, d_nbhd_edges, d_nbhd_start, numNodes, numEdges); 									//CUDA_CHECK;
 
 	cout << "tau and sigma calculation completed on the DEVICE" << endl << endl;
@@ -183,7 +188,7 @@ int main(int argc, char **argv)
 		// Update Y
 		updateY <T> <<<grid, block >>> (d_x_diff, d_y, d_w, d_start_edge, d_end_edge, d_sigma, numEdges);															//CUDA_CHECK;
 
-		if (it % 1000 == 0){
+		if (it % 100 == 0){
 
 			// Update divergence of Y	
 			h_divergence_calculate <T> <<<grid, block>>> (d_w, d_y, d_nbhd_size, d_nbhd_start, d_nbhd_sign, d_nbhd_edges, numNodes, d_div_y);							//CUDA_CHECK;
@@ -204,7 +209,7 @@ int main(int argc, char **argv)
 				// Summing up the max_vec
 				cublasSasum(handle, numNodes, d_max_vec, 1, &max_val); 								//CUDA_CHECK;
 			
-			#elif DOUBLE
+			#else
 				cublasDasum(handle, numEdges, d_grad_x, 1, &x_norm);								//CUDA_CHECK;
 				
 				cublasDdot(handle, numNodes, d_x, 1, d_f, 1, &xf);									//CUDA_CHECK;
@@ -247,13 +252,13 @@ int main(int argc, char **argv)
 
 	max_flow = xf + x_norm + b;
 
-	cout << "Max flow = " << max_flow << endl << endl;
+	cout << fixed << "Max flow = " << max_flow << endl << endl;
 	
 
 	// Program exit messages
 	if (it == iter_max) cout << "ERROR: Maximum number of iterations reached" << endl << endl;
 	cout << "------------------- End of program -------------------"  << endl << endl;
-	cout << "Execution Time = " << (double)1000*(tEnd - tStart)/CLOCKS_PER_SEC << " ms" << endl << endl;
+	cout << "Execution Time = " << (double)1000*(tEnd - tmid)/CLOCKS_PER_SEC << " ms" << endl << endl;
 	//Export results
 	//export_result <float> (method, x, numNodes);
 	// Free memory    

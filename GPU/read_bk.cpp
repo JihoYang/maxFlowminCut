@@ -119,39 +119,40 @@ bool read_bk<T>::readFile(char *filename)
 				capacity = 0.f; capacity2 = 0.f;
 				sscanf(line, "%c %d %d %lf %lf", &c, &nodeId1, &nodeId2, &capacity, &capacity2);
 				//cout<< "Edge with node1 "<<nodeId1<<" and node2 "<<nodeId2<<" capacity n1n2:  "<< capacity <<", and capacity n2n1: "<<capacity2<< endl; 
+				if(capacity != 0 || capacity2 != 0){
+					if(nodeId1 < nodeId2)
+					{
+						min = nodeId1; 
+						max = nodeId2;
+						sign = 1;
+					}
+					else
+					{
+						min = nodeId2; 
+						max = nodeId1;
+						sign = -1;
+					}
+					// Info for edge 
+					edge_start[currNumEdges] = min;
+					edge_end[currNumEdges] = max; 	
+					// Info for node1			
+					V[nodeId1]._nbhdVert.push_back(nodeId2);
+					V[nodeId1]._sign.push_back(sign);
+					V[nodeId1]._nbhdEdges.push_back(currNumEdges);
+					// for node2
+					V[nodeId2]._nbhdVert.push_back(nodeId1);
+					V[nodeId2]._sign.push_back(-sign);
+					V[nodeId2]._nbhdEdges.push_back(currNumEdges);
 
-				// Store edges ordering
-				if(nodeId1 < nodeId2)
-				{
-					min = nodeId1; 
-					max = nodeId2;
-					sign = 1;
+					// Add values to f and w per edge
+					a1 = capacity/2.f; a2 = capacity2/2.f;
+					f[nodeId1] += a1 - a2;
+					f[nodeId2] += a2 - a1;
+					w[currNumEdges]  = a1 + a2;
+
+					currNumEdges++;
+
 				}
-				else
-				{
-					min = nodeId2; 
-					max = nodeId1;
-					sign = -1;
-				}
-				// Info for edge 
-				edge_start[currNumEdges] = min;
-				edge_end[currNumEdges] = max; 	
-				// Info for node1			
-				V[nodeId1]._nbhdVert.push_back(nodeId2);
-				V[nodeId1]._sign.push_back(sign);
-				V[nodeId1]._nbhdEdges.push_back(currNumEdges);
-				// for node2
-				V[nodeId2]._nbhdVert.push_back(nodeId1);
-				V[nodeId2]._sign.push_back(-sign);
-				V[nodeId2]._nbhdEdges.push_back(currNumEdges);
-
-				// Add values to f and w per edge
-				a1 = capacity/2.f; a2 = capacity2/2.f;
-				f[nodeId1] += a1 - a2;
-				f[nodeId2] += a2 - a1;
-				w[currNumEdges]  = a1 + a2;
-
-				currNumEdges++;
 				break;
 		}
 	}
