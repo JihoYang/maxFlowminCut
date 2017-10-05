@@ -22,6 +22,7 @@
 #include "helper.cuh"
 #include <string.h>	
 #include <cublas_v2.h>
+#include <cassert>
 
 # define T float
 # define FLOAT
@@ -30,7 +31,23 @@
 //#define DOUBLE
 
 
+
+
 using namespace std;
+
+template<class S>
+void cudaAssert(S* d_arr, int num_elem, char*s)
+{
+	S* temp = new S[num_elem];
+	cudaMemcpy(temp, d_arr, num_elem*sizeof(S), cudaMemcpyDeviceToHost);
+	cout << "Assertion for "<<s<<endl;
+	for(int i = 0; i<num_elem; i++)
+	{
+		assert(!std::isnan(temp[i]));
+	} 
+	cout << "Assertion passed"<<endl;
+	delete temp; 	
+}
 
 template<class S>
 void printDevice(S* d_arr, int num_elem, char* s)
@@ -179,21 +196,36 @@ int main(int argc, char **argv)
 	cout << "------------------- Time loop started -------------------"  << endl;
 	while (it < iter_max && gap > eps){
 		updateX <T> <<< grid, block >>> (d_x, d_y, d_w, d_f, d_x_diff, d_div_y, d_nbhd_size, d_nbhd_start, d_nbhd_sign, d_nbhd_edges, d_tau, numNodes);				//CUDA_CHECK;
+		cudaAssert<T>(d_x, numNodes, "x");
+		cudaAssert<T>(d_y, numEdges, "y");
+		cudaAssert<T>(d_div_y, numNodes, "x");
+		//cudaAssert<T>(d_x, numNodes, "x");
 
 		// Update Y
 		updateY <T> <<<grid, block >>> (d_x_diff, d_y, d_w, d_start_edge, d_end_edge, d_sigma, numEdges);															//CUDA_CHECK;
+		cout<<"After updatedY"<<endl;
+		cudaAssert<T>(d_x, numNodes, "x");
+		cudaAssert<T>(d_y, numEdges, "y");
+		cudaAssert<T>(d_div_y, numNodes, "x");
 
-		if (it % 1000 == 0){
+		if (it % 1 == 0){
 
 			// Update divergence of Y	
 			h_divergence_calculate <T> <<<grid, block>>> (d_w, d_y, d_nbhd_size, d_nbhd_start, d_nbhd_sign, d_nbhd_edges, numNodes, d_div_y);							//CUDA_CHECK;
-
+		cout << "After divergence"<<endl;
+		cudaAssert<T>(d_x, numNodes, "x");
+		cudaAssert<T>(d_y, numEdges, "y");
+		cudaAssert<T>(d_div_y, numNodes, "x");
 			// Compare 0 and div_y - f
 			max_vec_computation <T> <<<grid, block >>> (d_div_y, d_f, d_max_vec, numNodes);  																			//CUDA_CHECK;
-			
+		cout<<"After max comp"<<endl;
+		cudaAssert<T>(d_x, numNodes, "x");
+		cudaAssert<T>(d_y, numEdges, "y");
+		cudaAssert<T>(d_div_y, numNodes, "x");
 			// Compute gradient of u
 			h_gradient_calculate <T> <<<grid, block>>>(d_w, d_x, d_start_edge, d_end_edge, numEdges, d_grad_x);															//CUDA_CHECK;
-
+		cout<<"After gradient"<<endl;
+		cudaAssert<T>(d_grad_x, numEdges, "x");
 			#ifdef FLOAT
 				// Compute L1 norm of gradient of u
 				cublasSasum(handle, numEdges, d_grad_x, 1, &x_norm);  								//CUDA_CHECK;
