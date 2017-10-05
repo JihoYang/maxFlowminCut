@@ -23,11 +23,11 @@
 #include <string.h>	
 #include <cublas_v2.h>
 
-//# define T float
-//# define FLOAT
+# define T float
+# define FLOAT
 
-#define T double
-#define DOUBLE
+//#define T double
+//#define DOUBLE
 
 
 using namespace std;
@@ -57,7 +57,7 @@ int main(int argc, char **argv)
 	T alpha = 1;
 	T rho = 1;
 	T gap = 1;
-	T eps = 1E-4;
+	T eps = 1E-6;
 	int it  = 0;
 	int iter_max = 100000;
 	T xf;
@@ -204,7 +204,7 @@ int main(int argc, char **argv)
 				// Summing up the max_vec
 				cublasSasum(handle, numNodes, d_max_vec, 1, &max_val); 								//CUDA_CHECK;
 			
-			#else
+			#elif DOUBLE
 				cublasDasum(handle, numEdges, d_grad_x, 1, &x_norm);								//CUDA_CHECK;
 				
 				cublasDdot(handle, numNodes, d_x, 1, d_f, 1, &xf);									//CUDA_CHECK;
