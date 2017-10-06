@@ -22,6 +22,7 @@
 #include "helper.cuh"
 #include <string.h>	
 #include <cublas_v2.h>
+#include <cassert>
 
 # define T float
 # define FLOAT
@@ -30,7 +31,23 @@
 //#define DOUBLE
 
 
+
+
 using namespace std;
+
+template<class S>
+void cudaAssert(S* d_arr, int num_elem, char*s)
+{
+	S* temp = new S[num_elem];
+	cudaMemcpy(temp, d_arr, num_elem*sizeof(S), cudaMemcpyDeviceToHost);
+	cout << "Assertion for "<<s<<endl;
+	for(int i = 0; i<num_elem; i++)
+	{
+		assert(!std::isnan(temp[i]));
+	} 
+	cout << "Assertion passed"<<endl;
+	delete temp; 	
+}
 
 template<class S>
 void printDevice(S* d_arr, int num_elem, char* s)
@@ -190,13 +207,10 @@ int main(int argc, char **argv)
 
 			// Update divergence of Y	
 			h_divergence_calculate <T> <<<grid, block>>> (d_w, d_y, d_nbhd_size, d_nbhd_start, d_nbhd_sign, d_nbhd_edges, numNodes, d_div_y);							//CUDA_CHECK;
-
 			// Compare 0 and div_y - f
 			max_vec_computation <T> <<<grid, block >>> (d_div_y, d_f, d_max_vec, numNodes);  																			//CUDA_CHECK;
-			
 			// Compute gradient of u
 			h_gradient_calculate <T> <<<grid, block>>>(d_w, d_x, d_start_edge, d_end_edge, numEdges, d_grad_x);															//CUDA_CHECK;
-
 			#ifdef FLOAT
 				// Compute L1 norm of gradient of u
 				cublasSasum(handle, numEdges, d_grad_x, 1, &x_norm);  								//CUDA_CHECK;
