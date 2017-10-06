@@ -28,11 +28,7 @@ template <class T>
 template <class T> 
 __global__ void updateX(T *x, T *y, T *w, T *f, T *x_diff, T *div_y, int* d_nbhd_size, int* d_nbhd_start, int* d_nbhd_sign, int* d_nbhd_edges, T *tau, int num_vertex){
 	// Get coordinates - 3D coordinate implemented for sake of generality (perhaps we could play around with different block configurations)
-	int x_thread = threadIdx.x + blockDim.x * blockIdx.x;
-	int y_thread = threadIdx.y + blockDim.y * blockIdx.y;
-	int z_thread = threadIdx.z + blockDim.z * blockIdx.z;
-	// Get indices
-	int idx = x_thread + y_thread + z_thread;
+	int idx = threadIdx.x + blockDim.x * blockIdx.x;
 	// Temporary values
 	T x_new;
 	// Compute new u
@@ -66,11 +62,7 @@ __device__ void gradient_calculate(T *w, T *x,int* d_start_edge, int* d_end_edge
 template <class T>
 __global__ void updateY(T *x_diff, T *y, T *w, int* d_start_edge, int* d_end_edge, T *sigma, int num_edge){
 	// Get coordinates
-	int x_thread = threadIdx.x + blockDim.x * blockIdx.x;
-	int y_thread = threadIdx.y + blockDim.y * blockIdx.y;
-	int z_thread = threadIdx.z + blockDim.z * blockIdx.z;
-	// Get indices
-	int idx = x_thread + y_thread + z_thread;
+	int idx = threadIdx.x + blockDim.x * blockIdx.x;
 	if (idx < num_edge){
 		// Temporary values
 		T y_new, grad_x_diff;
@@ -92,10 +84,7 @@ __global__ void updateY(T *x_diff, T *y, T *w, int* d_start_edge, int* d_end_edg
 template <class T> 
  __global__ void d_compute_dt(T *tau, T *sigma, T *w_u, T alpha, T phi, int *d_nbhd_size, int*d_nbhd_edges ,int* d_nbhd_start, int num_vertex, int num_edge){
     // Size of neighbouring vertices j for vertex i
- 	int tnum_x = threadIdx.x + blockIdx.x*blockDim.x;
-    int tnum_y = threadIdx.y + blockIdx.y*blockDim.y;
-    int tnum_z = threadIdx.z + blockIdx.z*blockDim.z;
-    int i = tnum_x + tnum_y + tnum_z; 
+ 	int i = threadIdx.x + blockIdx.x*blockDim.x;
 
     int size_nbhd = d_nbhd_size[i]; 
 	int start_nbhd = d_nbhd_start[i];
@@ -117,10 +106,7 @@ template <class T>
 
 template <class T> 
 __global__ void max_vec_computation (T *div_y, T *f, T *max_vec, int num_vertex){
-	int tnum_x = threadIdx.x + blockIdx.x*blockDim.x;
-	int tnum_y = threadIdx.y + blockIdx.y*blockDim.y;
-	int tnum_z = threadIdx.z + blockIdx.z*blockDim.z;
-	int i = tnum_x + tnum_y + tnum_z; 
+	int i = threadIdx.x + blockIdx.x*blockDim.x;
 
 	// Get max value and sum the results
 	if (i < num_vertex){

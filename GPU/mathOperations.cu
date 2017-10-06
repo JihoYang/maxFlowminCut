@@ -8,11 +8,8 @@
 using namespace std;
 
 template <class T> 
-__global__ void h_gradient_calculate(T *w, T *x,int* d_start_edge, int* d_end_edge , int numEdges, T *grad){
-    int tnum_x = threadIdx.x + blockIdx.x*blockDim.x;
-    int tnum_y = threadIdx.y + blockIdx.y*blockDim.y;
-    int tnum_z = threadIdx.z + blockIdx.z*blockDim.z;
-    int e = tnum_x + tnum_y + tnum_z; 
+__global__ void h_gradient_calculate(T *w, T *x, int* d_start_edge, int* d_end_edge , int numEdges, T *grad){
+    int e = threadIdx.x + blockIdx.x*blockDim.x;
 
     int a , b;
     if ( e< numEdges){
@@ -26,10 +23,7 @@ __global__ void h_gradient_calculate(T *w, T *x,int* d_start_edge, int* d_end_ed
 template <class T>
  __global__ void h_divergence_calculate(T* w, T* p, int* d_nbhd_size, int* d_nbhd_start, int* d_nbhd_sign, int* d_nbhd_edges, int numNodes, T* divg){
 
-    int tnum_x = threadIdx.x + blockIdx.x*blockDim.x;
-    int tnum_y = threadIdx.y + blockIdx.y*blockDim.y;
-    int tnum_z = threadIdx.z + blockIdx.z*blockDim.z;
-    int v = tnum_x + tnum_y + tnum_z; 
+    int v = threadIdx.x + blockIdx.x*blockDim.x;
 
     int nbhd_vertices, sign, edge;
     T temp = 0;

@@ -81,8 +81,11 @@ int main(int argc, char **argv)
 	//vert* mVert = g->V;
 	T b = g->b;
 
+	clock_t t_after_cpu = clock();
 
-	cout << "bk file imported in HOST"  << endl;
+	//cout << "bk file imported in HOST"  << endl;
+
+
 	
 	// Allocating and initializing f and w on the device
 	T *d_f , *d_w;
@@ -91,7 +94,7 @@ int main(int argc, char **argv)
 	cudaMemcpy(d_f , f, numNodes*sizeof(T), cudaMemcpyHostToDevice);								//CUDA_CHECK;
 	cudaMemcpy(d_w , w, numEdges*sizeof(T), cudaMemcpyHostToDevice);								//CUDA_CHECK;
 
-	cout << "Allocation and Initialization of f and w on DEVICE completed" << endl << endl;
+	//cout << "Allocation and Initialization of f and w on DEVICE completed" << endl << endl;
 
 	int* start_edge = g->edge_start;
 	int* end_edge = g->edge_end;
@@ -101,7 +104,7 @@ int main(int argc, char **argv)
 	cudaMemcpy(d_start_edge , start_edge, numEdges*sizeof(int), cudaMemcpyHostToDevice);			//CUDA_CHECK;
 	cudaMemcpy(d_end_edge , end_edge, numEdges*sizeof(int), cudaMemcpyHostToDevice);				//CUDA_CHECK;
 
-	cout << "Allocation and Initialization of start_edge and end_edge on DEVICE completed" << endl << endl;
+	//cout << "Allocation and Initialization of start_edge and end_edge on DEVICE completed" << endl << endl;
 
 	int double_edges = 2 * numEdges;
 	int* h_nbhd_size = &(g->h_nbhd_size[0]); 
@@ -123,12 +126,7 @@ int main(int argc, char **argv)
 	cudaMemcpy(d_nbhd_sign , h_nbhd_sign, double_edges*sizeof(int), cudaMemcpyHostToDevice);		//CUDA_CHECK;
 	cudaMemcpy(d_nbhd_edges , h_nbhd_edges, double_edges*sizeof(int), cudaMemcpyHostToDevice);		//CUDA_CHECK;
 
-	cout << "Allocation and Initialization of  d_nbhd_size, d_nbhd_start, d_nbhd_vert, d_nbhd_sign, d_nbhd_edges and end_edge on DEVICE completed" << endl << endl;
-
-	delete[] h_nbhd_size;
-	delete[] h_nbhd_vert;
-	delete[] h_nbhd_sign;
-	delete[] h_nbhd_edges;
+	//cout << "Allocation and Initialization of  d_nbhd_size, d_nbhd_start, d_nbhd_vert, d_nbhd_sign, d_nbhd_edges and end_edge on DEVICE completed" << endl << endl;
 
 	// Names of all the cuda_arrays	
  	T *d_x, *d_y, *d_div_y, *d_x_diff, *d_grad_x_diff, *d_tau, *d_sigma;
@@ -157,12 +155,12 @@ int main(int argc, char **argv)
 	cudaMemset(d_max_vec, 0 , numNodes*sizeof(T));													//CUDA_CHECK;
 	cudaMemset(d_gap_vec, 0 , numNodes*sizeof(T));													//CUDA_CHECK;
 
-	cout << "Memory Allocated and initiaized for temperory arrays on DEVICE" << endl << endl;
+	//cout << "Memory Allocated and initiaized for temperory arrays on DEVICE" << endl << endl;
 
 	cublasHandle_t handle;
 	cublasCreate(&handle);
 
-	cout << "handle for BLAS operations created" << endl << endl;
+	//cout << "handle for BLAS operations created" << endl << endl;
 
 	dim3 block = dim3(1024,1,1);
 	int grid_x = ((max(numNodes, numEdges) + block.x - 1)/block.x);
@@ -170,18 +168,18 @@ int main(int argc, char **argv)
 	int grid_z = 1;
 	dim3 grid = dim3(grid_x, grid_y, grid_z);
 
-	cout << "grid and block dimensions calculated" << endl << endl;
+	//cout << "grid and block dimensions calculated" << endl << endl;
 
-	clock_t tmid = clock();
+	clock_t t_after_gpu_load = clock();
 
-	cout << "Execution Time = " << (double)1000*(tmid - tStart)/CLOCKS_PER_SEC << " ms" << endl << endl;
+	//cout << "Execution Time = " << (double)1000*(tmid - tStart)/CLOCKS_PER_SEC << " ms" << endl << endl;
 
 	d_compute_dt <<<grid, block>>> (d_tau, d_sigma, d_w, alpha, rho, d_nbhd_size, d_nbhd_edges, d_nbhd_start, numNodes, numEdges); 									//CUDA_CHECK;
 
-	cout << "tau and sigma calculation completed on the DEVICE" << endl << endl;
+	//cout << "tau and sigma calculation completed on the DEVICE" << endl << endl;
 
 	// Iteration
-	cout << "------------------- Time loop started -------------------"  << endl;
+	///cout << "------------------- Time loop started -------------------"  << endl;
 	while (it < iter_max && gap > eps){
 		updateX <T> <<< grid, block >>> (d_x, d_y, d_w, d_f, d_x_diff, d_div_y, d_nbhd_size, d_nbhd_start, d_nbhd_sign, d_nbhd_edges, d_tau, numNodes);				//CUDA_CHECK;
 
@@ -220,18 +218,17 @@ int main(int argc, char **argv)
 			
 			// Compute gap
 			gap = (xf + x_norm + max_val) / (T)numEdges;
-			cout << "Iteration = " << it << endl << endl;
-			cout << "Gap = " << gap  << "  xf  " << xf << "  x_norm  " << x_norm << "  max_val  " << max_val << "  max_flow  " << (xf + x_norm + b) << endl;
+			///cout << "Iteration = " << it << endl << endl;
+			//cout << "Gap = " << gap  << "  xf  " << xf << "  x_norm  " << x_norm << "  max_val  " << max_val << "  max_flow  " << (xf + x_norm + b) << endl;
 		}
 		
 		it = it + 1;
 	}
 
+	clock_t t_compute = clock();
 	// Round solution
 	//round_solution <T> <<<grid, block>>> (d_x, numNodes);											//CUDA_CHECK;
 	
-	// End time
-	clock_t tEnd = clock();
 	// Compute max flow
 	//h_gradient_calculate <T> <<<grid, block>>>(d_w, d_x, d_start_edge, d_end_edge, numEdges, d_grad_x);		//CUDA_CHECK;
 
@@ -248,17 +245,21 @@ int main(int argc, char **argv)
 
 
 	//printDevice<float>(d_x, numNodes, "x_");
-	cout  << "  xf  " << xf << "  x_norm  " << x_norm << "  b  " << b<< endl;
+	//cout  << "  xf  " << xf << "  x_norm  " << x_norm << "  b  " << b<< endl;
 
 	max_flow = xf + x_norm + b;
 
 	cout << fixed << "Max flow = " << max_flow << endl << endl;
 	
+	clock_t t_end = clock();
 
 	// Program exit messages
-	if (it == iter_max) cout << "ERROR: Maximum number of iterations reached" << endl << endl;
-	cout << "------------------- End of program -------------------"  << endl << endl;
-	cout << "Execution Time = " << (double)1000*(tEnd - tmid)/CLOCKS_PER_SEC << " ms" << endl << endl;
+	//if (it == iter_max) cout << "ERROR: Maximum number of iterations reached" << endl << endl;
+	//cout << "------------------- End of program -------------------"  << endl << endl;
+	cout << "cpu_load_time " << (double)1000*(tEnd - tmid)/CLOCKS_PER_SEC << " ms" << endl;
+	cout << "gpu_load_time " << (double)1000*(tEnd - tmid)/CLOCKS_PER_SEC << " ms" << endl;
+	cout << "compute_time " << (double)1000*(tEnd - tmid)/CLOCKS_PER_SEC << " ms" << endl;
+	cout << "max_flow_time " << (double)1000*(tEnd - tmid)/CLOCKS_PER_SEC << " ms" << endl;
 	//Export results
 	//export_result <float> (method, x, numNodes);
 	// Free memory    
