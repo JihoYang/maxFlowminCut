@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/usr/prakt/s151/maxFlowminCut/GPU/read_bk.cpp
+read_bk.h
+/usr/prakt/s151/maxFlowminCut/GPU/read_bk.h
+
+/usr/prakt/s151/maxFlowminCut/GPU/read_bk.h
+iostream
+-
+fstream
+-
+vector
+-
+
