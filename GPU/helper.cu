@@ -6,6 +6,7 @@ using std::cerr;
 using std::cout;
 using std::endl;
 using std::string;
+using namespace std;
 
 // parameter processing: template specialization for T=bool
 template<class T>
@@ -43,6 +44,20 @@ void cuda_check(string file, int line)
     prev_line = line;
 }
 
+int output_data(char** argv, int* data_array, int length, std::string array_name)
+{
+    const char* file_name = array_name.c_str();
+	ofstream myfile;
+	myfile.open (file_name , ios::in | ios::trunc);
+	myfile << argv[1] << endl;
+	for (int i =0 ; i<length; i++){	
+		myfile << data_array[i] << endl;
+	}
+	myfile.close();
+	return 0;
+}
+
+int output_data(char** argv, int* data_array, int length, std::string array_name);
 template bool getParam(std::string param, int &var, int argc, char **argv);
 template bool getParam(std::string param, float &var, int argc, char **argv);
 template bool getParam(std::string param, double &var, int argc, char **argv);

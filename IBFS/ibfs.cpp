@@ -1801,7 +1801,7 @@ bool IBFSGraph::readCompiled(FILE *pFile)
 	char buffer[bufferSize];
 
 	// read from file into htemporary structure
-	fprintf(stdout, "c reading compiled file\n");
+	//fprintf(stdout, "c reading compiled file\n");
 	if (!isInitializedGraph()) {
 		if (fread(&declaredNumOfNodes, sizeof(int), 1, (pFile)) < 1 ||
 				fread(&declaredNumOfEdges, sizeof(int), 1, (pFile)) < 1) {
