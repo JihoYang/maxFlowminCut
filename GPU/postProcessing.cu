@@ -10,7 +10,7 @@ __global__ void round_solution(T *d_x, int numNodes){
 	int idx = x_thread;
 	// Round the solution
 	if (idx < numNodes){
-		if (d_x[idx] >= 0.5)
+		if (d_x[idx] > 0.5)
 			d_x[idx] = 1;
 		else
 			d_x[idx] = 0;

@@ -1161,3 +1161,388 @@ Makefile:126: recipe for target 'cmTC_5158c/fast' failed
 make: *** [cmTC_5158c/fast] Error 2
 
 
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_911fc/fast"
+/usr/bin/make -f CMakeFiles/cmTC_911fc.dir/build.make CMakeFiles/cmTC_911fc.dir/build
+make[1]: Entering directory '/home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_911fc.dir/CheckSymbolExists.c.o
+/usr/bin/cc    -fPIC    -o CMakeFiles/cmTC_911fc.dir/CheckSymbolExists.c.o   -c /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_911fc
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_911fc.dir/link.txt --verbose=1
+/usr/bin/cc  -fPIC     CMakeFiles/cmTC_911fc.dir/CheckSymbolExists.c.o  -o cmTC_911fc -rdynamic 
+CMakeFiles/cmTC_911fc.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x1b): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_911fc.dir/build.make:97: recipe for target 'cmTC_911fc' failed
+make[1]: *** [cmTC_911fc] Error 1
+make[1]: Leaving directory '/home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_911fc/fast' failed
+make: *** [cmTC_911fc/fast] Error 2
+
+File /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_4bbbe/fast"
+/usr/bin/make -f CMakeFiles/cmTC_4bbbe.dir/build.make CMakeFiles/cmTC_4bbbe.dir/build
+make[1]: Entering directory '/home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_4bbbe.dir/CheckFunctionExists.c.o
+/usr/bin/cc    -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_4bbbe.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
+Linking C executable cmTC_4bbbe
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4bbbe.dir/link.txt --verbose=1
+/usr/bin/cc  -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_4bbbe.dir/CheckFunctionExists.c.o  -o cmTC_4bbbe -rdynamic -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_4bbbe.dir/build.make:97: recipe for target 'cmTC_4bbbe' failed
+make[1]: *** [cmTC_4bbbe] Error 1
+make[1]: Leaving directory '/home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_4bbbe/fast' failed
+make: *** [cmTC_4bbbe/fast] Error 2
+
+
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_76c06/fast"
+/usr/bin/make -f CMakeFiles/cmTC_76c06.dir/build.make CMakeFiles/cmTC_76c06.dir/build
+make[1]: Entering directory '/home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_76c06.dir/CheckSymbolExists.c.o
+/usr/bin/cc    -fPIC    -o CMakeFiles/cmTC_76c06.dir/CheckSymbolExists.c.o   -c /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_76c06
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_76c06.dir/link.txt --verbose=1
+/usr/bin/cc  -fPIC     CMakeFiles/cmTC_76c06.dir/CheckSymbolExists.c.o  -o cmTC_76c06 -rdynamic 
+CMakeFiles/cmTC_76c06.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x1b): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_76c06.dir/build.make:97: recipe for target 'cmTC_76c06' failed
+make[1]: *** [cmTC_76c06] Error 1
+make[1]: Leaving directory '/home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_76c06/fast' failed
+make: *** [cmTC_76c06/fast] Error 2
+
+File /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_fc4f7/fast"
+/usr/bin/make -f CMakeFiles/cmTC_fc4f7.dir/build.make CMakeFiles/cmTC_fc4f7.dir/build
+make[1]: Entering directory '/home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_fc4f7.dir/CheckFunctionExists.c.o
+/usr/bin/cc    -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_fc4f7.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
+Linking C executable cmTC_fc4f7
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fc4f7.dir/link.txt --verbose=1
+/usr/bin/cc  -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_fc4f7.dir/CheckFunctionExists.c.o  -o cmTC_fc4f7 -rdynamic -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_fc4f7.dir/build.make:97: recipe for target 'cmTC_fc4f7' failed
+make[1]: *** [cmTC_fc4f7] Error 1
+make[1]: Leaving directory '/home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_fc4f7/fast' failed
+make: *** [cmTC_fc4f7/fast] Error 2
+
+
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_d7e1e/fast"
+/usr/bin/make -f CMakeFiles/cmTC_d7e1e.dir/build.make CMakeFiles/cmTC_d7e1e.dir/build
+make[1]: Entering directory '/home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_d7e1e.dir/CheckSymbolExists.c.o
+/usr/bin/cc    -fPIC    -o CMakeFiles/cmTC_d7e1e.dir/CheckSymbolExists.c.o   -c /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_d7e1e
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d7e1e.dir/link.txt --verbose=1
+/usr/bin/cc  -fPIC     CMakeFiles/cmTC_d7e1e.dir/CheckSymbolExists.c.o  -o cmTC_d7e1e -rdynamic 
+CMakeFiles/cmTC_d7e1e.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x1b): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_d7e1e.dir/build.make:97: recipe for target 'cmTC_d7e1e' failed
+make[1]: *** [cmTC_d7e1e] Error 1
+make[1]: Leaving directory '/home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_d7e1e/fast' failed
+make: *** [cmTC_d7e1e/fast] Error 2
+
+File /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_a6b18/fast"
+/usr/bin/make -f CMakeFiles/cmTC_a6b18.dir/build.make CMakeFiles/cmTC_a6b18.dir/build
+make[1]: Entering directory '/home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_a6b18.dir/CheckFunctionExists.c.o
+/usr/bin/cc    -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_a6b18.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
+Linking C executable cmTC_a6b18
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a6b18.dir/link.txt --verbose=1
+/usr/bin/cc  -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_a6b18.dir/CheckFunctionExists.c.o  -o cmTC_a6b18 -rdynamic -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_a6b18.dir/build.make:97: recipe for target 'cmTC_a6b18' failed
+make[1]: *** [cmTC_a6b18] Error 1
+make[1]: Leaving directory '/home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_a6b18/fast' failed
+make: *** [cmTC_a6b18/fast] Error 2
+
+
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_369bf/fast"
+/usr/bin/make -f CMakeFiles/cmTC_369bf.dir/build.make CMakeFiles/cmTC_369bf.dir/build
+make[1]: Entering directory '/home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_369bf.dir/CheckSymbolExists.c.o
+/usr/bin/cc    -fPIC    -o CMakeFiles/cmTC_369bf.dir/CheckSymbolExists.c.o   -c /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_369bf
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_369bf.dir/link.txt --verbose=1
+/usr/bin/cc  -fPIC     CMakeFiles/cmTC_369bf.dir/CheckSymbolExists.c.o  -o cmTC_369bf -rdynamic 
+CMakeFiles/cmTC_369bf.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x1b): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_369bf.dir/build.make:97: recipe for target 'cmTC_369bf' failed
+make[1]: *** [cmTC_369bf] Error 1
+make[1]: Leaving directory '/home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_369bf/fast' failed
+make: *** [cmTC_369bf/fast] Error 2
+
+File /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_ccfd9/fast"
+/usr/bin/make -f CMakeFiles/cmTC_ccfd9.dir/build.make CMakeFiles/cmTC_ccfd9.dir/build
+make[1]: Entering directory '/home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_ccfd9.dir/CheckFunctionExists.c.o
+/usr/bin/cc    -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_ccfd9.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
+Linking C executable cmTC_ccfd9
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ccfd9.dir/link.txt --verbose=1
+/usr/bin/cc  -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_ccfd9.dir/CheckFunctionExists.c.o  -o cmTC_ccfd9 -rdynamic -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_ccfd9.dir/build.make:97: recipe for target 'cmTC_ccfd9' failed
+make[1]: *** [cmTC_ccfd9] Error 1
+make[1]: Leaving directory '/home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_ccfd9/fast' failed
+make: *** [cmTC_ccfd9/fast] Error 2
+
+
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_fe2fc/fast"
+/usr/bin/make -f CMakeFiles/cmTC_fe2fc.dir/build.make CMakeFiles/cmTC_fe2fc.dir/build
+make[1]: Entering directory '/home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_fe2fc.dir/CheckSymbolExists.c.o
+/usr/bin/cc    -fPIC    -o CMakeFiles/cmTC_fe2fc.dir/CheckSymbolExists.c.o   -c /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_fe2fc
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fe2fc.dir/link.txt --verbose=1
+/usr/bin/cc  -fPIC     CMakeFiles/cmTC_fe2fc.dir/CheckSymbolExists.c.o  -o cmTC_fe2fc -rdynamic 
+CMakeFiles/cmTC_fe2fc.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x1b): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_fe2fc.dir/build.make:97: recipe for target 'cmTC_fe2fc' failed
+make[1]: *** [cmTC_fe2fc] Error 1
+make[1]: Leaving directory '/home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_fe2fc/fast' failed
+make: *** [cmTC_fe2fc/fast] Error 2
+
+File /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_03b13/fast"
+/usr/bin/make -f CMakeFiles/cmTC_03b13.dir/build.make CMakeFiles/cmTC_03b13.dir/build
+make[1]: Entering directory '/home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_03b13.dir/CheckFunctionExists.c.o
+/usr/bin/cc    -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_03b13.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
+Linking C executable cmTC_03b13
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_03b13.dir/link.txt --verbose=1
+/usr/bin/cc  -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_03b13.dir/CheckFunctionExists.c.o  -o cmTC_03b13 -rdynamic -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_03b13.dir/build.make:97: recipe for target 'cmTC_03b13' failed
+make[1]: *** [cmTC_03b13] Error 1
+make[1]: Leaving directory '/home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_03b13/fast' failed
+make: *** [cmTC_03b13/fast] Error 2
+
+
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_751b9/fast"
+/usr/bin/make -f CMakeFiles/cmTC_751b9.dir/build.make CMakeFiles/cmTC_751b9.dir/build
+make[1]: Entering directory '/home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_751b9.dir/CheckSymbolExists.c.o
+/usr/bin/cc    -fPIC    -o CMakeFiles/cmTC_751b9.dir/CheckSymbolExists.c.o   -c /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_751b9
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_751b9.dir/link.txt --verbose=1
+/usr/bin/cc  -fPIC     CMakeFiles/cmTC_751b9.dir/CheckSymbolExists.c.o  -o cmTC_751b9 -rdynamic 
+CMakeFiles/cmTC_751b9.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x1b): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_751b9.dir/build.make:97: recipe for target 'cmTC_751b9' failed
+make[1]: *** [cmTC_751b9] Error 1
+make[1]: Leaving directory '/home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_751b9/fast' failed
+make: *** [cmTC_751b9/fast] Error 2
+
+File /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_7a853/fast"
+/usr/bin/make -f CMakeFiles/cmTC_7a853.dir/build.make CMakeFiles/cmTC_7a853.dir/build
+make[1]: Entering directory '/home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_7a853.dir/CheckFunctionExists.c.o
+/usr/bin/cc    -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_7a853.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
+Linking C executable cmTC_7a853
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7a853.dir/link.txt --verbose=1
+/usr/bin/cc  -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_7a853.dir/CheckFunctionExists.c.o  -o cmTC_7a853 -rdynamic -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_7a853.dir/build.make:97: recipe for target 'cmTC_7a853' failed
+make[1]: *** [cmTC_7a853] Error 1
+make[1]: Leaving directory '/home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_7a853/fast' failed
+make: *** [cmTC_7a853/fast] Error 2
+
+
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_06207/fast"
+/usr/bin/make -f CMakeFiles/cmTC_06207.dir/build.make CMakeFiles/cmTC_06207.dir/build
+make[1]: Entering directory '/home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_06207.dir/CheckSymbolExists.c.o
+/usr/bin/cc    -fPIC    -o CMakeFiles/cmTC_06207.dir/CheckSymbolExists.c.o   -c /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_06207
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_06207.dir/link.txt --verbose=1
+/usr/bin/cc  -fPIC     CMakeFiles/cmTC_06207.dir/CheckSymbolExists.c.o  -o cmTC_06207 -rdynamic 
+CMakeFiles/cmTC_06207.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x1b): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_06207.dir/build.make:97: recipe for target 'cmTC_06207' failed
+make[1]: *** [cmTC_06207] Error 1
+make[1]: Leaving directory '/home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_06207/fast' failed
+make: *** [cmTC_06207/fast] Error 2
+
+File /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_df594/fast"
+/usr/bin/make -f CMakeFiles/cmTC_df594.dir/build.make CMakeFiles/cmTC_df594.dir/build
+make[1]: Entering directory '/home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_df594.dir/CheckFunctionExists.c.o
+/usr/bin/cc    -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_df594.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
+Linking C executable cmTC_df594
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_df594.dir/link.txt --verbose=1
+/usr/bin/cc  -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_df594.dir/CheckFunctionExists.c.o  -o cmTC_df594 -rdynamic -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_df594.dir/build.make:97: recipe for target 'cmTC_df594' failed
+make[1]: *** [cmTC_df594] Error 1
+make[1]: Leaving directory '/home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_df594/fast' failed
+make: *** [cmTC_df594/fast] Error 2
+
+

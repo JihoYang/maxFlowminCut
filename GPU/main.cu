@@ -23,10 +23,10 @@
 #include <cassert>
 #include <unistd.h>
 
-# define T float
-# define FLOAT
-//#define T double
-//#define DOUBLE
+//# define T float
+//# define FLOAT
+#define T double
+#define DOUBLE
 
 using namespace std;
 
@@ -71,7 +71,7 @@ int main(int argc, char **argv)
 	T alpha = 1;
 	T rho = 1;
 	T gap = 1;
-	T eps = 1E-6;
+	T eps = 1E-10;
 	int it  = 0;
 	int iter_max = 100000;
 	T xf;
@@ -231,9 +231,10 @@ int main(int argc, char **argv)
 	// End computation time
 	clock_t tEnd_comp = clock();
 	// Round solution
-	//round_solution <T> <<<grid, block>>> (d_x, numNodes);														//CUDA_CHECK;
+	round_solution <T> <<<grid, block>>> (d_x, numNodes);														//CUDA_CHECK;
 	// Compute max flow
-	//h_gradient_calculate <T> <<<grid, block>>>(d_w, d_x, d_start_edge, d_end_edge, numEdges, d_grad_x);		//CUDA_CHECK;
+	h_gradient_calculate <T> <<<grid, block>>>(d_w, d_x, d_start_edge, d_end_edge, numEdges, d_grad_x);			//CUDA_CHECK;
+
 	#ifdef FLOAT
 		cublasSasum(handle, numEdges, d_grad_x, 1, &x_norm);  													//CUDA_CHECK;
 		cublasSdot(handle, numNodes, d_x, 1, d_f, 1, &xf);	                           							//CUDA_CHECK;
