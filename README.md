@@ -25,12 +25,12 @@ Four directories are present in this repository: CPU, GPU, IBFS, and graphs
 
 #### Compilation
 
-* CPU : Use Makefile  
+* CPU Implementation : Use Makefile  
 ```
 make
 ```
         
-* GPU : Cmake constructed 
+* GPU Implementation : Cmake constructed 
 ```
 cd cmake_build
 rm CMakeCache.txt
@@ -40,7 +40,7 @@ make
 
 #### Binary execution 
 
-* CPU: 
+* CPU Implementation : 
 ```
 ./sim <test.bk>
 ```
@@ -49,7 +49,7 @@ For instance
 ./sim ../graphs/test.bk
 ```
 
-* GPU: 
+* GPU Implementation : 
 ```
 ./main <test.bk> -alpha <value> -rho <value> -it <value>
 ```
