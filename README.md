@@ -1,6 +1,6 @@
 # maxFlowminCut
 
-### GPU accelerated first order primal-dual algorithm for solving convex optimization problems, and its application in maximum flow min cut graph problem
+### GPU accelerated first order primal-dual algorithm for solving convex optimization problems, and its application in maximum flow minimum cut graph problem
 
 This work was conducted as part of "Practical Course: GPU Programming in Computer Vision" at Technische Universität München (summer semester 2017).
 
