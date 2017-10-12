@@ -2,19 +2,19 @@
 
 ### GPU accelerated first order primal-dual algorithm for solving convex optimization problems, and its application in maximum flow minimum cut graph problem
 
-This work was conducted as part of "Practical Course: GPU Programming in Computer Vision" at Technische Universität München (summer semester 2017).
+This work was conducted as part of **Practical Course: GPU Programming in Computer Vision** at **Technische Universität München** (summer semester 2017).
 
-Three MSc Computational Science & Engineering students contributed to this work (in alphabetical order):
+Three _MSc Computational Science & Engineering students_ contributed to this work (in alphabetical order):
 
-* Apoorv Gupta
-* Jorge Salazar 
-* Jiho Yang
+* **Apoorv Gupta**
+* **Jorge Salazar**
+* **Jiho Yang**
 
 Four directories are present in this repository: CPU, GPU, IBFS, and graphs
 
 * CPU : Contains sequential version of the code
 * GPU : Contains CUDA implemented GPU-parallelised version of the code
-* IBFS : Contains IBFS (Incremental Breadth First Search Algorithm) code, which was served as a benchmark solver (http://www.cs.tau.ac.il/~sagihed/ibfs/index.html)
+* IBFS : Contains _IBFS (Incremental Breadth First Search Algorithm)_ code, which was served as a benchmark solver (http://www.cs.tau.ac.il/~sagihed/ibfs/index.html)
 * graphs : Contains some of test graphs in .bk file format. These test cases were taken from: http://www.cs.tau.ac.il/~sagihed/ibfs/benchmark.html
 
 #### Requirements
@@ -25,12 +25,12 @@ Four directories are present in this repository: CPU, GPU, IBFS, and graphs
 
 #### Compilation
 
-* CPU Implementation : Use Makefile  
+* CPU Implementation : Use _Makefile_  
 ```
 make
 ```
         
-* GPU Implementation : Cmake constructed 
+* GPU Implementation : _Cmake_ constructed 
 ```
 cd cmake_build
 rm CMakeCache.txt
@@ -54,8 +54,8 @@ For instance
 ./main <test.bk> -alpha <value> -rho <value> -it <value>
 ```
 
-where "alpha" and "rho" are hyperparameters for computing time steps, and "it" is the maximum number of iterations.
-Default values for alpha, rho, and it are 1, 1, and 10000, respectively.
+where _alpha_ and _rho_ are hyperparameters for computing time steps, and _it_ is the maximum number of iterations.
+Default values for _alpha_, _rho_, and _it_ are 1, 1, and 10000, respectively.
        
 For instance 
 ```
