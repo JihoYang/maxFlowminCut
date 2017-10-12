@@ -2,7 +2,7 @@
 
 ### GPU accelerated first order primal-dual algorithm for solving convex optimization problems, and its application in maximum flow min cut graph problem
 
-This work was conducted as part of "Practical Course: GPU Programming in Computer Vision" at Technische Universität München (summer semester 2017).  
+This work was conducted as part of "Practical Course: GPU Programming in Computer Vision" at Technische Universität München (summer semester 2017).
 
 Three MSc Computational Science & Engineering students contributed to this work (in alphabetical order):
 
@@ -10,7 +10,7 @@ Three MSc Computational Science & Engineering students contributed to this work 
 * Jorge Salazar 
 * Jiho Yang
 
-Four directories are present in this repository: CPU, GPU, IBFS, and Graphs
+Four directories are present in this repository: CPU, GPU, IBFS, and graphs
 
 * CPU : Contains sequential version of the code
 * GPU : Contains CUDA implemented GPU-parallelised version of the code
