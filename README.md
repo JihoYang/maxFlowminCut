@@ -17,13 +17,20 @@ Four directories are present in this repository: CPU, GPU, IBFS, and Graphs
 * IBFS : Contains IBFS (Incremental Breadth First Search Algorithm) code, which was served as a benchmark solver (http://www.cs.tau.ac.il/~sagihed/ibfs/index.html)
 * graphs : Contains some of test graphs in .bk file format. These test cases were taken from: http://www.cs.tau.ac.il/~sagihed/ibfs/benchmark.html
 
+#### Requirements
+
+* UNIX installed machine with NVIDIA GPU
+* NVIDIA CUDA Compiler (nvcc)
+* python 3 with matplotlib 
+
 #### Compilation
 
 * CPU : Use Makefile  
-        ```make```
+```
+make
+```
         
 * GPU : Cmake constructed 
-
 ```
 cd cmake_build
 rm CMakeCache.txt
@@ -37,18 +44,30 @@ make
 ```
 ./sim <test.bk>
 ```
-For instance ```./sim ../graph/test.bk```
+For instance 
+```
+./sim ../graph/test.bk
+```
 
-* GPU: ```./main <test.bk> -alpha <value> -rho <value> -it <value>```
+* GPU: 
+```
+./main <test.bk> -alpha <value> -rho <value> -it <value>
+```
 
 where "alpha" and "rho" are hyperparameters for computing time steps, and "it" is the maximum number of iterations.
 Default values for alpha, rho, and it are 1, 1, and 10000, respectively.
        
-For instance ```./main ../../test.bk -alpha 1 -rho 1 -it 1000```
+For instance 
+```
+./main ../../test.bk -alpha 1 -rho 1 -it 1000
+```
 
 #### Automation with bash script
 
 The compilation, execution, and some of the visualisations are automated via bash script.
 
-* Usage: ```./script```
+* Usage: 
+```
+./script
+```
 
