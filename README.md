@@ -15,7 +15,7 @@ Four directories are present in this repository: CPU, GPU, IBFS, and Graphs
 * CPU : Contains sequential version of the code
 * GPU : Contains CUDA implemented GPU-parallelised version of the code
 * IBFS : Contains IBFS (Incremental Breadth First Search Algorithm) code, which was served as a benchmark solver (http://www.cs.tau.ac.il/~sagihed/ibfs/index.html)
-* graph : Contains some of test graphs in .bk file format. These test cases were taken from: http://www.cs.tau.ac.il/~sagihed/ibfs/benchmark.html
+* graphs : Contains some of test graphs in .bk file format. These test cases were taken from: http://www.cs.tau.ac.il/~sagihed/ibfs/benchmark.html
 
 #### Compilation
 
@@ -41,14 +41,14 @@ For instance ```./sim ../graph/test.bk```
 
 * GPU: ```./main <test.bk> -alpha <value> -rho <value> -it <value>```
 
-       where "alpha" and "rho" are hyperparameters for computing time steps, and "it" is the maximum number of iterations.
-       Default values for alpha, rho, and it are 1, 1, and 10000, respectively.
+where "alpha" and "rho" are hyperparameters for computing time steps, and "it" is the maximum number of iterations.
+Default values for alpha, rho, and it are 1, 1, and 10000, respectively.
        
-       For instance ```./main ../../test.bk -alpha 1 -rho 1 -it 1000```
+For instance ```./main ../../test.bk -alpha 1 -rho 1 -it 1000```
 
 #### Automation with bash script
 
-The compilation, execution, and some of the visualisations are automated via bash script
+The compilation, execution, and some of the visualisations are automated via bash script.
 
 * Usage: ```./script```
 
