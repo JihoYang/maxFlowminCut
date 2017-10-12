@@ -16,9 +16,9 @@ cd ../../
 graph_name=BVZ-tsukuba13.bk
 
 echo
-echo ///////////////////////////////////////////////////////////////////////////////////////////
+echo /////////////////////////////////////////////////////////////////////////////////////////////
 echo ///////////////////////////////////////  $graph_name  /////////////////////////////////////
-echo ///////////////////////////////////////////////////////////////////////////////////////////
+echo /////////////////////////////////////////////////////////////////////////////////////////////
 echo
 
 echo .................. Starting IBFS code .................. 
@@ -38,8 +38,8 @@ echo
 ./main ../../graphs/$graph_name -alpha $alpha -rho $rho -it $it
 echo
 echo .................. GPU code ends ..................
-
-echo .................. Showing how the graph looks like .............
+echo
+echo =================== PLEASE CLOSE THE GRAPH TO PROCEED ==================
 
 python3.5 matrix_data.py
 
@@ -69,8 +69,8 @@ echo
 ./main ../../graphs/$graph_name -alpha $alpha -rho $rho -it $it
 echo
 echo .................. GPU code ends ..................
-
-echo .................. Showing how the graph looks like .............
+echo
+echo =================== PLEASE CLOSE THE GRAPH TO PROCEED ==================
 
 python3.5 matrix_data.py
 
@@ -98,8 +98,8 @@ echo
 ./main ../../graphs/$graph_name -alpha $alpha -rho $rho -it $it
 echo
 echo .................. GPU code ends ..................
-
-echo .................. Showing how the graph looks like .............
+echo
+echo =================== PLEASE CLOSE THE GRAPH TO PROCEED ==================
 
 python3.5 matrix_data.py
 
@@ -107,9 +107,9 @@ python3.5 matrix_data.py
 graph_name=BVZ-sawtooth0.bk
 
 echo
-echo ///////////////////////////////////////////////////////////////////////////////////////////
+echo /////////////////////////////////////////////////////////////////////////////////////////////
 echo ///////////////////////////////////////  $graph_name  /////////////////////////////////////
-echo ///////////////////////////////////////////////////////////////////////////////////////////
+echo /////////////////////////////////////////////////////////////////////////////////////////////
 echo
 
 echo .................. Starting IBFS code .................. 
@@ -128,8 +128,8 @@ echo
 ./main ../../graphs/$graph_name -alpha $alpha -rho $rho -it $it
 echo
 echo .................. GPU code ends ..................
-
-echo .................. Showing how the graph looks like .............
+echo
+echo =================== PLEASE CLOSE THE GRAPH TO PROCEED ==================
 
 python3.5 matrix_data.py
 

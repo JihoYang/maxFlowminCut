@@ -71,7 +71,7 @@ int main(int argc, char **argv)
 	T alpha = 1;
 	T rho = 1;
 	T gap = 1;
-	T eps = 1E-10;
+	T eps = 1E-8;
 	int it  = 0;
 	int iter_max = 100000;
 	T xf;

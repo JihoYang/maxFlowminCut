@@ -1344,3 +1344,227 @@ Linking C executable cmTC_a9973
 make[1]: Leaving directory '/home/apoorv/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
 
 
+Determining if the include file pthread.h exists passed with the following output:
+Change Dir: /usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_789d9/fast"
+/usr/bin/make -f CMakeFiles/cmTC_789d9.dir/build.make CMakeFiles/cmTC_789d9.dir/build
+make[1]: Entering directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_789d9.dir/CheckIncludeFile.c.o
+/usr/bin/cc    -fPIC    -o CMakeFiles/cmTC_789d9.dir/CheckIncludeFile.c.o   -c /usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_789d9
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_789d9.dir/link.txt --verbose=1
+/usr/bin/cc  -fPIC     CMakeFiles/cmTC_789d9.dir/CheckIncludeFile.c.o  -o cmTC_789d9 -rdynamic 
+make[1]: Leaving directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function pthread_create exists in the pthread passed with the following output:
+Change Dir: /usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_79318/fast"
+/usr/bin/make -f CMakeFiles/cmTC_79318.dir/build.make CMakeFiles/cmTC_79318.dir/build
+make[1]: Entering directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_79318.dir/CheckFunctionExists.c.o
+/usr/bin/cc    -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_79318.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
+Linking C executable cmTC_79318
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_79318.dir/link.txt --verbose=1
+/usr/bin/cc  -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_79318.dir/CheckFunctionExists.c.o  -o cmTC_79318 -rdynamic -lpthread 
+make[1]: Leaving directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file pthread.h exists passed with the following output:
+Change Dir: /usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_636a7/fast"
+/usr/bin/make -f CMakeFiles/cmTC_636a7.dir/build.make CMakeFiles/cmTC_636a7.dir/build
+make[1]: Entering directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_636a7.dir/CheckIncludeFile.c.o
+/usr/bin/cc    -fPIC    -o CMakeFiles/cmTC_636a7.dir/CheckIncludeFile.c.o   -c /usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_636a7
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_636a7.dir/link.txt --verbose=1
+/usr/bin/cc  -fPIC     CMakeFiles/cmTC_636a7.dir/CheckIncludeFile.c.o  -o cmTC_636a7 -rdynamic 
+make[1]: Leaving directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function pthread_create exists in the pthread passed with the following output:
+Change Dir: /usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_17e31/fast"
+/usr/bin/make -f CMakeFiles/cmTC_17e31.dir/build.make CMakeFiles/cmTC_17e31.dir/build
+make[1]: Entering directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_17e31.dir/CheckFunctionExists.c.o
+/usr/bin/cc    -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_17e31.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
+Linking C executable cmTC_17e31
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_17e31.dir/link.txt --verbose=1
+/usr/bin/cc  -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_17e31.dir/CheckFunctionExists.c.o  -o cmTC_17e31 -rdynamic -lpthread 
+make[1]: Leaving directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file pthread.h exists passed with the following output:
+Change Dir: /usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_b5a79/fast"
+/usr/bin/make -f CMakeFiles/cmTC_b5a79.dir/build.make CMakeFiles/cmTC_b5a79.dir/build
+make[1]: Entering directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_b5a79.dir/CheckIncludeFile.c.o
+/usr/bin/cc    -fPIC    -o CMakeFiles/cmTC_b5a79.dir/CheckIncludeFile.c.o   -c /usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_b5a79
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b5a79.dir/link.txt --verbose=1
+/usr/bin/cc  -fPIC     CMakeFiles/cmTC_b5a79.dir/CheckIncludeFile.c.o  -o cmTC_b5a79 -rdynamic 
+make[1]: Leaving directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function pthread_create exists in the pthread passed with the following output:
+Change Dir: /usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_fca4e/fast"
+/usr/bin/make -f CMakeFiles/cmTC_fca4e.dir/build.make CMakeFiles/cmTC_fca4e.dir/build
+make[1]: Entering directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_fca4e.dir/CheckFunctionExists.c.o
+/usr/bin/cc    -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_fca4e.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
+Linking C executable cmTC_fca4e
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fca4e.dir/link.txt --verbose=1
+/usr/bin/cc  -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_fca4e.dir/CheckFunctionExists.c.o  -o cmTC_fca4e -rdynamic -lpthread 
+make[1]: Leaving directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file pthread.h exists passed with the following output:
+Change Dir: /usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_35e83/fast"
+/usr/bin/make -f CMakeFiles/cmTC_35e83.dir/build.make CMakeFiles/cmTC_35e83.dir/build
+make[1]: Entering directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_35e83.dir/CheckIncludeFile.c.o
+/usr/bin/cc    -fPIC    -o CMakeFiles/cmTC_35e83.dir/CheckIncludeFile.c.o   -c /usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_35e83
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_35e83.dir/link.txt --verbose=1
+/usr/bin/cc  -fPIC     CMakeFiles/cmTC_35e83.dir/CheckIncludeFile.c.o  -o cmTC_35e83 -rdynamic 
+make[1]: Leaving directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function pthread_create exists in the pthread passed with the following output:
+Change Dir: /usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_87aeb/fast"
+/usr/bin/make -f CMakeFiles/cmTC_87aeb.dir/build.make CMakeFiles/cmTC_87aeb.dir/build
+make[1]: Entering directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_87aeb.dir/CheckFunctionExists.c.o
+/usr/bin/cc    -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_87aeb.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
+Linking C executable cmTC_87aeb
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_87aeb.dir/link.txt --verbose=1
+/usr/bin/cc  -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_87aeb.dir/CheckFunctionExists.c.o  -o cmTC_87aeb -rdynamic -lpthread 
+make[1]: Leaving directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file pthread.h exists passed with the following output:
+Change Dir: /usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_93974/fast"
+/usr/bin/make -f CMakeFiles/cmTC_93974.dir/build.make CMakeFiles/cmTC_93974.dir/build
+make[1]: Entering directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_93974.dir/CheckIncludeFile.c.o
+/usr/bin/cc    -fPIC    -o CMakeFiles/cmTC_93974.dir/CheckIncludeFile.c.o   -c /usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_93974
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_93974.dir/link.txt --verbose=1
+/usr/bin/cc  -fPIC     CMakeFiles/cmTC_93974.dir/CheckIncludeFile.c.o  -o cmTC_93974 -rdynamic 
+make[1]: Leaving directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function pthread_create exists in the pthread passed with the following output:
+Change Dir: /usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_74409/fast"
+/usr/bin/make -f CMakeFiles/cmTC_74409.dir/build.make CMakeFiles/cmTC_74409.dir/build
+make[1]: Entering directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_74409.dir/CheckFunctionExists.c.o
+/usr/bin/cc    -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_74409.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
+Linking C executable cmTC_74409
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_74409.dir/link.txt --verbose=1
+/usr/bin/cc  -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_74409.dir/CheckFunctionExists.c.o  -o cmTC_74409 -rdynamic -lpthread 
+make[1]: Leaving directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file pthread.h exists passed with the following output:
+Change Dir: /usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_997ca/fast"
+/usr/bin/make -f CMakeFiles/cmTC_997ca.dir/build.make CMakeFiles/cmTC_997ca.dir/build
+make[1]: Entering directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_997ca.dir/CheckIncludeFile.c.o
+/usr/bin/cc    -fPIC    -o CMakeFiles/cmTC_997ca.dir/CheckIncludeFile.c.o   -c /usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_997ca
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_997ca.dir/link.txt --verbose=1
+/usr/bin/cc  -fPIC     CMakeFiles/cmTC_997ca.dir/CheckIncludeFile.c.o  -o cmTC_997ca -rdynamic 
+make[1]: Leaving directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function pthread_create exists in the pthread passed with the following output:
+Change Dir: /usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_92923/fast"
+/usr/bin/make -f CMakeFiles/cmTC_92923.dir/build.make CMakeFiles/cmTC_92923.dir/build
+make[1]: Entering directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_92923.dir/CheckFunctionExists.c.o
+/usr/bin/cc    -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_92923.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
+Linking C executable cmTC_92923
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_92923.dir/link.txt --verbose=1
+/usr/bin/cc  -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_92923.dir/CheckFunctionExists.c.o  -o cmTC_92923 -rdynamic -lpthread 
+make[1]: Leaving directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file pthread.h exists passed with the following output:
+Change Dir: /usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_464f6/fast"
+/usr/bin/make -f CMakeFiles/cmTC_464f6.dir/build.make CMakeFiles/cmTC_464f6.dir/build
+make[1]: Entering directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_464f6.dir/CheckIncludeFile.c.o
+/usr/bin/cc    -fPIC    -o CMakeFiles/cmTC_464f6.dir/CheckIncludeFile.c.o   -c /usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_464f6
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_464f6.dir/link.txt --verbose=1
+/usr/bin/cc  -fPIC     CMakeFiles/cmTC_464f6.dir/CheckIncludeFile.c.o  -o cmTC_464f6 -rdynamic 
+make[1]: Leaving directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function pthread_create exists in the pthread passed with the following output:
+Change Dir: /usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_ffa2b/fast"
+/usr/bin/make -f CMakeFiles/cmTC_ffa2b.dir/build.make CMakeFiles/cmTC_ffa2b.dir/build
+make[1]: Entering directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_ffa2b.dir/CheckFunctionExists.c.o
+/usr/bin/cc    -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_ffa2b.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
+Linking C executable cmTC_ffa2b
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ffa2b.dir/link.txt --verbose=1
+/usr/bin/cc  -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_ffa2b.dir/CheckFunctionExists.c.o  -o cmTC_ffa2b -rdynamic -lpthread 
+make[1]: Leaving directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file pthread.h exists passed with the following output:
+Change Dir: /usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_fa579/fast"
+/usr/bin/make -f CMakeFiles/cmTC_fa579.dir/build.make CMakeFiles/cmTC_fa579.dir/build
+make[1]: Entering directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_fa579.dir/CheckIncludeFile.c.o
+/usr/bin/cc    -fPIC    -o CMakeFiles/cmTC_fa579.dir/CheckIncludeFile.c.o   -c /usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_fa579
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fa579.dir/link.txt --verbose=1
+/usr/bin/cc  -fPIC     CMakeFiles/cmTC_fa579.dir/CheckIncludeFile.c.o  -o cmTC_fa579 -rdynamic 
+make[1]: Leaving directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function pthread_create exists in the pthread passed with the following output:
+Change Dir: /usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_ecdc4/fast"
+/usr/bin/make -f CMakeFiles/cmTC_ecdc4.dir/build.make CMakeFiles/cmTC_ecdc4.dir/build
+make[1]: Entering directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_ecdc4.dir/CheckFunctionExists.c.o
+/usr/bin/cc    -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_ecdc4.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
+Linking C executable cmTC_ecdc4
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ecdc4.dir/link.txt --verbose=1
+/usr/bin/cc  -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_ecdc4.dir/CheckFunctionExists.c.o  -o cmTC_ecdc4 -rdynamic -lpthread 
+make[1]: Leaving directory '/usr/prakt/s153/maxFlowminCut/GPU/cmake_build/CMakeFiles/CMakeTmp'
+
+
