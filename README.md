@@ -15,9 +15,9 @@ Four directories are present in this repository: CPU, GPU, IBFS, and Graphs
 * CPU : Contains sequential version of the code
 * GPU : Contains CUDA implemented GPU-parallelised version of the code
 * IBFS : Contains IBFS (Incremental Breadth First Search Algorithm) code, which was served as a benchmark solver (http://www.cs.tau.ac.il/~sagihed/ibfs/index.html)
-* Graph : Contains some of test graphs in .bk file format. These test cases were taken from: http://www.cs.tau.ac.il/~sagihed/ibfs/benchmark.html
+* graph : Contains some of test graphs in .bk file format. These test cases were taken from: http://www.cs.tau.ac.il/~sagihed/ibfs/benchmark.html
 
-#### CPU Compilation 
+##### Compilation
 
 Use Makefile
 
