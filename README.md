@@ -46,7 +46,7 @@ make
 ```
 For instance 
 ```
-./sim ../graph/test.bk
+./sim ../graphs/test.bk
 ```
 
 * GPU: 
@@ -59,7 +59,7 @@ Default values for alpha, rho, and it are 1, 1, and 10000, respectively.
        
 For instance 
 ```
-./main ../../test.bk -alpha 1 -rho 1 -it 1000
+./main ../../graphs/test.bk -alpha 1 -rho 1 -it 1000
 ```
 
 #### Automation with bash script
