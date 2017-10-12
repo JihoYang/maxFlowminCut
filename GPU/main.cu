@@ -80,7 +80,7 @@ int main(int argc, char **argv)
 	T max_val;
 
 	// Command line parameters
-	cout << argv[1] << endl;
+	//cout << argv[1] << endl;
 	getParam("alpha", alpha, argc, argv);
 	cout << "alpha: " << alpha << endl;
 	getParam("rho", rho, argc, argv);

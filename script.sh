@@ -13,7 +13,7 @@ make
 
 cd ../../
 
-graph_name=graph3x3.max.bk
+graph_name=BVZ-tsukuba13.bk
 
 echo
 echo ///////////////////////////////////////////////////////////////////////////////////////////
@@ -104,7 +104,7 @@ echo .................. Showing how the graph looks like .............
 python3.5 matrix_data.py
 
 
-graph_name=wide_graph.bk
+graph_name=BVZ-sawtooth0.bk
 
 echo
 echo ///////////////////////////////////////////////////////////////////////////////////////////
