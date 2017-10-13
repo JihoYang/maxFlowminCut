@@ -13,6 +13,11 @@ make
 
 cd ../../
 
+cd IBFS
+./compile_script.sh
+
+cd ..
+
 graph_name=BVZ-tsukuba13.bk
 
 echo
