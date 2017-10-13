@@ -250,12 +250,12 @@ int main(int argc, char **argv)
 	clock_t tEnd_total = clock();
 	// Program exit messages
 	if (it == iter_max) cout << "ERROR: Maximum number of iterations reached" << endl << endl;
-	cout << "cpu_load_time: " << (double)1000*(tEnd_load - tStart_load)/CLOCKS_PER_SEC << " ms" << endl;
-	cout << "gpu_load_time: " << (double)1000*(tEnd_copy - tStart_copy)/CLOCKS_PER_SEC << " ms" << endl;
-	cout << "gpu_compute_time: " << (double)1000*(tEnd_comp - tStart_comp)/CLOCKS_PER_SEC << " ms" << endl;
-	cout << "Total execution time: " << (double)1000*(tEnd_total - tStart_total)/CLOCKS_PER_SEC << " ms" << endl;
+	cout << "CPU Load Time: " << (double)1000*(tEnd_load - tStart_load)/CLOCKS_PER_SEC << " ms" << endl;
+	cout << "GPU Load Time: " << (double)1000*(tEnd_copy - tStart_copy)/CLOCKS_PER_SEC << " ms" << endl;
+	cout << "GPU Compute Time: " << (double)1000*(tEnd_comp - tStart_comp)/CLOCKS_PER_SEC << " ms" << endl;
+	cout << "Total Execution Time: " << (double)1000*(tEnd_total - tStart_total)/CLOCKS_PER_SEC << " ms" << endl;
 	
-	// Output the start_edge and end_edge arrays
+	// Output the start_edge and end_edge arrays for visualization
 
 	char buffer[500];
 	char *answer = getcwd(buffer, sizeof(buffer));

@@ -55,10 +55,10 @@ int main(int argc, char **argv)
 		CLOCK_STOP;
 		time += CLOCK_GET_SECS;
 		fprintf(stdout, "Max flow = %d \n", g->getFlow());
-		fprintf(stdout, "cpu_load_time: %f ms\n", 1000*readtime);
+		fprintf(stdout, "CPU Load Time: %f ms\n", 1000*readtime);
 		//fflush(stdout);
-		fprintf(stdout, "IBFS_compute_time: %f ms\n", 1000*time);
-		fprintf(stdout, "Total Execution TIme: %f ms\n", 1000*readtime + 1000*time);
+		fprintf(stdout, "IBFS Compute Time: %f ms\n", 1000*time);
+		fprintf(stdout, "Total Execution Time: %f ms\n", 1000*readtime + 1000*time);
 		fflush(stdout);
 	}
 	delete g;
