@@ -58,6 +58,7 @@ int main(int argc, char **argv)
 		fprintf(stdout, "cpu_load_time: %f ms\n", 1000*readtime);
 		//fflush(stdout);
 		fprintf(stdout, "IBFS_compute_time: %f ms\n", 1000*time);
+		fprintf(stdout, "Total Execution TIme: %f ms\n", 1000*readtime + 1000*time);
 		fflush(stdout);
 	}
 	delete g;

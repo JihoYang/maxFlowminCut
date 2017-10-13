@@ -6,7 +6,7 @@ This work was conducted as part of **Practical Course: GPU Programming in Comput
 
 Three _MSc Computational Science & Engineering students_ contributed to this work (in alphabetical order):
 
-* **Apoorv Gupta**
+* **Apoorva Gupta**
 * **Jorge Salazar**
 * **Jiho Yang**
 
