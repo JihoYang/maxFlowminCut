@@ -19,7 +19,7 @@ Four directories are present in this repository: CPU, GPU, IBFS, and graphs
 
 #### Requirements
 
-* UNIX installed machine with NVIDIA GPU
+* Linux installed machine with NVIDIA GPU
 * NVIDIA CUDA Compiler (nvcc)
 * python 3 with matplotlib 
 
