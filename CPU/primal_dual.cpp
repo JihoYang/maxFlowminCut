@@ -49,10 +49,11 @@ void get_max (T *div_y, T *f, T *max_vec, T &sum, int num_vertex){
 template <class T>
 void updateX(T *w, vert *mVert, T *x, T *tau, T *div_y, T *y, T *f, T *x_diff, int num_vertex){
      T x_new;
+	 // Compute divergence of y (output = div_y)
+	 divergence_calculate<T>(w, y, mVert, num_vertex, div_y);
+
 	 for (size_t i = 0; i < num_vertex; i++)
 	 {
-		// Compute divergence of y (output = div_y)
-		divergence_calculate<T>(w, y, mVert, num_vertex, div_y);
 		// Compute new u
         x_new = x[i] + tau[i] * (div_y[i] - f[i]);
 		// Compute 2u_(t+1) - u_t for y update
